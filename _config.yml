@@ -1,4 +1,32 @@
 title: Gerrit Hourigan
-description: Incoming Psychology M.Sc. student (data science) — psychometrics, statistical modeling, causal inference.
-theme: jekyll-theme-minimal
+description: Incoming Psychology M.Sc. (data science) — psychometrics, statistical modeling, causal inference.
+url: "https://g-hourigan.github.io"
+baseurl: ""
 
+remote_theme: "mmistakes/minimal-mistakes"
+minimal_mistakes_skin: "air"
+
+plugins:
+  - jekyll-include-cache
+
+author:
+  name: "Gerrit Hourigan"
+  bio: "Incoming Psychology M.Sc. (data science) — psychometrics, statistical modeling, causal inference."
+  links:
+    - label: "Email"
+      icon: "fas fa-envelope"
+      url: "mailto:gerrithourigan@gmail.com"
+    - label: "GitHub"
+      icon: "fab fa-github"
+      url: "https://github.com/g-hourigan"
+    - label: "FIDE"
+      icon: "fas fa-chess"
+      url: "https://ratings.fide.com/profile/16204174"
+
+defaults:
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true
