@@ -14,9 +14,12 @@ footer small {
 header p.view {
   display: none !important;
 }
-/* Make content area wider + more readable */
-section { width: 720px; font-size: 16px; line-height: 1.6; }
-@media print, screen and (max-width: 960px) { section { width: auto; } }
+/* --- Layout fix (prevents overlap with left sidebar) --- */
+.wrapper { max-width: 980px; }   /* give the whole page more room */
+header  { width: 260px; }        /* left column */
+section { width: 660px; }        /* right column (keep <= wrapper - header) */
 
-/* Slightly tighten headings */
-h1, h2 { margin-top: 0.8em; }
+@media print, screen and (max-width: 960px) {
+  header, section { float: none; width: auto; }
+  .wrapper { width: auto; max-width: 100%; }
+}
