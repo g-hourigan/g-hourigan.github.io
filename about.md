@@ -5,7 +5,7 @@ layout: single
 author_profile: true
 ---
 
-I’m a Psychology M.Sc. student with a data science focus, interested in **psychometrics**, **Bayesian statistics**, and **causal inference**.
+I’m a Psychology M.Sc. student with a data science focus, interested in **psychometrics**, **statistical modeling**, and **causal inference**.
 
 **Email:** [gerrithourigan@gmail.com](mailto:gerrithourigan@gmail.com)  
 **GitHub:** https://github.com/g-hourigan  
