@@ -3,7 +3,7 @@
 
 @import "{{ site.theme }}";
 
-.site-footer,
-footer {
+.site-footer-owner,
+.site-footer-credits {
   display: none !important;
 }
