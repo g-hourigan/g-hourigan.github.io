@@ -1,4 +1,6 @@
-# hourigan.github.io
+## Navigation
+- [Projects](/projects/)
+- [About](/about/)
 
 ## Project one
 - Description
