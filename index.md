@@ -1,12 +1,10 @@
-[Projects](/projects/) · [About](/about/)
+---
+title: "Home"
+layout: single
+author_profile: true
+---
 
-This is my first attempt at creating a personal website.
+Hi — I’m **Gerrit Hourigan**, an incoming **Psychology M.Sc. student (data science focus)**.  
+I’m interested in **psychometrics**, **statistical modeling**, and **causal inference**.
 
-# Gerrit Hourigan
-
-Incoming Psychology M.Sc. student (data science focus). Interested in **psychometrics**, **statistical modeling**, and **causal inference**.
-
-**Email:** [gerrithourigan@gmail.com](mailto:gerrithourigan@gmail.com)  
-**GitHub:** https://github.com/g-hourigan  
-**FIDE:** https://ratings.fide.com/profile/16204174
-
+I like research but haven't found my niche yet. 
