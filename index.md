@@ -29,29 +29,30 @@ title: Home
 }
   .gh-hero {
   text-align: center;
-  padding: 1.5rem 1rem 1.3rem;
+  padding: 2.2rem 1rem 2rem;
   border-bottom: 1px solid #e5e5e5;
 }
-  .gh-hero h1 {
-  font-size: 3.7rem;
-  margin: 0 0 0.25rem;
+
+.gh-hero h1 {
+  font-size: 3.2rem;
+  margin: 0 0 0.4rem;
   font-weight: 800;
   color: #111;
 }
 
-  .gh-subtitle {
+.gh-subtitle {
   font-size: 1.25rem;
   color: #666;
-  margin: 0.25rem 0;
+  margin: 0.35rem 0;
 }
 
-  .gh-pronouns {
+.gh-pronouns {
   color: #999;
-  margin: 0.25rem 0 0.45rem;
+  margin: 0.35rem 0 0.6rem;
   font-size: 1rem;
 }
 
- .gh-top-link {
+.gh-top-link {
   color: #9b7ae5;
   font-weight: 700;
   text-decoration: none;
@@ -59,59 +60,60 @@ title: Home
 }
 
 .gh-page {
-  max-width: 1120px;
+  max-width: 850px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 1rem;
-  display: grid;
-  grid-template-columns: 1.5fr 0.7fr;
-  gap: 3rem;
-  align-items: start;
+  padding: 3rem 1.5rem 1rem;
 }
 
-  .gh-intro {
-  font-size: 1.05rem;
-  line-height: 1.55;
+.gh-intro {
+  font-size: 1.18rem;
+  line-height: 1.7;
   color: #5f6a6a;
 }
-  .gh-intro p {
-  margin-bottom: 1.1rem;
+
+.gh-intro p {
+  margin-bottom: 1.5rem;
 }
 
-  .gh-intro strong {
-    color: #333;
-  }
+.gh-intro strong {
+  color: #333;
+}
 
-  .gh-profile {
-    text-align: center;
-  }
-
-  .gh-profile img {
-    width: 100%;
-    max-width: 330px;
-    border-radius: 10px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  }
-
-  .gh-links {
-  margin-top: 0.2rem;
+.gh-links {
+  margin-top: 1.5rem;
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  gap: 1.2rem;
 }
 
-
- .gh-links a {
+.gh-links a {
   color: #9b7ae5;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 700;
   text-decoration: none;
 }
-  .gh-links a:hover,
-  .gh-top-link:hover {
-    text-decoration: underline;
+
+.gh-links a:hover,
+.gh-top-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 800px) {
+  .gh-hero h1 {
+    font-size: 2.4rem;
   }
 
+  .gh-subtitle {
+    font-size: 1.05rem;
+  }
+
+  .gh-page {
+    padding-top: 2rem;
+  }
+
+  .gh-intro {
+    font-size: 1.05rem;
+  }
+}
   @media (max-width: 800px) {
     .gh-hero h1 {
       font-size: 2.4rem;
@@ -128,32 +130,22 @@ title: Home
   }
 </style>
 
-<section class="gh-hero">
-  <h1>Gerrit Hourigan</h1>
-  <p class="gh-subtitle">Psychology M.Sc. student · Data science and Cognitive science focus</p>
-  <p class="gh-pronouns"> He/Him </p>
-  <a class="gh-top-link" href="/cv/">CV</a>
-</section>
-
 <section class="gh-page">
   <div class="gh-intro">
     <p>
-      <strong>Hi!</strong> I’m Gerrit, an incoming Psychology M.Sc. student with a data science and cognitive science focus.
-      I’m interested in using statistics, machine learning, and behavioral data to understand cognition,
-      decision-making, and performance.
+      <strong>Hi!</strong> I’m Gerrit, an incoming Psychology M.Sc. student with a data science
+      and cognitive science focus. I’m interested in using statistics, machine learning,
+      and behavioral data to understand cognition, decision-making, and performance.
     </p>
 
-
     <p>
-      Apart from academics, I’m a competitive chess player, I enjoy being active, hiking, travelling and I'm always up for an adventure.
+      Apart from academics, I’m a competitive chess player. I enjoy being active,
+      hiking, travelling, and I’m always up for an adventure.
     </p>
   </div>
 
-  <aside class="gh-profile">
-
-    <div class="gh-links">
-      <a href="mailto:gerrithourigan@gmail.com">Email</a>
-      <a href="https://github.com/g-hourigan">GitHub</a>
-    </div>
-  </aside>
+  <div class="gh-links">
+    <a href="mailto:gerrithourigan@gmail.com">Email</a>
+    <a href="https://github.com/g-hourigan">GitHub</a>
+  </div>
 </section>
