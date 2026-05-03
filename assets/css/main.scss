@@ -91,3 +91,41 @@
     order: -1;
   }
 }
+
+/* Hide Minimal Mistakes header and footer */
+.masthead,
+.greedy-nav,
+.page__footer {
+  display: none !important;
+}
+
+/* Remove leftover top spacing */
+.initial-content {
+  margin-top: 0 !important;
+}
+
+/* Violet text selection */
+::selection {
+  background: rgba(155, 122, 229, 0.35);
+  color: #111;
+}
+
+::-moz-selection {
+  background: rgba(155, 122, 229, 0.35);
+  color: #111;
+}
+
+/* Violet links in main page */
+.gh-intro a,
+.gh-links a,
+.gh-top-link {
+  color: #9b7ae5 !important;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.gh-intro a:hover,
+.gh-links a:hover,
+.gh-top-link:hover {
+  text-decoration: underline;
+}
