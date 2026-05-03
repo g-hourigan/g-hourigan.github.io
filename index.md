@@ -28,55 +28,54 @@ title: Home
   color: #111;
 }
   .gh-hero {
-    text-align: center;
-    padding: 3rem 1rem 2.5rem;
-    border-bottom: 1px solid #e5e5e5;
-  }
-
+  text-align: center;
+  padding: 1.5rem 1rem 1.3rem;
+  border-bottom: 1px solid #e5e5e5;
+}
   .gh-hero h1 {
-    font-size: 3.2rem;
-    margin: 0 0 0.4rem;
-    font-weight: 800;
-    color: #111;
-  }
+  font-size: 3.7rem;
+  margin: 0 0 0.25rem;
+  font-weight: 800;
+  color: #111;
+}
 
   .gh-subtitle {
-    font-size: 1.35rem;
-    color: #666;
-    margin: 0.5rem 0;
-  }
+  font-size: 1.25rem;
+  color: #666;
+  margin: 0.25rem 0;
+}
 
   .gh-pronouns {
-    color: #999;
-    margin: 0.5rem 0;
-  }
+  color: #999;
+  margin: 0.25rem 0 0.45rem;
+  font-size: 1rem;
+}
 
-  .gh-top-link {
-    color: #9b7ae5;
-    font-weight: 700;
-    text-decoration: none;
-    font-size: 1.1rem;
-  }
+ .gh-top-link {
+  color: #9b7ae5;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
 
-  .gh-page {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 3rem 1.5rem;
-    display: grid;
-    grid-template-columns: 1.6fr 0.8fr;
-    gap: 4rem;
-    align-items: start;
-  }
+.gh-page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 1rem;
+  display: grid;
+  grid-template-columns: 1.5fr 0.7fr;
+  gap: 3rem;
+  align-items: start;
+}
 
   .gh-intro {
-    font-size: 1.15rem;
-    line-height: 1.75;
-    color: #5f6a6a;
-  }
-
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: #5f6a6a;
+}
   .gh-intro p {
-    margin-bottom: 1.6rem;
-  }
+  margin-bottom: 1.1rem;
+}
 
   .gh-intro strong {
     color: #333;
@@ -94,20 +93,20 @@ title: Home
   }
 
   .gh-links {
-    margin-top: 1.2rem;
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
+  margin-top: 0.2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
 
-  .gh-links a {
-    color: #9b7ae5;
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-decoration: none;
-  }
 
+ .gh-links a {
+  color: #9b7ae5;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+}
   .gh-links a:hover,
   .gh-top-link:hover {
     text-decoration: underline;
