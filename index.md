@@ -79,6 +79,16 @@ title: Home
     color: #333;
   }
 
+  .gh-intro a {
+  color: #9b7ae5;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.gh-intro a:hover {
+  text-decoration: underline;
+}
+
   .gh-links {
     margin-top: 1.2rem;
     display: flex;
@@ -131,10 +141,18 @@ title: Home
       and behavioral data to understand cognition, decision-making, and performance.
     </p>
 
+
+   <p>
+      I completed my Bachelor’s degree at Leuphana University Lüneburg (Germany) and am going to start my Master's degree this October.
+      Currently I am a research assistant at <a href="https://www.uni-ulm.de/in/psy-pers/" target="_blank" rel="noopener noreferrer">
+    Mattis Geiger's Personality Psychology Lab
+  </a>.
+</p>
+
     <p>
-      Apart from academics, I’m a competitive chess player. I enjoy being active,
-      hiking, travelling, and I’m always up for an adventure.
+      Apart from academics, I’m a competitive chess player (currently around 2300 ELO and FM) and am working towards earning the             International Master title. I enjoy being active, hiking, travelling, and I’m always up for an adventure.
     </p>
+
   </div>
 
   <div class="gh-links">
