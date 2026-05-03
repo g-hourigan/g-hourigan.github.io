@@ -152,6 +152,11 @@ title: Home
       and I am working towards earning the International Master title. I enjoy being active,
       hiking, travelling, and I’m always up for an adventure.
     </p>
+    <p>
+      In the future, I am planing to present some of my analyses and results here.
+    </p>
+
+
   </div>
 
   <div class="gh-links">
