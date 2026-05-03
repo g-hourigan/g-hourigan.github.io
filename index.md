@@ -4,6 +4,14 @@ title: Home
 ---
 
 <style>
+  .masthead,
+.greedy-nav {
+  display: none !important;
+}
+
+.initial-content {
+  margin-top: 0 !important;
+}
   .gh-hero {
     text-align: center;
     padding: 3rem 1rem 2.5rem;
