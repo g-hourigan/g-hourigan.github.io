@@ -4,109 +4,71 @@ title: Home
 ---
 
 <style>
-  .masthead,
-  .greedy-nav {
-    display: none !important;
-  }
+.gh-hero {
+  text-align: center;
+  padding: 1.2rem 1rem 1.1rem;
+  border-bottom: 1px solid #e5e5e5;
+}
 
-  .initial-content {
-    margin-top: 0 !important;
-  }
+.gh-hero h1 {
+  font-size: 2.8rem;
+  margin: 0 0 0.2rem;
+  font-weight: 800;
+  color: #111;
+}
 
-  .page__footer {
-    display: none !important;
-  }
+.gh-subtitle {
+  font-size: 1.05rem;
+  color: #666;
+  margin: 0.2rem 0;
+}
 
-  ::selection {
-    background: rgba(155, 122, 229, 0.35);
-    color: #111;
-  }
+.gh-pronouns {
+  color: #999;
+  margin: 0.15rem 0 0.35rem;
+  font-size: 0.9rem;
+}
 
-  ::-moz-selection {
-    background: rgba(155, 122, 229, 0.35);
-    color: #111;
-  }
-
-  .gh-hero {
-    text-align: center;
-    padding: 2rem 1rem 1.8rem;
-    border-bottom: 1px solid #e5e5e5;
-  }
-
-  .gh-hero h1 {
-    font-size: 3.2rem;
-    margin: 0 0 0.35rem;
-    font-weight: 800;
-    color: #111;
-  }
-
-  .gh-subtitle {
-    font-size: 1.25rem;
-    color: #666;
-    margin: 0.35rem 0;
-  }
-
-  .gh-pronouns {
-    color: #999;
-    margin: 0.3rem 0 0.55rem;
-    font-size: 1rem;
-  }
-
-  .gh-top-link {
-    color: #9b7ae5;
-    font-weight: 700;
-    text-decoration: none;
-    font-size: 1.1rem;
-  }
-
-  .gh-page {
-    max-width: 850px;
-    margin: 0 auto;
-    padding: 2.4rem 1.5rem 1rem;
-  }
-
-  .gh-intro {
-    font-size: 1.12rem;
-    line-height: 1.65;
-    color: #5f6a6a;
-  }
-
-  .gh-intro p {
-    margin-bottom: 1.35rem;
-  }
-
-  .gh-intro strong {
-    color: #333;
-  }
-
-  .gh-intro a {
+.gh-top-link {
   color: #9b7ae5;
   font-weight: 700;
   text-decoration: none;
+  font-size: 1rem;
 }
 
-.gh-intro a:hover {
-  text-decoration: underline;
+.gh-page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 0.5rem;
 }
 
-  .gh-links {
-    margin-top: 1.2rem;
-    display: flex;
-    gap: 1.2rem;
-  }
+.gh-intro {
+  font-size: 1rem;
+  line-height: 1.45;
+  color: #5f6a6a;
+}
 
-  .gh-links a {
-    color: #9b7ae5;
-    font-size: 1rem;
-    font-weight: 700;
-    text-decoration: none;
-  }
+.gh-intro p {
+  margin-bottom: 0.9rem;
+}
 
-  .gh-links a:hover,
-  .gh-top-link:hover {
-    text-decoration: underline;
-  }
+.gh-intro strong {
+  color: #333;
+}
 
+.gh-links {
+  margin-top: 0.7rem;
+  display: flex;
+  gap: 1.2rem;
+}
+
+.gh-links a {
+  color: #9b7ae5;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+  
   @media (max-width: 800px) {
     .gh-hero h1 {
       font-size: 2.4rem;
