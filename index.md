@@ -12,6 +12,21 @@ title: Home
 .initial-content {
   margin-top: 0 !important;
 }
+  /* Remove blue footer strip */
+.page__footer {
+  display: none !important;
+}
+
+/* Make text-selection highlight violet instead of black/blue */
+::selection {
+  background: rgba(155, 122, 229, 0.35);
+  color: #111;
+}
+
+::-moz-selection {
+  background: rgba(155, 122, 229, 0.35);
+  color: #111;
+}
   .gh-hero {
     text-align: center;
     padding: 3rem 1rem 2.5rem;
