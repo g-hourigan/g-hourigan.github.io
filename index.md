@@ -131,33 +131,30 @@ title: Home
 
 <section class="gh-hero">
   <h1>Gerrit Hourigan</h1>
-  <p class="gh-subtitle">Psychology M.Sc. student · Data science focus</p>
-  <p class="gh-pronouns">chess · cognition · statistics · machine learning</p>
+  <p class="gh-subtitle">Psychology M.Sc. student · Data science and Cognitive science focus</p>
+  <p class="gh-pronouns"> He/Him </p>
   <a class="gh-top-link" href="/cv/">CV</a>
 </section>
 
 <section class="gh-page">
   <div class="gh-intro">
     <p>
-      <strong>Hi!</strong> I’m Gerrit, an incoming Psychology M.Sc. student with a data science focus.
+      <strong>Hi!</strong> I’m Gerrit, an incoming Psychology M.Sc. student with a data science and cognitive science focus.
       I’m interested in using statistics, machine learning, and behavioral data to understand cognition,
       decision-making, and performance.
     </p>
 
 
     <p>
-      Apart from academics, I’m a competitive chess player, I enjoy travelling, running, and lifting,
-      and I’m always up for a challenge.
+      Apart from academics, I’m a competitive chess player, I enjoy being active, hiking, travelling and I'm always up for an adventure.
     </p>
   </div>
 
   <aside class="gh-profile">
 
     <div class="gh-links">
-      <a href="mailto:YOUR_EMAIL">Email</a>
+      <a href="mailto:gerrithourigan@gmail.com">Email</a>
       <a href="https://github.com/g-hourigan">GitHub</a>
-      <a href="/projects/">Projects</a>
-      <a href="/about/">About</a>
     </div>
   </aside>
 </section>
