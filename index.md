@@ -159,6 +159,37 @@ title: Home
 
   </div>
 
+  <section class="projects-section">
+
+<h2>Selected Projects</h2>
+
+<div class="project-card">
+  <div class="project-label">Behavioral Data Science · Quantitative Research</div>
+
+  <h3>Life Events and Climate Action Readiness</h3>
+
+  <p>
+    I tested whether life events measured at T3 predicted latent change in
+    readiness for climate action from T0 to T3. The project combines survey data
+    preparation, measurement checks, factor-score construction, and latent
+    difference score modeling in R.
+  </p>
+
+  <div class="project-tags">
+    <span>R</span>
+    <span>lavaan</span>
+    <span>Longitudinal Modeling</span>
+    <span>Latent Variables</span>
+    <span>Survey Data</span>
+  </div>
+
+  <a class="project-link" href="/projects/life-events-rca/">
+    Read case study →
+  </a>
+</div>
+
+</section>
+
   <div class="gh-links">
     <a href="mailto:gerrithourigan@gmail.com">Email</a>
     <a href="https://github.com/g-hourigan">GitHub</a>
