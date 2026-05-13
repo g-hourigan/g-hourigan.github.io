@@ -235,7 +235,7 @@ title: Home
 
       <p>
         I tested whether life events measured at T3 predicted latent change in
-        readiness for climate action from T0 to T3. The project combines survey data
+        readiness for climate action from T1 to T3. The project combines survey data
         preparation, measurement checks, factor-score construction, and latent
         difference score modeling in R.
       </p>
