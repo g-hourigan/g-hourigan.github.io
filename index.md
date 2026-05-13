@@ -85,21 +85,33 @@ title: Home
   .project-card {
     border: 1px solid #e5e5e5;
     border-radius: 18px;
-    padding: 1.25rem 1.35rem;
     background: #fff;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
   }
 
   .intro-card {
-    margin-bottom: 1rem;
+    padding: 1.25rem 1.35rem;
+    margin-bottom: 0.95rem;
+  }
+
+  .project-card {
+    padding: 1rem 1.15rem;
   }
 
   .intro-card p,
   .project-card p {
-    font-size: 1rem;
     line-height: 1.5;
     color: #566;
     margin: 0 0 0.8rem;
+  }
+
+  .intro-card p {
+    font-size: 1rem;
+  }
+
+  .project-card p {
+    font-size: 0.94rem;
+    line-height: 1.45;
   }
 
   .intro-card p:last-child,
@@ -124,44 +136,36 @@ title: Home
   }
 
   .projects-section h2 {
-    font-size: 1.4rem;
-    margin: 0 0 0.75rem;
+    font-size: 1.15rem;
+    margin: 0 0 0.55rem;
     color: #111;
   }
 
-  .project-label {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #777;
-    font-weight: 700;
-    margin-bottom: 0.45rem;
-  }
-
   .project-card h3 {
-    margin: 0 0 0.55rem;
-    font-size: 1.35rem;
+    margin: 0 0 0.45rem;
+    font-size: 1.18rem;
     color: #111;
   }
 
   .project-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
-    margin: 0.75rem 0 0.85rem;
+    gap: 0.35rem;
+    margin: 0.65rem 0 0.7rem;
   }
 
   .project-tags span {
     border: 1px solid #ddd;
     border-radius: 999px;
-    padding: 0.2rem 0.55rem;
-    font-size: 0.78rem;
+    padding: 0.16rem 0.48rem;
+    font-size: 0.72rem;
     background: #fafafa;
     color: #555;
   }
 
   .project-link {
     display: inline-block;
+    font-size: 0.9rem;
     font-weight: 700;
   }
 
@@ -174,9 +178,12 @@ title: Home
       padding: 1rem 1rem 1.4rem;
     }
 
-    .intro-card,
-    .project-card {
+    .intro-card {
       padding: 1.1rem;
+    }
+
+    .project-card {
+      padding: 0.95rem;
     }
   }
 </style>
@@ -225,8 +232,6 @@ title: Home
     <h2>Selected Project</h2>
 
     <div class="project-card">
-      <div class="project-label">Behavioral Data Science · Quantitative Research</div>
-
       <h3>Life Events and Climate Action Readiness</h3>
 
       <p>
