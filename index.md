@@ -250,7 +250,7 @@ title: Home
       </div>
 
       <a class="project-link" href="/projects/life-events-rca/">
-        Read case study →
+        Read project →
       </a>
     </div>
   </section>
