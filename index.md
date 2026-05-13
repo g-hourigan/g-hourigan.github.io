@@ -200,7 +200,6 @@ title: Home
   <div class="gh-links">
     <a href="/cv/">CV</a>
     <a href="mailto:gerrithourigan@gmail.com">Email</a>
-    <a href="https://github.com/g-hourigan" target="_blank" rel="noopener noreferrer">GitHub</a>
   </div>
 </section>
 
