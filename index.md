@@ -192,7 +192,7 @@ title: Home
   <h1>Gerrit Hourigan</h1>
 
   <p class="gh-subtitle">
-    Psychology M.Sc. student · Behavioral data science · Cognitive science
+    Psychology M.Sc. student 
   </p>
 
   <p class="gh-pronouns">(he/him)</p>
@@ -236,8 +236,8 @@ title: Home
       <p>
         I tested whether life events measured at T3 predicted latent change in
         readiness for climate action from T1 to T3. The project combines survey data
-        preparation, measurement checks, factor-score construction, and latent
-        difference score modeling in R.
+        preparation, measurement invariance, SEM, and latent
+        modeling in R.
       </p>
 
       <div class="project-tags">
