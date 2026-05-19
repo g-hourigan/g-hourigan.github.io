@@ -44,9 +44,9 @@ permalink: /
   body {
     margin: 0;
     background:
-      radial-gradient(circle at 20% 20%, rgba(0, 212, 255, 0.08), transparent 28%),
-      radial-gradient(circle at 80% 15%, rgba(255, 78, 205, 0.08), transparent 24%),
-      radial-gradient(circle at 50% 80%, rgba(0, 212, 255, 0.05), transparent 30%),
+      radial-gradient(circle at 18% 20%, rgba(0, 212, 255, 0.06), transparent 28%),
+      radial-gradient(circle at 82% 18%, rgba(255, 78, 205, 0.05), transparent 22%),
+      radial-gradient(circle at 50% 82%, rgba(0, 212, 255, 0.04), transparent 28%),
       #050914;
     color: #dbe7ef;
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -54,24 +54,28 @@ permalink: /
   }
 
   ::selection {
-    background: rgba(255, 78, 205, 0.25);
+    background: rgba(255, 78, 205, 0.24);
     color: #ffffff;
   }
 
   ::-moz-selection {
-    background: rgba(255, 78, 205, 0.25);
+    background: rgba(255, 78, 205, 0.24);
     color: #ffffff;
   }
 
- #network-bg {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.95;
-}
+  #p5-network-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.98;
+  }
+
+  #p5-network-bg canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
 
   .site-shell {
     position: relative;
@@ -88,13 +92,13 @@ permalink: /
     border-radius: 28px;
     background: linear-gradient(
       180deg,
-      rgba(8, 13, 24, 0.88) 0%,
-      rgba(6, 10, 18, 0.94) 100%
+      rgba(8, 13, 24, 0.86) 0%,
+      rgba(6, 10, 18, 0.93) 100%
     );
     box-shadow:
       0 0 0 1px rgba(255, 255, 255, 0.02) inset,
       0 30px 80px rgba(0, 0, 0, 0.35),
-      0 0 80px rgba(0, 212, 255, 0.06);
+      0 0 80px rgba(0, 212, 255, 0.05);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     padding: 2rem 2rem 1.6rem;
@@ -105,7 +109,7 @@ permalink: /
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(90deg, rgba(0, 212, 255, 0.06), transparent 18%, transparent 82%, rgba(255, 78, 205, 0.05)),
+      linear-gradient(90deg, rgba(0, 212, 255, 0.05), transparent 18%, transparent 82%, rgba(255, 78, 205, 0.04)),
       linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 25%);
     pointer-events: none;
   }
@@ -133,45 +137,26 @@ permalink: /
     );
   }
 
-  .identity-line {
-    position: relative;
-    z-index: 1;
-    margin: 0 0 0.45rem;
-    font-size: 0.96rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #00d4ff;
-  }
-
   .hero-title {
     position: relative;
     z-index: 1;
     margin: 0;
     max-width: 950px;
-    font-size: clamp(2.2rem, 5vw, 4rem);
-    line-height: 1.08;
-    letter-spacing: -0.045em;
+    font-size: clamp(2.5rem, 5vw, 4.3rem);
+    line-height: 1.02;
+    letter-spacing: -0.055em;
     font-weight: 800;
     color: #f4f8fb;
-  }
-
-  .hero-title .accent {
-    color: #b8f7ff;
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-decoration-color: rgba(255, 78, 205, 0.75);
-    text-underline-offset: 0.16em;
   }
 
   .hero-subtitle {
     position: relative;
     z-index: 1;
-    max-width: 840px;
-    margin: 1rem 0 0;
-    font-size: 1.08rem;
-    line-height: 1.7;
-    color: #aebdca;
+    max-width: 760px;
+    margin: 0.95rem 0 0;
+    font-size: 1.02rem;
+    line-height: 1.75;
+    color: #9fb0c2;
   }
 
   .hero-links {
@@ -239,7 +224,7 @@ permalink: /
   .project-card p {
     margin: 0;
     color: #aebdca;
-    line-height: 1.7;
+    line-height: 1.72;
   }
 
   .welcome-card p + p {
@@ -418,23 +403,16 @@ permalink: /
   }
 </style>
 
-<canvas id="network-bg" aria-hidden="true"></canvas>
+<div id="p5-network-bg" aria-hidden="true"></div>
 
 <section class="site-shell">
   <div class="site-panel">
     <p class="section-label">// HOME</p>
-    <p class="identity-line">Gerrit Hourigan</p>
 
-    <h1 class="hero-title">
-      I work at the intersection of
-      <span class="accent">psychology</span>,
-      <span class="accent">statistics</span>, and
-      <span class="accent">machine learning</span>.
-    </h1>
+    <h1 class="hero-title">Gerrit Hourigan</h1>
 
     <p class="hero-subtitle">
-      I build and analyze research and data projects grounded in behavioral science,
-      with a focus on cognition, decision-making, performance, and real-world data.
+      Psychology, behavioral data, cognitive science, and quantitative research.
     </p>
 
     <div class="hero-links">
@@ -445,13 +423,15 @@ permalink: /
 
     <div class="welcome-card">
       <p>
-        Welcome. This site is intentionally minimal: you can find ways to contact me,
-        browse selected work, and get a quick sense of the questions I like to work on.
+        Hi, I’m Gerrit. I’m interested in psychology, cognition, and the analysis of
+        behavioral data. Most of my work sits around quantitative research, individual
+        differences, and questions that can be studied with careful modeling.
       </p>
+
       <p>
-        I completed my B.Sc. in Psychology at Leuphana University Lüneburg and am now
+        I completed my B.Sc. in Psychology at Leuphana University Lüneburg and am
         continuing into the M.Sc. while working on research and data analysis projects.
-        My interests sit where behavioral theory meets empirical modeling.
+        Outside academia, I’m also a competitive chess player.
       </p>
 
       <div class="welcome-nav">
@@ -470,16 +450,16 @@ permalink: /
       <div class="info-card">
         <p class="card-title">Research</p>
         <p>
-          Measurement, latent variables, longitudinal data, individual differences,
-          and behavioral outcomes that matter outside the lab.
+          Latent variables, longitudinal data, measurement, individual differences,
+          and behavioral outcomes that matter outside highly artificial settings.
         </p>
       </div>
 
       <div class="info-card">
         <p class="card-title">Tools</p>
         <p>
-          R, SEM, survey data workflows, reproducible analysis, and increasingly
-          machine learning methods for behavioral and cognitive data.
+          R, SEM, survey-data workflows, reproducible analysis, and increasingly
+          machine-learning methods for behavioral and cognitive data.
         </p>
       </div>
     </div>
@@ -536,314 +516,316 @@ permalink: /
 
       <div class="system-meta">
         STATUS: <span class="status-live">ACTIVE</span><br>
-        BUILD: PSYCHOLOGY × DATA × ML
+        BUILD: PSYCHOLOGY × DATA
       </div>
     </div>
 
     <p class="meta-note">
-      Interface: GitHub Pages / Jekyll / custom canvas network background.
+      Interface: GitHub Pages / Jekyll / p5.js background sketch.
     </p>
   </div>
 </section>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
 <script>
-  (function () {
-    const canvas = document.getElementById("network-bg");
-    if (!canvas) return;
+  let clusters = [];
+  let strayNodes = [];
+  let bridgePairs = [];
+  let pointerActive = false;
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+  function setup() {
+    const parent = document.getElementById("p5-network-bg");
+    const cnv = createCanvas(windowWidth, windowHeight);
+    cnv.parent(parent);
+    noFill();
+  }
 
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    let width = 0;
-    let height = 0;
-    let dpr = 1;
-    let clusters = [];
-    let strayNodes = [];
-    let bridgePairs = [];
-    let rafId = null;
-    let time = 0;
-
-    function rand(min, max) {
-      return Math.random() * (max - min) + min;
+  function draw() {
+    clear();
+    if (!clusters.length) {
+      buildScene();
     }
 
-    function dist(a, b) {
-      const dx = a.x - b.x;
-      const dy = a.y - b.y;
-      return Math.sqrt(dx * dx + dy * dy);
-    }
+    const t = millis() * 0.001;
 
-    function setCanvasSize() {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+    drawBackgroundGlow();
+    updateClusters(t);
+    updateStrayNodes();
+    drawClusterConnections();
+    drawBridges();
+    drawPointerConnections();
+    drawNodes();
+  }
 
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      canvas.style.width = width + "px";
-      canvas.style.height = height + "px";
+  function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    buildScene();
+  }
 
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
+  function buildScene() {
+    clusters = [];
+    strayNodes = [];
+    bridgePairs = [];
 
-    function getClusterLayout() {
-      if (width < 700) {
-        return [
-          { x: width * 0.08, y: height * 0.76, count: 6, spread: 24 },
-          { x: width * 0.90, y: height * 0.22, count: 7, spread: 34 },
-          { x: width * 0.88, y: height * 0.60, count: 5, spread: 26 }
+    const mobile = windowWidth < 760;
+
+    const layout = mobile
+      ? [
+          { x: width * 0.08, y: height * 0.74, count: 9, spread: 36 },
+          { x: width * 0.92, y: height * 0.20, count: 11, spread: 46 },
+          { x: width * 0.90, y: height * 0.58, count: 8, spread: 34 }
+        ]
+      : [
+          { x: width * 0.06, y: height * 0.74, count: 10, spread: 36 },
+          { x: width * 0.13, y: height * 0.26, count: 6, spread: 26 },
+          { x: width * 0.94, y: height * 0.18, count: 12, spread: 54 },
+          { x: width * 0.91, y: height * 0.53, count: 9, spread: 40 },
+          { x: width * 0.76, y: height * 0.92, count: 7, spread: 34 }
         ];
-      }
 
-      return [
-        { x: width * 0.07, y: height * 0.74, count: 7, spread: 26 },
-        { x: width * 0.14, y: height * 0.28, count: 4, spread: 22 },
-        { x: width * 0.90, y: height * 0.20, count: 8, spread: 38 },
-        { x: width * 0.88, y: height * 0.62, count: 5, spread: 28 },
-        { x: width * 0.72, y: height * 0.90, count: 6, spread: 30 }
-      ];
-    }
+    for (let i = 0; i < layout.length; i++) {
+      const item = layout[i];
 
-    function makeNode(cluster, radiusBias) {
-      const angle = rand(0, Math.PI * 2);
-      const radius = rand(cluster.spread * 0.25, cluster.spread);
-      const ox = Math.cos(angle) * radius;
-      const oy = Math.sin(angle) * radius;
-
-      const accent = Math.random() > 0.7;
-      const cyan = Math.random() > 0.5;
-
-      return {
-        cluster,
-        ox,
-        oy,
-        x: cluster.x + ox,
-        y: cluster.y + oy,
-        vx: 0,
-        vy: 0,
-        pulse: rand(0, Math.PI * 2),
-        r: accent ? rand(2.1, 2.8) : rand(1.4, 1.9),
-        color: accent ? (cyan ? "0,212,255" : "255,78,205") : "215,228,242",
-        radiusBias: radiusBias || 1
+      const cluster = {
+        baseX: item.x,
+        baseY: item.y,
+        x: item.x,
+        y: item.y,
+        spread: item.spread,
+        ampX: random(4, 14),
+        ampY: random(4, 14),
+        phaseX: random(TWO_PI),
+        phaseY: random(TWO_PI),
+        nodes: []
       };
-    }
 
-    function buildScene() {
-      const layout = getClusterLayout();
+      for (let j = 0; j < item.count; j++) {
+        const angle = random(TWO_PI);
+        const radius = random(item.spread * 0.18, item.spread);
+        const accent = random() > 0.72;
+        const cyan = random() > 0.5;
 
-      clusters = layout.map((item, index) => {
-        const cluster = {
-          index,
-          baseX: item.x,
-          baseY: item.y,
-          x: item.x,
-          y: item.y,
-          spread: item.spread,
-          count: item.count,
-          ampX: rand(5, 16),
-          ampY: rand(5, 16),
-          phaseX: rand(0, Math.PI * 2),
-          phaseY: rand(0, Math.PI * 2),
-          nodes: []
-        };
-
-        for (let i = 0; i < item.count; i++) {
-          cluster.nodes.push(makeNode(cluster, 1));
-        }
-
-        return cluster;
-      });
-
-      bridgePairs = [];
-      for (let i = 0; i < clusters.length; i++) {
-        for (let j = i + 1; j < clusters.length; j++) {
-          const a = clusters[i];
-          const b = clusters[j];
-          const centerDistance = Math.hypot(a.baseX - b.baseX, a.baseY - b.baseY);
-
-          if (centerDistance < Math.min(width, height) * 0.42) {
-            bridgePairs.push([i, j]);
-          }
-        }
+        cluster.nodes.push({
+          ox: cos(angle) * radius,
+          oy: sin(angle) * radius,
+          x: cluster.x,
+          y: cluster.y,
+          vx: 0,
+          vy: 0,
+          phase: random(TWO_PI),
+          wobble: random(1.2, 3.2),
+          r: accent ? random(2.0, 2.8) : random(1.25, 1.8),
+          color: accent
+            ? (cyan ? [0, 212, 255] : [255, 78, 205])
+            : [214, 225, 240]
+        });
       }
 
-      strayNodes = [];
-      const strayCount = width < 700 ? 3 : 6;
+      clusters.push(cluster);
+    }
 
-      for (let i = 0; i < strayCount; i++) {
-        const leftSide = i % 2 === 0;
-        strayNodes.push({
-          x: leftSide ? rand(20, width * 0.22) : rand(width * 0.78, width - 20),
-          y: rand(20, height - 20),
-          vx: prefersReducedMotion ? 0 : rand(-0.08, 0.08),
-          vy: prefersReducedMotion ? 0 : rand(-0.08, 0.08),
-          r: rand(1.8, 2.6),
-          color: Math.random() > 0.5 ? "255,78,205" : "0,212,255"
-        });
+    for (let i = 0; i < clusters.length; i++) {
+      for (let j = i + 1; j < clusters.length; j++) {
+        const a = clusters[i];
+        const b = clusters[j];
+        const d = dist(a.baseX, a.baseY, b.baseX, b.baseY);
+
+        if (d < min(width, height) * 0.44) {
+          bridgePairs.push([i, j]);
+        }
       }
     }
 
-    function updateScene() {
-      time += 0.01;
+    const strayCount = mobile ? 3 : 6;
 
-      clusters.forEach((cluster) => {
-        cluster.x = cluster.baseX + Math.sin(time * 0.55 + cluster.phaseX) * cluster.ampX;
-        cluster.y = cluster.baseY + Math.cos(time * 0.48 + cluster.phaseY) * cluster.ampY;
-
-        cluster.nodes.forEach((node) => {
-          const tx =
-            cluster.x +
-            node.ox +
-            Math.cos(time * 1.4 + node.pulse) * 2.8 * node.radiusBias;
-
-          const ty =
-            cluster.y +
-            node.oy +
-            Math.sin(time * 1.2 + node.pulse) * 2.8 * node.radiusBias;
-
-          if (!prefersReducedMotion) {
-            node.vx += (tx - node.x) * 0.035;
-            node.vy += (ty - node.y) * 0.035;
-            node.vx *= 0.86;
-            node.vy *= 0.86;
-            node.x += node.vx;
-            node.y += node.vy;
-          } else {
-            node.x = tx;
-            node.y = ty;
-          }
-        });
+    for (let i = 0; i < strayCount; i++) {
+      strayNodes.push({
+        x: i % 2 === 0 ? random(24, width * 0.22) : random(width * 0.78, width - 24),
+        y: random(24, height - 24),
+        vx: random(-0.08, 0.08),
+        vy: random(-0.08, 0.08),
+        r: random(1.7, 2.4),
+        color: random() > 0.5 ? [255, 78, 205] : [0, 212, 255]
       });
+    }
+  }
 
-      strayNodes.forEach((node) => {
-        if (prefersReducedMotion) return;
+  function drawBackgroundGlow() {
+    noStroke();
+    fill(0, 212, 255, 5);
+    circle(width * 0.5, height * 0.5, max(width, height) * 0.78);
 
+    fill(255, 78, 205, 3);
+    circle(width * 0.52, height * 0.48, max(width, height) * 0.58);
+
+    fill(0, 212, 255, 2);
+    circle(width * 0.48, height * 0.52, max(width, height) * 0.95);
+  }
+
+  function updateClusters(t) {
+    for (const cluster of clusters) {
+      cluster.x = cluster.baseX + sin(t * 0.48 + cluster.phaseX) * cluster.ampX;
+      cluster.y = cluster.baseY + cos(t * 0.42 + cluster.phaseY) * cluster.ampY;
+
+      for (const node of cluster.nodes) {
+        const tx = cluster.x + node.ox + cos(t * 1.18 + node.phase) * node.wobble;
+        const ty = cluster.y + node.oy + sin(t * 1.05 + node.phase) * node.wobble;
+
+        node.vx += (tx - node.x) * 0.03;
+        node.vy += (ty - node.y) * 0.03;
+
+        if (pointerActive) {
+          const dx = mouseX - node.x;
+          const dy = mouseY - node.y;
+          const d = sqrt(dx * dx + dy * dy);
+
+          if (d < 185 && d > 0.001) {
+            const pull = (1 - d / 185) * 0.045;
+            node.vx += dx * pull * 0.02;
+            node.vy += dy * pull * 0.02;
+          }
+        }
+
+        node.vx *= 0.885;
+        node.vy *= 0.885;
         node.x += node.vx;
         node.y += node.vy;
-
-        if (node.x < 8 || node.x > width - 8) node.vx *= -1;
-        if (node.y < 8 || node.y > height - 8) node.vy *= -1;
-      });
+      }
     }
+  }
 
-    function findNearestNode(clusterA, clusterB) {
+  function updateStrayNodes() {
+    for (const node of strayNodes) {
+      node.x += node.vx;
+      node.y += node.vy;
+
+      if (node.x < 8 || node.x > width - 8) node.vx *= -1;
+      if (node.y < 8 || node.y > height - 8) node.vy *= -1;
+    }
+  }
+
+  function drawClusterConnections() {
+    strokeWeight(1);
+
+    for (const cluster of clusters) {
+      for (let i = 0; i < cluster.nodes.length; i++) {
+        const a = cluster.nodes[i];
+        const neighbors = [];
+
+        for (let j = 0; j < cluster.nodes.length; j++) {
+          if (i === j) continue;
+
+          const b = cluster.nodes[j];
+          neighbors.push({
+            node: b,
+            d: dist(a.x, a.y, b.x, b.y)
+          });
+        }
+
+        neighbors.sort((m, n) => m.d - n.d);
+
+        for (const item of neighbors.slice(0, 3)) {
+          const alpha = max(0.1, 1 - item.d / (cluster.spread * 2.4)) * 110;
+          stroke(0, 212, 255, alpha);
+          line(a.x, a.y, item.node.x, item.node.y);
+        }
+      }
+    }
+  }
+
+  function drawBridges() {
+    for (const pair of bridgePairs) {
+      const clusterA = clusters[pair[0]];
+      const clusterB = clusters[pair[1]];
+
       let bestA = null;
       let bestB = null;
       let bestD = Infinity;
 
-      clusterA.nodes.forEach((a) => {
-        clusterB.nodes.forEach((b) => {
-          const d = dist(a, b);
+      for (const a of clusterA.nodes) {
+        for (const b of clusterB.nodes) {
+          const d = dist(a.x, a.y, b.x, b.y);
           if (d < bestD) {
             bestD = d;
             bestA = a;
             bestB = b;
           }
-        });
-      });
-
-      return { a: bestA, b: bestB, d: bestD };
-    }
-
-    function drawLine(a, b, alpha, widthPx) {
-      ctx.beginPath();
-      ctx.moveTo(a.x, a.y);
-      ctx.lineTo(b.x, b.y);
-      ctx.strokeStyle = `rgba(0, 212, 255, ${alpha})`;
-      ctx.lineWidth = widthPx;
-      ctx.stroke();
-    }
-
-    function drawBackgroundGlow() {
-      const g = ctx.createRadialGradient(
-        width * 0.5,
-        height * 0.5,
-        0,
-        width * 0.5,
-        height * 0.5,
-        Math.max(width, height) * 0.6
-      );
-      g.addColorStop(0, "rgba(0, 212, 255, 0.025)");
-      g.addColorStop(0.45, "rgba(255, 78, 205, 0.018)");
-      g.addColorStop(1, "rgba(0, 0, 0, 0)");
-
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, width, height);
-    }
-
-    function drawClusterConnections() {
-      clusters.forEach((cluster) => {
-        const nodes = cluster.nodes;
-
-        for (let i = 0; i < nodes.length; i++) {
-          const a = nodes[i];
-          const neighbors = [];
-
-          for (let j = 0; j < nodes.length; j++) {
-            if (i === j) continue;
-            neighbors.push({ node: nodes[j], d: dist(a, nodes[j]) });
-          }
-
-          neighbors.sort((m, n) => m.d - n.d);
-
-          const nearest = neighbors.slice(0, 3);
-          nearest.forEach(({ node: b, d }) => {
-            const alpha = Math.max(0.12, 1 - d / (cluster.spread * 2.4)) * 0.45;
-            drawLine(a, b, alpha, 1);
-          });
         }
-      });
+      }
+
+      if (bestA && bestB) {
+        stroke(0, 212, 255, bestD < 220 ? 48 : 20);
+        line(bestA.x, bestA.y, bestB.x, bestB.y);
+      }
+    }
+  }
+
+  function drawPointerConnections() {
+    if (!pointerActive) return;
+
+    const allNodes = [
+      ...clusters.flatMap(cluster => cluster.nodes),
+      ...strayNodes
+    ];
+
+    let nearby = 0;
+
+    for (const node of allNodes) {
+      const d = dist(mouseX, mouseY, node.x, node.y);
+
+      if (d < 175) {
+        nearby++;
+        const alpha = (1 - d / 175) * 128;
+        stroke(node.color[0], node.color[1], node.color[2], alpha);
+        line(mouseX, mouseY, node.x, node.y);
+      }
     }
 
-    function drawBridges() {
-      bridgePairs.forEach(([i, j]) => {
-        const nearest = findNearestNode(clusters[i], clusters[j]);
-        if (!nearest.a || !nearest.b) return;
+    if (nearby > 0) {
+      noStroke();
+      fill(255, 255, 255, 230);
+      circle(mouseX, mouseY, 6);
 
-        const alpha = nearest.d < 220 ? 0.16 : 0.08;
-        drawLine(nearest.a, nearest.b, alpha, 1);
-      });
+      fill(0, 212, 255, 16);
+      circle(mouseX, mouseY, 28);
     }
+  }
 
-    function drawNodes() {
-      const allNodes = [
-        ...clusters.flatMap((cluster) => cluster.nodes),
-        ...strayNodes
-      ];
+  function drawNodes() {
+    const allNodes = [
+      ...clusters.flatMap(cluster => cluster.nodes),
+      ...strayNodes
+    ];
 
-      allNodes.forEach((node) => {
-        ctx.beginPath();
-        ctx.arc(node.x, node.y, node.r * 2.3, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${node.color}, 0.06)`;
-        ctx.fill();
+    noStroke();
 
-        ctx.beginPath();
-        ctx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${node.color}, 0.98)`;
-        ctx.fill();
-      });
+    for (const node of allNodes) {
+      fill(node.color[0], node.color[1], node.color[2], 16);
+      circle(node.x, node.y, node.r * 4.8);
+
+      fill(node.color[0], node.color[1], node.color[2], 250);
+      circle(node.x, node.y, node.r * 2);
     }
+  }
 
-    function render() {
-      ctx.clearRect(0, 0, width, height);
-      drawBackgroundGlow();
-      updateScene();
-      drawClusterConnections();
-      drawBridges();
-      drawNodes();
-      rafId = requestAnimationFrame(render);
-    }
+  function mouseMoved() {
+    pointerActive = true;
+  }
 
-    function init() {
-      cancelAnimationFrame(rafId);
-      setCanvasSize();
-      buildScene();
-      render();
-    }
+  function mouseDragged() {
+    pointerActive = true;
+  }
 
-    window.addEventListener("resize", init);
-    init();
-  })();
+  function mouseOut() {
+    pointerActive = false;
+  }
+
+  function touchMoved() {
+    pointerActive = true;
+    return true;
+  }
+
+  function touchEnded() {
+    pointerActive = false;
+  }
 </script>
