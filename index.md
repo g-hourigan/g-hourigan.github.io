@@ -542,14 +542,14 @@ permalink: /
   };
 
   const CONFIG = {
-  mobileBreakpoint: 760,
-  pointerLerp: 0.18,
-  nodeLerp: 0.14,
-  cursorRadius: 190,
-  cursorLineRadius: 170,
-  maxPull: 24,
-  clusterNeighborCount: 4
-};
+    mobileBreakpoint: 760,
+    pointerLerp: 0.18,
+    nodeLerp: 0.14,
+    cursorRadius: 190,
+    cursorLineRadius: 170,
+    maxPull: 24,
+    clusterNeighborCount: 3
+  };
 
   function setup() {
     const parent = document.getElementById("p5-network-bg");
@@ -664,8 +664,8 @@ permalink: /
           y: homeY,
           phaseX: random(TWO_PI),
           phaseY: random(TWO_PI),
-          driftX: random(1.4, 3.6),
-          driftY: random(1.4, 3.6),
+          driftX: random(2.0, 4.8),
+          driftY: random(2.0, 4.8),
           r: accent ? random(2.0, 2.8) : random(1.2, 1.7),
           color: accent
             ? (cyan ? [0, 212, 255] : [255, 78, 205])
@@ -720,8 +720,8 @@ permalink: /
         y,
         phaseX: random(TWO_PI),
         phaseY: random(TWO_PI),
-        driftX: random(1.0, 2.2),
-        driftY: random(1.0, 2.2),
+        driftX: random(1.4, 3.0),
+        driftY: random(1.4, 3.0),
         r: random(1.6, 2.2),
         color: random() > 0.5 ? [255, 78, 205] : [0, 212, 255]
       });
@@ -806,8 +806,8 @@ permalink: /
     const t = millis() * 0.001;
 
     for (const node of nodes) {
-      let targetX = node.homeX + Math.cos(t * 0.62 + node.phaseX) * node.driftX;
-      let targetY = node.homeY + Math.sin(t * 0.68 + node.phaseY) * node.driftY;
+      let targetX = node.homeX + Math.cos(t * 0.78 + node.phaseX) * node.driftX;
+      let targetY = node.homeY + Math.sin(t * 0.84 + node.phaseY) * node.driftY;
 
       if (pointer.active) {
         const dx = pointer.x - targetX;
