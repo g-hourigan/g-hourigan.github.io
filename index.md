@@ -557,116 +557,292 @@ permalink: /
 
     let width = 0;
     let height = 0;
-    let nodes = [];
-    let animationFrameId;
+    let dpr = 1;
+    let clusters = [];
+    let strayNodes = [];
+    let bridgePairs = [];
+    let rafId = null;
+    let time = 0;
 
-    function resizeCanvas() {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = width * window.devicePixelRatio;
-      canvas.height = height * window.devicePixelRatio;
-      canvas.style.width = width + "px";
-      canvas.style.height = height + "px";
-      ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
-      createNodes();
+    function rand(min, max) {
+      return Math.random() * (max - min) + min;
     }
 
-    function createNodes() {
-      const mobile = width < 700;
-      const count = mobile ? 28 : 52;
-      nodes = [];
+    function dist(a, b) {
+      const dx = a.x - b.x;
+      const dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
 
-      for (let i = 0; i < count; i++) {
-        const isAccent = Math.random() > 0.72;
+    function setCanvasSize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-        nodes.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          vx: prefersReducedMotion ? 0 : (Math.random() - 0.5) * 0.35,
-          vy: prefersReducedMotion ? 0 : (Math.random() - 0.5) * 0.35,
-          r: isAccent ? 2.6 : 1.8,
-          color: isAccent
-            ? (Math.random() > 0.5 ? "255,78,205" : "0,212,255")
-            : "180,205,230"
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function getClusterLayout() {
+      if (width < 700) {
+        return [
+          { x: width * 0.08, y: height * 0.76, count: 6, spread: 24 },
+          { x: width * 0.90, y: height * 0.22, count: 7, spread: 34 },
+          { x: width * 0.88, y: height * 0.60, count: 5, spread: 26 }
+        ];
+      }
+
+      return [
+        { x: width * 0.07, y: height * 0.74, count: 7, spread: 26 },
+        { x: width * 0.14, y: height * 0.28, count: 4, spread: 22 },
+        { x: width * 0.90, y: height * 0.20, count: 8, spread: 38 },
+        { x: width * 0.88, y: height * 0.62, count: 5, spread: 28 },
+        { x: width * 0.72, y: height * 0.90, count: 6, spread: 30 }
+      ];
+    }
+
+    function makeNode(cluster, radiusBias) {
+      const angle = rand(0, Math.PI * 2);
+      const radius = rand(cluster.spread * 0.25, cluster.spread);
+      const ox = Math.cos(angle) * radius;
+      const oy = Math.sin(angle) * radius;
+
+      const accent = Math.random() > 0.7;
+      const cyan = Math.random() > 0.5;
+
+      return {
+        cluster,
+        ox,
+        oy,
+        x: cluster.x + ox,
+        y: cluster.y + oy,
+        vx: 0,
+        vy: 0,
+        pulse: rand(0, Math.PI * 2),
+        r: accent ? rand(2.1, 2.8) : rand(1.4, 1.9),
+        color: accent ? (cyan ? "0,212,255" : "255,78,205") : "215,228,242",
+        radiusBias: radiusBias || 1
+      };
+    }
+
+    function buildScene() {
+      const layout = getClusterLayout();
+
+      clusters = layout.map((item, index) => {
+        const cluster = {
+          index,
+          baseX: item.x,
+          baseY: item.y,
+          x: item.x,
+          y: item.y,
+          spread: item.spread,
+          count: item.count,
+          ampX: rand(5, 16),
+          ampY: rand(5, 16),
+          phaseX: rand(0, Math.PI * 2),
+          phaseY: rand(0, Math.PI * 2),
+          nodes: []
+        };
+
+        for (let i = 0; i < item.count; i++) {
+          cluster.nodes.push(makeNode(cluster, 1));
+        }
+
+        return cluster;
+      });
+
+      bridgePairs = [];
+      for (let i = 0; i < clusters.length; i++) {
+        for (let j = i + 1; j < clusters.length; j++) {
+          const a = clusters[i];
+          const b = clusters[j];
+          const centerDistance = Math.hypot(a.baseX - b.baseX, a.baseY - b.baseY);
+
+          if (centerDistance < Math.min(width, height) * 0.42) {
+            bridgePairs.push([i, j]);
+          }
+        }
+      }
+
+      strayNodes = [];
+      const strayCount = width < 700 ? 3 : 6;
+
+      for (let i = 0; i < strayCount; i++) {
+        const leftSide = i % 2 === 0;
+        strayNodes.push({
+          x: leftSide ? rand(20, width * 0.22) : rand(width * 0.78, width - 20),
+          y: rand(20, height - 20),
+          vx: prefersReducedMotion ? 0 : rand(-0.08, 0.08),
+          vy: prefersReducedMotion ? 0 : rand(-0.08, 0.08),
+          r: rand(1.8, 2.6),
+          color: Math.random() > 0.5 ? "255,78,205" : "0,212,255"
         });
       }
     }
 
-    function updateNodes() {
-      for (const node of nodes) {
+    function updateScene() {
+      time += 0.01;
+
+      clusters.forEach((cluster) => {
+        cluster.x = cluster.baseX + Math.sin(time * 0.55 + cluster.phaseX) * cluster.ampX;
+        cluster.y = cluster.baseY + Math.cos(time * 0.48 + cluster.phaseY) * cluster.ampY;
+
+        cluster.nodes.forEach((node) => {
+          const tx =
+            cluster.x +
+            node.ox +
+            Math.cos(time * 1.4 + node.pulse) * 2.8 * node.radiusBias;
+
+          const ty =
+            cluster.y +
+            node.oy +
+            Math.sin(time * 1.2 + node.pulse) * 2.8 * node.radiusBias;
+
+          if (!prefersReducedMotion) {
+            node.vx += (tx - node.x) * 0.035;
+            node.vy += (ty - node.y) * 0.035;
+            node.vx *= 0.86;
+            node.vy *= 0.86;
+            node.x += node.vx;
+            node.y += node.vy;
+          } else {
+            node.x = tx;
+            node.y = ty;
+          }
+        });
+      });
+
+      strayNodes.forEach((node) => {
+        if (prefersReducedMotion) return;
+
         node.x += node.vx;
         node.y += node.vy;
 
-        if (node.x <= 0 || node.x >= width) node.vx *= -1;
-        if (node.y <= 0 || node.y >= height) node.vy *= -1;
-      }
+        if (node.x < 8 || node.x > width - 8) node.vx *= -1;
+        if (node.y < 8 || node.y > height - 8) node.vy *= -1;
+      });
+    }
+
+    function findNearestNode(clusterA, clusterB) {
+      let bestA = null;
+      let bestB = null;
+      let bestD = Infinity;
+
+      clusterA.nodes.forEach((a) => {
+        clusterB.nodes.forEach((b) => {
+          const d = dist(a, b);
+          if (d < bestD) {
+            bestD = d;
+            bestA = a;
+            bestB = b;
+          }
+        });
+      });
+
+      return { a: bestA, b: bestB, d: bestD };
+    }
+
+    function drawLine(a, b, alpha, widthPx) {
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.strokeStyle = `rgba(0, 212, 255, ${alpha})`;
+      ctx.lineWidth = widthPx;
+      ctx.stroke();
     }
 
     function drawBackgroundGlow() {
-      const gradient = ctx.createRadialGradient(
-        width * 0.52,
-        height * 0.42,
+      const g = ctx.createRadialGradient(
+        width * 0.5,
+        height * 0.5,
         0,
-        width * 0.52,
-        height * 0.42,
-        Math.max(width, height) * 0.55
+        width * 0.5,
+        height * 0.5,
+        Math.max(width, height) * 0.6
       );
-      gradient.addColorStop(0, "rgba(0, 212, 255, 0.035)");
-      gradient.addColorStop(0.45, "rgba(255, 78, 205, 0.02)");
-      gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
-      ctx.fillStyle = gradient;
+      g.addColorStop(0, "rgba(0, 212, 255, 0.025)");
+      g.addColorStop(0.45, "rgba(255, 78, 205, 0.018)");
+      g.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+      ctx.fillStyle = g;
       ctx.fillRect(0, 0, width, height);
     }
 
-    function drawConnections() {
-      const maxDistance = width < 700 ? 120 : 155;
+    function drawClusterConnections() {
+      clusters.forEach((cluster) => {
+        const nodes = cluster.nodes;
 
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
+        for (let i = 0; i < nodes.length; i++) {
           const a = nodes[i];
-          const b = nodes[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+          const neighbors = [];
 
-          if (distance < maxDistance) {
-            const alpha = 1 - distance / maxDistance;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(70, 150, 210, ${alpha * 0.18})`;
-            ctx.lineWidth = 1;
-            ctx.stroke();
+          for (let j = 0; j < nodes.length; j++) {
+            if (i === j) continue;
+            neighbors.push({ node: nodes[j], d: dist(a, nodes[j]) });
           }
+
+          neighbors.sort((m, n) => m.d - n.d);
+
+          const nearest = neighbors.slice(0, 3);
+          nearest.forEach(({ node: b, d }) => {
+            const alpha = Math.max(0.12, 1 - d / (cluster.spread * 2.4)) * 0.45;
+            drawLine(a, b, alpha, 1);
+          });
         }
-      }
+      });
+    }
+
+    function drawBridges() {
+      bridgePairs.forEach(([i, j]) => {
+        const nearest = findNearestNode(clusters[i], clusters[j]);
+        if (!nearest.a || !nearest.b) return;
+
+        const alpha = nearest.d < 220 ? 0.16 : 0.08;
+        drawLine(nearest.a, nearest.b, alpha, 1);
+      });
     }
 
     function drawNodes() {
-      for (const node of nodes) {
+      const allNodes = [
+        ...clusters.flatMap((cluster) => cluster.nodes),
+        ...strayNodes
+      ];
+
+      allNodes.forEach((node) => {
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.r * 2.3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${node.color}, 0.06)`;
+        ctx.fill();
+
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${node.color}, 0.95)`;
+        ctx.fillStyle = `rgba(${node.color}, 0.98)`;
         ctx.fill();
-      }
+      });
     }
 
     function render() {
       ctx.clearRect(0, 0, width, height);
       drawBackgroundGlow();
-      if (!prefersReducedMotion) updateNodes();
-      drawConnections();
+      updateScene();
+      drawClusterConnections();
+      drawBridges();
       drawNodes();
-      animationFrameId = window.requestAnimationFrame(render);
+      rafId = requestAnimationFrame(render);
     }
 
-    resizeCanvas();
-    render();
-
-    window.addEventListener("resize", function () {
-      window.cancelAnimationFrame(animationFrameId);
-      resizeCanvas();
+    function init() {
+      cancelAnimationFrame(rafId);
+      setCanvasSize();
+      buildScene();
       render();
-    });
+    }
+
+    window.addEventListener("resize", init);
+    init();
   })();
 </script>
