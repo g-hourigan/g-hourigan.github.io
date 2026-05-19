@@ -542,14 +542,14 @@ permalink: /
   };
 
   const CONFIG = {
-    mobileBreakpoint: 760,
-    pointerLerp: 0.18,
-    nodeLerp: 0.14,
-    cursorRadius: 190,
-    cursorLineRadius: 170,
-    maxPull: 18,
-    clusterNeighborCount: 2
-  };
+  mobileBreakpoint: 760,
+  pointerLerp: 0.18,
+  nodeLerp: 0.14,
+  cursorRadius: 190,
+  cursorLineRadius: 170,
+  maxPull: 24,
+  clusterNeighborCount: 4
+};
 
   function setup() {
     const parent = document.getElementById("p5-network-bg");
