@@ -69,7 +69,7 @@ permalink: /
     z-index: 0;
     pointer-events: none;
     opacity: 1;
-    filter: saturate(1.15) brightness(1.08);
+    filter: saturate(1.1) brightness(1.04);
   }
 
   #p5-network-bg canvas {
@@ -413,7 +413,7 @@ permalink: /
     <h1 class="hero-title">Gerrit Hourigan</h1>
 
     <p class="hero-subtitle">
-      Psychology, behavioral data, cognitive science, and quantitative research.
+      Psychology, cognition, behavioral data, and quantitative research.
     </p>
 
     <div class="hero-links">
@@ -531,7 +531,9 @@ permalink: /
 <script>
   let nodes = [];
   let edges = [];
-  let pointer = {
+  let pointerBound = false;
+
+  const pointer = {
     x: 0,
     y: 0,
     tx: 0,
@@ -541,13 +543,12 @@ permalink: /
 
   const CONFIG = {
     mobileBreakpoint: 760,
-    cursorRadius: 220,
-    cursorPull: 26,
-    cursorLineRadius: 190,
-    nodeLerp: 0.07,
     pointerLerp: 0.18,
-    glowNodeScale: 3.8,
-    glowStrength: 1.0
+    nodeLerp: 0.14,
+    cursorRadius: 190,
+    cursorLineRadius: 170,
+    maxPull: 18,
+    clusterNeighborCount: 2
   };
 
   function setup() {
@@ -558,7 +559,11 @@ permalink: /
     noFill();
     strokeCap(ROUND);
     buildScene();
-    bindPointerEvents();
+
+    if (!pointerBound) {
+      bindPointerEvents();
+      pointerBound = true;
+    }
   }
 
   function windowResized() {
@@ -569,7 +574,7 @@ permalink: /
   function draw() {
     clear();
     updatePointer();
-    updateNodes();
+    updateNodePositions();
     drawBackgroundGlow();
     drawEdges();
     drawPointerLines();
@@ -577,38 +582,38 @@ permalink: /
   }
 
   function bindPointerEvents() {
-    window.addEventListener("mousemove", (e) => {
+    window.addEventListener("pointermove", (e) => {
       pointer.tx = e.clientX;
       pointer.ty = e.clientY;
+
       if (!pointer.active) {
         pointer.x = e.clientX;
         pointer.y = e.clientY;
       }
+
       pointer.active = true;
     });
 
-    window.addEventListener("mouseleave", () => {
+    window.addEventListener("pointerdown", (e) => {
+      pointer.tx = e.clientX;
+      pointer.ty = e.clientY;
+      pointer.x = e.clientX;
+      pointer.y = e.clientY;
+      pointer.active = true;
+    });
+
+    document.addEventListener("pointerleave", () => {
       pointer.active = false;
     });
 
-    window.addEventListener("touchstart", (e) => {
-      if (!e.touches || !e.touches[0]) return;
-      pointer.tx = e.touches[0].clientX;
-      pointer.ty = e.touches[0].clientY;
-      pointer.x = pointer.tx;
-      pointer.y = pointer.ty;
-      pointer.active = true;
-    }, { passive: true });
-
-    window.addEventListener("touchmove", (e) => {
-      if (!e.touches || !e.touches[0]) return;
-      pointer.tx = e.touches[0].clientX;
-      pointer.ty = e.touches[0].clientY;
-      pointer.active = true;
-    }, { passive: true });
-
-    window.addEventListener("touchend", () => {
+    window.addEventListener("pointercancel", () => {
       pointer.active = false;
+    });
+
+    window.addEventListener("mouseout", (e) => {
+      if (!e.relatedTarget && !e.toElement) {
+        pointer.active = false;
+      }
     });
   }
 
@@ -624,28 +629,28 @@ permalink: /
 
     const mobile = width < CONFIG.mobileBreakpoint;
 
-    const clusters = mobile
+    const clusterDefs = mobile
       ? [
-          { x: width * 0.08, y: height * 0.76, count: 8, spread: 34 },
-          { x: width * 0.92, y: height * 0.22, count: 10, spread: 44 },
-          { x: width * 0.90, y: height * 0.58, count: 7, spread: 32 }
+          { x: width * 0.08, y: height * 0.76, count: 7, spread: 30 },
+          { x: width * 0.92, y: height * 0.22, count: 9, spread: 40 },
+          { x: width * 0.90, y: height * 0.58, count: 6, spread: 30 }
         ]
       : [
-          { x: width * 0.07, y: height * 0.76, count: 9, spread: 34 },
-          { x: width * 0.14, y: height * 0.30, count: 5, spread: 24 },
-          { x: width * 0.93, y: height * 0.18, count: 11, spread: 52 },
-          { x: width * 0.90, y: height * 0.54, count: 8, spread: 36 },
-          { x: width * 0.76, y: height * 0.91, count: 6, spread: 30 }
+          { x: width * 0.07, y: height * 0.76, count: 8, spread: 30 },
+          { x: width * 0.14, y: height * 0.30, count: 4, spread: 22 },
+          { x: width * 0.93, y: height * 0.18, count: 10, spread: 48 },
+          { x: width * 0.90, y: height * 0.54, count: 7, spread: 34 },
+          { x: width * 0.76, y: height * 0.91, count: 5, spread: 28 }
         ];
 
-    const clusterNodeGroups = [];
+    const groups = [];
 
-    for (const cluster of clusters) {
+    for (const cluster of clusterDefs) {
       const group = [];
 
       for (let i = 0; i < cluster.count; i++) {
         const angle = random(TWO_PI);
-        const radius = random(cluster.spread * 0.18, cluster.spread);
+        const radius = random(cluster.spread * 0.2, cluster.spread);
         const accent = random() > 0.72;
         const cyan = random() > 0.5;
 
@@ -653,46 +658,40 @@ permalink: /
         const homeY = cluster.y + sin(angle) * radius;
 
         const node = {
-          x: homeX,
-          y: homeY,
           homeX,
           homeY,
-          driftPhase: random(TWO_PI),
-          driftAmp: random(1.2, 3.2),
-          r: accent ? random(2.0, 2.8) : random(1.25, 1.8),
+          x: homeX,
+          y: homeY,
+          phaseX: random(TWO_PI),
+          phaseY: random(TWO_PI),
+          driftX: random(0.8, 2.4),
+          driftY: random(0.8, 2.4),
+          r: accent ? random(2.0, 2.8) : random(1.2, 1.7),
           color: accent
             ? (cyan ? [0, 212, 255] : [255, 78, 205])
             : [214, 225, 240]
         };
 
-        nodes.push(node);
-        group.push(node);
+        const idx = nodes.push(node) - 1;
+        group.push(idx);
       }
 
-      clusterNodeGroups.push(group);
+      groups.push(group);
     }
 
-    for (const group of clusterNodeGroups) {
-      const groupEdges = buildUniqueNearestEdges(group, 3);
-      edges.push(...groupEdges.map(([a, b]) => ({
-        a,
-        b,
-        type: "cluster",
-        color: [0, 212, 255]
-      })));
+    for (const group of groups) {
+      const groupEdges = buildGroupEdges(group, CONFIG.clusterNeighborCount);
+      edges.push(...groupEdges);
     }
 
-    for (let i = 0; i < clusterNodeGroups.length; i++) {
-      for (let j = i + 1; j < clusterNodeGroups.length; j++) {
-        const aGroup = clusterNodeGroups[i];
-        const bGroup = clusterNodeGroups[j];
+    for (let i = 0; i < groups.length; i++) {
+      for (let j = i + 1; j < groups.length; j++) {
+        const centerA = getGroupCenter(groups[i]);
+        const centerB = getGroupCenter(groups[j]);
+        const d = Math.hypot(centerA.x - centerB.x, centerA.y - centerB.y);
 
-        const centerA = getGroupCenter(aGroup);
-        const centerB = getGroupCenter(bGroup);
-        const centerDist = dist(centerA.x, centerA.y, centerB.x, centerB.y);
-
-        if (centerDist < min(width, height) * 0.44) {
-          const pair = findClosestPair(aGroup, bGroup);
+        if (d < Math.min(width, height) * 0.42) {
+          const pair = findClosestPair(groups[i], groups[j]);
           if (pair) {
             edges.push({
               a: pair[0],
@@ -705,83 +704,97 @@ permalink: /
       }
     }
 
-    const strayCount = mobile ? 3 : 5;
+    const strayCount = mobile ? 2 : 4;
+
     for (let i = 0; i < strayCount; i++) {
       const x = i % 2 === 0
         ? random(24, width * 0.22)
         : random(width * 0.78, width - 24);
 
       const y = random(24, height - 24);
-      const color = random() > 0.5 ? [255, 78, 205] : [0, 212, 255];
 
       nodes.push({
-        x,
-        y,
         homeX: x,
         homeY: y,
-        driftPhase: random(TWO_PI),
-        driftAmp: random(1.0, 2.2),
-        r: random(1.7, 2.4),
-        color
+        x,
+        y,
+        phaseX: random(TWO_PI),
+        phaseY: random(TWO_PI),
+        driftX: random(0.6, 1.6),
+        driftY: random(0.6, 1.6),
+        r: random(1.6, 2.2),
+        color: random() > 0.5 ? [255, 78, 205] : [0, 212, 255]
       });
     }
   }
 
-  function buildUniqueNearestEdges(group, k) {
-    const unique = new Set();
-    const out = [];
+  function buildGroupEdges(group, k) {
+    const found = new Set();
+    const result = [];
 
-    for (let i = 0; i < group.length; i++) {
-      const a = group[i];
-      const neighbors = [];
+    for (const aIdx of group) {
+      const candidates = [];
 
-      for (let j = 0; j < group.length; j++) {
-        if (i === j) continue;
-        const b = group[j];
-        neighbors.push({
-          node: b,
-          d: dist(a.x, a.y, b.x, b.y)
-        });
+      for (const bIdx of group) {
+        if (aIdx === bIdx) continue;
+
+        const a = nodes[aIdx];
+        const b = nodes[bIdx];
+        const d = Math.hypot(a.homeX - b.homeX, a.homeY - b.homeY);
+
+        candidates.push({ idx: bIdx, d });
       }
 
-      neighbors.sort((m, n) => m.d - n.d);
+      candidates.sort((m, n) => m.d - n.d);
 
-      for (const item of neighbors.slice(0, k)) {
-        const b = item.node;
-        const ia = nodes.indexOf(a);
-        const ib = nodes.indexOf(b);
-        const key = ia < ib ? `${ia}-${ib}` : `${ib}-${ia}`;
+      for (const candidate of candidates.slice(0, k)) {
+        const low = Math.min(aIdx, candidate.idx);
+        const high = Math.max(aIdx, candidate.idx);
+        const key = `${low}-${high}`;
 
-        if (!unique.has(key)) {
-          unique.add(key);
-          out.push([a, b]);
+        if (!found.has(key)) {
+          found.add(key);
+          result.push({
+            a: low,
+            b: high,
+            type: "cluster",
+            color: [0, 212, 255]
+          });
         }
       }
     }
 
-    return out;
+    return result;
   }
 
   function getGroupCenter(group) {
     let sx = 0;
     let sy = 0;
-    for (const node of group) {
-      sx += node.homeX;
-      sy += node.homeY;
+
+    for (const idx of group) {
+      sx += nodes[idx].homeX;
+      sy += nodes[idx].homeY;
     }
-    return { x: sx / group.length, y: sy / group.length };
+
+    return {
+      x: sx / group.length,
+      y: sy / group.length
+    };
   }
 
   function findClosestPair(groupA, groupB) {
     let best = null;
     let bestD = Infinity;
 
-    for (const a of groupA) {
-      for (const b of groupB) {
-        const d = dist(a.homeX, a.homeY, b.homeX, b.homeY);
+    for (const aIdx of groupA) {
+      for (const bIdx of groupB) {
+        const a = nodes[aIdx];
+        const b = nodes[bIdx];
+        const d = Math.hypot(a.homeX - b.homeX, a.homeY - b.homeY);
+
         if (d < bestD) {
           bestD = d;
-          best = [a, b];
+          best = [aIdx, bIdx];
         }
       }
     }
@@ -789,25 +802,23 @@ permalink: /
     return best;
   }
 
-  function updateNodes() {
+  function updateNodePositions() {
     const t = millis() * 0.001;
 
     for (const node of nodes) {
-      const driftX = cos(t * 0.9 + node.driftPhase) * node.driftAmp;
-      const driftY = sin(t * 0.8 + node.driftPhase) * node.driftAmp;
-
-      let targetX = node.homeX + driftX;
-      let targetY = node.homeY + driftY;
+      let targetX = node.homeX + Math.cos(t * 0.75 + node.phaseX) * node.driftX;
+      let targetY = node.homeY + Math.sin(t * 0.82 + node.phaseY) * node.driftY;
 
       if (pointer.active) {
-        const dx = pointer.x - node.x;
-        const dy = pointer.y - node.y;
-        const d = sqrt(dx * dx + dy * dy);
+        const dx = pointer.x - targetX;
+        const dy = pointer.y - targetY;
+        const d = Math.hypot(dx, dy);
 
         if (d < CONFIG.cursorRadius && d > 0.001) {
           const influence = 1 - d / CONFIG.cursorRadius;
-          targetX += (dx / d) * influence * CONFIG.cursorPull;
-          targetY += (dy / d) * influence * CONFIG.cursorPull;
+          const pull = influence * influence * CONFIG.maxPull;
+          targetX += (dx / d) * pull;
+          targetY += (dy / d) * pull;
         }
       }
 
@@ -819,62 +830,38 @@ permalink: /
   function drawBackgroundGlow() {
     noStroke();
 
-    fill(0, 212, 255, 5);
+    fill(0, 212, 255, 4);
     circle(width * 0.50, height * 0.50, max(width, height) * 0.84);
 
-    fill(255, 78, 205, 3);
+    fill(255, 78, 205, 2);
     circle(width * 0.53, height * 0.47, max(width, height) * 0.62);
 
     fill(0, 212, 255, 2);
-    circle(width * 0.46, height * 0.55, max(width, height) * 1.04);
+    circle(width * 0.46, height * 0.55, max(width, height) * 1.02);
   }
 
   function drawEdges() {
     for (const edge of edges) {
-      const d = dist(edge.a.x, edge.a.y, edge.b.x, edge.b.y);
-
-      let alpha = 0.28;
-      let glow = 0.10;
-      let coreWeight = 1;
-      let glowWeight = 2.2;
+      const a = nodes[edge.a];
+      const b = nodes[edge.b];
+      const d = Math.hypot(a.x - b.x, a.y - b.y);
 
       if (edge.type === "cluster") {
-        const fade = constrain(1 - d / 120, 0.15, 1);
-        alpha = 0.34 * fade;
-        glow = 0.14 * fade;
+        const fade = constrain(1 - d / 120, 0.12, 1);
+        drawSoftLine(a.x, a.y, b.x, b.y, edge.color, 26 * fade, 74 * fade, 2.2, 1);
+      } else {
+        drawSoftLine(a.x, a.y, b.x, b.y, edge.color, 14, 52, 1.8, 1);
       }
-
-      if (edge.type === "bridge") {
-        alpha = 0.22;
-        glow = 0.08;
-        glowWeight = 1.9;
-      }
-
-      drawGlowLine(
-        edge.a.x,
-        edge.a.y,
-        edge.b.x,
-        edge.b.y,
-        edge.color,
-        alpha,
-        glow,
-        coreWeight,
-        glowWeight
-      );
     }
   }
 
-  function drawGlowLine(x1, y1, x2, y2, col, alphaCore, alphaGlow, coreWeight, glowWeight) {
-    push();
-    drawingContext.shadowBlur = 10;
-    drawingContext.shadowColor = `rgba(${col[0]}, ${col[1]}, ${col[2]}, ${alphaGlow})`;
-    stroke(col[0], col[1], col[2], alphaGlow * 255);
-    strokeWeight(glowWeight);
+  function drawSoftLine(x1, y1, x2, y2, color, outerAlpha, innerAlpha, outerWeight, innerWeight) {
+    stroke(color[0], color[1], color[2], outerAlpha);
+    strokeWeight(outerWeight);
     line(x1, y1, x2, y2);
-    pop();
 
-    stroke(col[0], col[1], col[2], alphaCore * 255);
-    strokeWeight(coreWeight);
+    stroke(color[0], color[1], color[2], innerAlpha);
+    strokeWeight(innerWeight);
     line(x1, y1, x2, y2);
   }
 
@@ -884,22 +871,21 @@ permalink: /
     let nearby = 0;
 
     for (const node of nodes) {
-      const d = dist(pointer.x, pointer.y, node.x, node.y);
+      const d = Math.hypot(pointer.x - node.x, pointer.y - node.y);
 
       if (d < CONFIG.cursorLineRadius) {
         nearby += 1;
         const fade = 1 - d / CONFIG.cursorLineRadius;
-
-        drawGlowLine(
+        drawSoftLine(
           pointer.x,
           pointer.y,
           node.x,
           node.y,
           node.color,
-          0.40 * fade,
-          0.18 * fade,
-          1,
-          2.6
+          24 * fade,
+          110 * fade,
+          2.4,
+          1
         );
       }
     }
@@ -907,18 +893,11 @@ permalink: /
     if (nearby > 0) {
       noStroke();
 
-      push();
-      drawingContext.shadowBlur = 16;
-      drawingContext.shadowColor = "rgba(0,212,255,0.75)";
-      fill(255, 255, 255, 235);
-      circle(pointer.x, pointer.y, 6);
-      pop();
+      fill(0, 212, 255, 10);
+      circle(pointer.x, pointer.y, 44);
 
-      fill(0, 212, 255, 16);
-      circle(pointer.x, pointer.y, 28);
-
-      fill(0, 212, 255, 7);
-      circle(pointer.x, pointer.y, 52);
+      fill(255, 255, 255, 230);
+      circle(pointer.x, pointer.y, 5.5);
     }
   }
 
@@ -926,15 +905,11 @@ permalink: /
     noStroke();
 
     for (const node of nodes) {
-      fill(node.color[0], node.color[1], node.color[2], 14 * CONFIG.glowStrength);
-      circle(node.x, node.y, node.r * CONFIG.glowNodeScale);
+      fill(node.color[0], node.color[1], node.color[2], 12);
+      circle(node.x, node.y, node.r * 5.2);
 
-      push();
-      drawingContext.shadowBlur = 10;
-      drawingContext.shadowColor = `rgba(${node.color[0]}, ${node.color[1]}, ${node.color[2]}, 0.8)`;
       fill(node.color[0], node.color[1], node.color[2], 245);
       circle(node.x, node.y, node.r * 2);
-      pop();
     }
   }
 </script>
