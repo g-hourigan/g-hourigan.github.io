@@ -68,7 +68,8 @@ permalink: /
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    opacity: 0.98;
+    opacity: 1;
+    filter: saturate(1.15) brightness(1.08);
   }
 
   #p5-network-bg canvas {
@@ -533,15 +534,21 @@ permalink: /
   let bridgePairs = [];
   let pointerActive = false;
 
+  const CURSOR_RADIUS = 240;
+  const CURSOR_PULL = 0.085;
+  const CURSOR_CONNECTION_RADIUS = 220;
+
   function setup() {
     const parent = document.getElementById("p5-network-bg");
     const cnv = createCanvas(windowWidth, windowHeight);
     cnv.parent(parent);
     noFill();
+    pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
   }
 
   function draw() {
     clear();
+
     if (!clusters.length) {
       buildScene();
     }
@@ -572,13 +579,13 @@ permalink: /
     const layout = mobile
       ? [
           { x: width * 0.08, y: height * 0.74, count: 9, spread: 36 },
-          { x: width * 0.92, y: height * 0.20, count: 11, spread: 46 },
+          { x: width * 0.92, y: height * 0.20, count: 11, spread: 48 },
           { x: width * 0.90, y: height * 0.58, count: 8, spread: 34 }
         ]
       : [
           { x: width * 0.06, y: height * 0.74, count: 10, spread: 36 },
           { x: width * 0.13, y: height * 0.26, count: 6, spread: 26 },
-          { x: width * 0.94, y: height * 0.18, count: 12, spread: 54 },
+          { x: width * 0.94, y: height * 0.18, count: 12, spread: 56 },
           { x: width * 0.91, y: height * 0.53, count: 9, spread: 40 },
           { x: width * 0.76, y: height * 0.92, count: 7, spread: 34 }
         ];
@@ -614,7 +621,7 @@ permalink: /
           vy: 0,
           phase: random(TWO_PI),
           wobble: random(1.2, 3.2),
-          r: accent ? random(2.0, 2.8) : random(1.25, 1.8),
+          r: accent ? random(2.1, 2.9) : random(1.3, 1.9),
           color: accent
             ? (cyan ? [0, 212, 255] : [255, 78, 205])
             : [214, 225, 240]
@@ -644,7 +651,7 @@ permalink: /
         y: random(24, height - 24),
         vx: random(-0.08, 0.08),
         vy: random(-0.08, 0.08),
-        r: random(1.7, 2.4),
+        r: random(1.8, 2.6),
         color: random() > 0.5 ? [255, 78, 205] : [0, 212, 255]
       });
     }
@@ -652,14 +659,15 @@ permalink: /
 
   function drawBackgroundGlow() {
     noStroke();
-    fill(0, 212, 255, 5);
-    circle(width * 0.5, height * 0.5, max(width, height) * 0.78);
 
-    fill(255, 78, 205, 3);
-    circle(width * 0.52, height * 0.48, max(width, height) * 0.58);
+    fill(0, 212, 255, 6);
+    circle(width * 0.5, height * 0.5, max(width, height) * 0.82);
 
-    fill(0, 212, 255, 2);
-    circle(width * 0.48, height * 0.52, max(width, height) * 0.95);
+    fill(255, 78, 205, 4);
+    circle(width * 0.52, height * 0.47, max(width, height) * 0.60);
+
+    fill(0, 212, 255, 3);
+    circle(width * 0.47, height * 0.54, max(width, height) * 1.02);
   }
 
   function updateClusters(t) {
@@ -679,15 +687,18 @@ permalink: /
           const dy = mouseY - node.y;
           const d = sqrt(dx * dx + dy * dy);
 
-          if (d < 185 && d > 0.001) {
-            const pull = (1 - d / 185) * 0.045;
-            node.vx += dx * pull * 0.02;
-            node.vy += dy * pull * 0.02;
+          if (d < CURSOR_RADIUS && d > 0.001) {
+            const falloff = 1 - d / CURSOR_RADIUS;
+            const pull = falloff * CURSOR_PULL;
+
+            node.vx += dx * pull * 0.035;
+            node.vy += dy * pull * 0.035;
           }
         }
 
-        node.vx *= 0.885;
-        node.vy *= 0.885;
+        node.vx *= 0.89;
+        node.vy *= 0.89;
+
         node.x += node.vx;
         node.y += node.vy;
       }
@@ -704,9 +715,21 @@ permalink: /
     }
   }
 
-  function drawClusterConnections() {
-    strokeWeight(1);
+  function drawGlowLine(x1, y1, x2, y2, col, alphaCore, alphaGlow, coreWeight, glowWeight) {
+    push();
+    drawingContext.shadowBlur = 16;
+    drawingContext.shadowColor = `rgba(${col[0]}, ${col[1]}, ${col[2]}, ${alphaGlow / 255})`;
+    stroke(col[0], col[1], col[2], alphaGlow);
+    strokeWeight(glowWeight);
+    line(x1, y1, x2, y2);
+    pop();
 
+    stroke(col[0], col[1], col[2], alphaCore);
+    strokeWeight(coreWeight);
+    line(x1, y1, x2, y2);
+  }
+
+  function drawClusterConnections() {
     for (const cluster of clusters) {
       for (let i = 0; i < cluster.nodes.length; i++) {
         const a = cluster.nodes[i];
@@ -725,9 +748,18 @@ permalink: /
         neighbors.sort((m, n) => m.d - n.d);
 
         for (const item of neighbors.slice(0, 3)) {
-          const alpha = max(0.1, 1 - item.d / (cluster.spread * 2.4)) * 110;
-          stroke(0, 212, 255, alpha);
-          line(a.x, a.y, item.node.x, item.node.y);
+          const alpha = max(0.1, 1 - item.d / (cluster.spread * 2.4));
+          drawGlowLine(
+            a.x,
+            a.y,
+            item.node.x,
+            item.node.y,
+            [0, 212, 255],
+            80 * alpha,
+            42 * alpha,
+            1,
+            2.6
+          );
         }
       }
     }
@@ -754,8 +786,18 @@ permalink: /
       }
 
       if (bestA && bestB) {
-        stroke(0, 212, 255, bestD < 220 ? 48 : 20);
-        line(bestA.x, bestA.y, bestB.x, bestB.y);
+        const alpha = bestD < 220 ? 1 : 0.45;
+        drawGlowLine(
+          bestA.x,
+          bestA.y,
+          bestB.x,
+          bestB.y,
+          [0, 212, 255],
+          70 * alpha,
+          34 * alpha,
+          1,
+          2.2
+        );
       }
     }
   }
@@ -773,21 +815,39 @@ permalink: /
     for (const node of allNodes) {
       const d = dist(mouseX, mouseY, node.x, node.y);
 
-      if (d < 175) {
+      if (d < CURSOR_CONNECTION_RADIUS) {
         nearby++;
-        const alpha = (1 - d / 175) * 128;
-        stroke(node.color[0], node.color[1], node.color[2], alpha);
-        line(mouseX, mouseY, node.x, node.y);
+        const alpha = 1 - d / CURSOR_CONNECTION_RADIUS;
+
+        drawGlowLine(
+          mouseX,
+          mouseY,
+          node.x,
+          node.y,
+          node.color,
+          130 * alpha,
+          65 * alpha,
+          1,
+          2.8
+        );
       }
     }
 
     if (nearby > 0) {
       noStroke();
-      fill(255, 255, 255, 230);
-      circle(mouseX, mouseY, 6);
 
-      fill(0, 212, 255, 16);
+      push();
+      drawingContext.shadowBlur = 18;
+      drawingContext.shadowColor = "rgba(0,212,255,0.9)";
+      fill(255, 255, 255, 240);
+      circle(mouseX, mouseY, 6.5);
+      pop();
+
+      fill(0, 212, 255, 18);
       circle(mouseX, mouseY, 28);
+
+      fill(0, 212, 255, 8);
+      circle(mouseX, mouseY, 52);
     }
   }
 
@@ -800,11 +860,15 @@ permalink: /
     noStroke();
 
     for (const node of allNodes) {
-      fill(node.color[0], node.color[1], node.color[2], 16);
-      circle(node.x, node.y, node.r * 4.8);
+      fill(node.color[0], node.color[1], node.color[2], 18);
+      circle(node.x, node.y, node.r * 5.8);
 
+      push();
+      drawingContext.shadowBlur = 14;
+      drawingContext.shadowColor = `rgba(${node.color[0]}, ${node.color[1]}, ${node.color[2]}, 0.9)`;
       fill(node.color[0], node.color[1], node.color[2], 250);
-      circle(node.x, node.y, node.r * 2);
+      circle(node.x, node.y, node.r * 2.15);
+      pop();
     }
   }
 
