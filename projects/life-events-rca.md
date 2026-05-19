@@ -405,9 +405,7 @@ permalink: /projects/life-events-rca/
         <h1>Life Events and Climate Action Readiness</h1>
         <p class="project-subtitle">
           This project asks whether recent life events help explain later change in readiness
-          to act on climate change. The outcome matters because readiness to act is meant to
-          capture a broad climate-action tendency spanning individual behavior, policy
-          acceptance, and political participation rather than only one isolated behavior. :contentReference[oaicite:4]{index=4}
+          to act on climate change. Readiness to Act (RTA) is a broad, trait-like tendency to engage in climate action across                    individual behavior, policy acceptance, and political participation. It is useful because it captures the shared core of               climate action without reducing the construct to only one specific behavior. Importantly, it has also been shown that RTA              is a strong predictor of actual behavior and outperforms several competing environmental constructs in explaining real                 climate-relevant action (Betsch et al., 2025).
         </p>
 
         <div class="project-meta">
@@ -430,7 +428,7 @@ permalink: /projects/life-events-rca/
             theory-guided life-event domains to exploratory structure analysis, then to a
             reduced confirmatory factor model and finally to latent change models. In the
             final stage, the broad exploratory life-events factor did not provide convincing
-            evidence of predicting later change in readiness. :contentReference[oaicite:5]{index=5}
+            evidence of predicting later change in readiness. 
           </p>
         </section>
 
