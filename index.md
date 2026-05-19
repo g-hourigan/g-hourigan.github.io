@@ -529,39 +529,36 @@ permalink: /
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
 <script>
-  let clusters = [];
-  let strayNodes = [];
-  let bridgePairs = [];
-  let pointerActive = false;
+  let nodes = [];
+  let edges = [];
+  let pointer = {
+    x: 0,
+    y: 0,
+    tx: 0,
+    ty: 0,
+    active: false
+  };
 
-  const CURSOR_RADIUS = 240;
-  const CURSOR_PULL = 0.085;
-  const CURSOR_CONNECTION_RADIUS = 220;
+  const CONFIG = {
+    mobileBreakpoint: 760,
+    cursorRadius: 220,
+    cursorPull: 26,
+    cursorLineRadius: 190,
+    nodeLerp: 0.07,
+    pointerLerp: 0.18,
+    glowNodeScale: 3.8,
+    glowStrength: 1.0
+  };
 
   function setup() {
     const parent = document.getElementById("p5-network-bg");
     const cnv = createCanvas(windowWidth, windowHeight);
     cnv.parent(parent);
-    noFill();
     pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-  }
-
-  function draw() {
-    clear();
-
-    if (!clusters.length) {
-      buildScene();
-    }
-
-    const t = millis() * 0.001;
-
-    drawBackgroundGlow();
-    updateClusters(t);
-    updateStrayNodes();
-    drawClusterConnections();
-    drawBridges();
-    drawPointerConnections();
-    drawNodes();
+    noFill();
+    strokeCap(ROUND);
+    buildScene();
+    bindPointerEvents();
   }
 
   function windowResized() {
@@ -569,266 +566,340 @@ permalink: /
     buildScene();
   }
 
+  function draw() {
+    clear();
+    updatePointer();
+    updateNodes();
+    drawBackgroundGlow();
+    drawEdges();
+    drawPointerLines();
+    drawNodes();
+  }
+
+  function bindPointerEvents() {
+    window.addEventListener("mousemove", (e) => {
+      pointer.tx = e.clientX;
+      pointer.ty = e.clientY;
+      if (!pointer.active) {
+        pointer.x = e.clientX;
+        pointer.y = e.clientY;
+      }
+      pointer.active = true;
+    });
+
+    window.addEventListener("mouseleave", () => {
+      pointer.active = false;
+    });
+
+    window.addEventListener("touchstart", (e) => {
+      if (!e.touches || !e.touches[0]) return;
+      pointer.tx = e.touches[0].clientX;
+      pointer.ty = e.touches[0].clientY;
+      pointer.x = pointer.tx;
+      pointer.y = pointer.ty;
+      pointer.active = true;
+    }, { passive: true });
+
+    window.addEventListener("touchmove", (e) => {
+      if (!e.touches || !e.touches[0]) return;
+      pointer.tx = e.touches[0].clientX;
+      pointer.ty = e.touches[0].clientY;
+      pointer.active = true;
+    }, { passive: true });
+
+    window.addEventListener("touchend", () => {
+      pointer.active = false;
+    });
+  }
+
+  function updatePointer() {
+    if (!pointer.active) return;
+    pointer.x = lerp(pointer.x, pointer.tx, CONFIG.pointerLerp);
+    pointer.y = lerp(pointer.y, pointer.ty, CONFIG.pointerLerp);
+  }
+
   function buildScene() {
-    clusters = [];
-    strayNodes = [];
-    bridgePairs = [];
+    nodes = [];
+    edges = [];
 
-    const mobile = windowWidth < 760;
+    const mobile = width < CONFIG.mobileBreakpoint;
 
-    const layout = mobile
+    const clusters = mobile
       ? [
-          { x: width * 0.08, y: height * 0.74, count: 9, spread: 36 },
-          { x: width * 0.92, y: height * 0.20, count: 11, spread: 48 },
-          { x: width * 0.90, y: height * 0.58, count: 8, spread: 34 }
+          { x: width * 0.08, y: height * 0.76, count: 8, spread: 34 },
+          { x: width * 0.92, y: height * 0.22, count: 10, spread: 44 },
+          { x: width * 0.90, y: height * 0.58, count: 7, spread: 32 }
         ]
       : [
-          { x: width * 0.06, y: height * 0.74, count: 10, spread: 36 },
-          { x: width * 0.13, y: height * 0.26, count: 6, spread: 26 },
-          { x: width * 0.94, y: height * 0.18, count: 12, spread: 56 },
-          { x: width * 0.91, y: height * 0.53, count: 9, spread: 40 },
-          { x: width * 0.76, y: height * 0.92, count: 7, spread: 34 }
+          { x: width * 0.07, y: height * 0.76, count: 9, spread: 34 },
+          { x: width * 0.14, y: height * 0.30, count: 5, spread: 24 },
+          { x: width * 0.93, y: height * 0.18, count: 11, spread: 52 },
+          { x: width * 0.90, y: height * 0.54, count: 8, spread: 36 },
+          { x: width * 0.76, y: height * 0.91, count: 6, spread: 30 }
         ];
 
-    for (let i = 0; i < layout.length; i++) {
-      const item = layout[i];
+    const clusterNodeGroups = [];
 
-      const cluster = {
-        baseX: item.x,
-        baseY: item.y,
-        x: item.x,
-        y: item.y,
-        spread: item.spread,
-        ampX: random(4, 14),
-        ampY: random(4, 14),
-        phaseX: random(TWO_PI),
-        phaseY: random(TWO_PI),
-        nodes: []
-      };
+    for (const cluster of clusters) {
+      const group = [];
 
-      for (let j = 0; j < item.count; j++) {
+      for (let i = 0; i < cluster.count; i++) {
         const angle = random(TWO_PI);
-        const radius = random(item.spread * 0.18, item.spread);
+        const radius = random(cluster.spread * 0.18, cluster.spread);
         const accent = random() > 0.72;
         const cyan = random() > 0.5;
 
-        cluster.nodes.push({
-          ox: cos(angle) * radius,
-          oy: sin(angle) * radius,
-          x: cluster.x,
-          y: cluster.y,
-          vx: 0,
-          vy: 0,
-          phase: random(TWO_PI),
-          wobble: random(1.2, 3.2),
-          r: accent ? random(2.1, 2.9) : random(1.3, 1.9),
+        const homeX = cluster.x + cos(angle) * radius;
+        const homeY = cluster.y + sin(angle) * radius;
+
+        const node = {
+          x: homeX,
+          y: homeY,
+          homeX,
+          homeY,
+          driftPhase: random(TWO_PI),
+          driftAmp: random(1.2, 3.2),
+          r: accent ? random(2.0, 2.8) : random(1.25, 1.8),
           color: accent
             ? (cyan ? [0, 212, 255] : [255, 78, 205])
             : [214, 225, 240]
-        });
+        };
+
+        nodes.push(node);
+        group.push(node);
       }
 
-      clusters.push(cluster);
+      clusterNodeGroups.push(group);
     }
 
-    for (let i = 0; i < clusters.length; i++) {
-      for (let j = i + 1; j < clusters.length; j++) {
-        const a = clusters[i];
-        const b = clusters[j];
-        const d = dist(a.baseX, a.baseY, b.baseX, b.baseY);
+    for (const group of clusterNodeGroups) {
+      const groupEdges = buildUniqueNearestEdges(group, 3);
+      edges.push(...groupEdges.map(([a, b]) => ({
+        a,
+        b,
+        type: "cluster",
+        color: [0, 212, 255]
+      })));
+    }
 
-        if (d < min(width, height) * 0.44) {
-          bridgePairs.push([i, j]);
+    for (let i = 0; i < clusterNodeGroups.length; i++) {
+      for (let j = i + 1; j < clusterNodeGroups.length; j++) {
+        const aGroup = clusterNodeGroups[i];
+        const bGroup = clusterNodeGroups[j];
+
+        const centerA = getGroupCenter(aGroup);
+        const centerB = getGroupCenter(bGroup);
+        const centerDist = dist(centerA.x, centerA.y, centerB.x, centerB.y);
+
+        if (centerDist < min(width, height) * 0.44) {
+          const pair = findClosestPair(aGroup, bGroup);
+          if (pair) {
+            edges.push({
+              a: pair[0],
+              b: pair[1],
+              type: "bridge",
+              color: [0, 212, 255]
+            });
+          }
         }
       }
     }
 
-    const strayCount = mobile ? 3 : 6;
-
+    const strayCount = mobile ? 3 : 5;
     for (let i = 0; i < strayCount; i++) {
-      strayNodes.push({
-        x: i % 2 === 0 ? random(24, width * 0.22) : random(width * 0.78, width - 24),
-        y: random(24, height - 24),
-        vx: random(-0.08, 0.08),
-        vy: random(-0.08, 0.08),
-        r: random(1.8, 2.6),
-        color: random() > 0.5 ? [255, 78, 205] : [0, 212, 255]
+      const x = i % 2 === 0
+        ? random(24, width * 0.22)
+        : random(width * 0.78, width - 24);
+
+      const y = random(24, height - 24);
+      const color = random() > 0.5 ? [255, 78, 205] : [0, 212, 255];
+
+      nodes.push({
+        x,
+        y,
+        homeX: x,
+        homeY: y,
+        driftPhase: random(TWO_PI),
+        driftAmp: random(1.0, 2.2),
+        r: random(1.7, 2.4),
+        color
       });
+    }
+  }
+
+  function buildUniqueNearestEdges(group, k) {
+    const unique = new Set();
+    const out = [];
+
+    for (let i = 0; i < group.length; i++) {
+      const a = group[i];
+      const neighbors = [];
+
+      for (let j = 0; j < group.length; j++) {
+        if (i === j) continue;
+        const b = group[j];
+        neighbors.push({
+          node: b,
+          d: dist(a.x, a.y, b.x, b.y)
+        });
+      }
+
+      neighbors.sort((m, n) => m.d - n.d);
+
+      for (const item of neighbors.slice(0, k)) {
+        const b = item.node;
+        const ia = nodes.indexOf(a);
+        const ib = nodes.indexOf(b);
+        const key = ia < ib ? `${ia}-${ib}` : `${ib}-${ia}`;
+
+        if (!unique.has(key)) {
+          unique.add(key);
+          out.push([a, b]);
+        }
+      }
+    }
+
+    return out;
+  }
+
+  function getGroupCenter(group) {
+    let sx = 0;
+    let sy = 0;
+    for (const node of group) {
+      sx += node.homeX;
+      sy += node.homeY;
+    }
+    return { x: sx / group.length, y: sy / group.length };
+  }
+
+  function findClosestPair(groupA, groupB) {
+    let best = null;
+    let bestD = Infinity;
+
+    for (const a of groupA) {
+      for (const b of groupB) {
+        const d = dist(a.homeX, a.homeY, b.homeX, b.homeY);
+        if (d < bestD) {
+          bestD = d;
+          best = [a, b];
+        }
+      }
+    }
+
+    return best;
+  }
+
+  function updateNodes() {
+    const t = millis() * 0.001;
+
+    for (const node of nodes) {
+      const driftX = cos(t * 0.9 + node.driftPhase) * node.driftAmp;
+      const driftY = sin(t * 0.8 + node.driftPhase) * node.driftAmp;
+
+      let targetX = node.homeX + driftX;
+      let targetY = node.homeY + driftY;
+
+      if (pointer.active) {
+        const dx = pointer.x - node.x;
+        const dy = pointer.y - node.y;
+        const d = sqrt(dx * dx + dy * dy);
+
+        if (d < CONFIG.cursorRadius && d > 0.001) {
+          const influence = 1 - d / CONFIG.cursorRadius;
+          targetX += (dx / d) * influence * CONFIG.cursorPull;
+          targetY += (dy / d) * influence * CONFIG.cursorPull;
+        }
+      }
+
+      node.x = lerp(node.x, targetX, CONFIG.nodeLerp);
+      node.y = lerp(node.y, targetY, CONFIG.nodeLerp);
     }
   }
 
   function drawBackgroundGlow() {
     noStroke();
 
-    fill(0, 212, 255, 6);
-    circle(width * 0.5, height * 0.5, max(width, height) * 0.82);
+    fill(0, 212, 255, 5);
+    circle(width * 0.50, height * 0.50, max(width, height) * 0.84);
 
-    fill(255, 78, 205, 4);
-    circle(width * 0.52, height * 0.47, max(width, height) * 0.60);
+    fill(255, 78, 205, 3);
+    circle(width * 0.53, height * 0.47, max(width, height) * 0.62);
 
-    fill(0, 212, 255, 3);
-    circle(width * 0.47, height * 0.54, max(width, height) * 1.02);
+    fill(0, 212, 255, 2);
+    circle(width * 0.46, height * 0.55, max(width, height) * 1.04);
   }
 
-  function updateClusters(t) {
-    for (const cluster of clusters) {
-      cluster.x = cluster.baseX + sin(t * 0.48 + cluster.phaseX) * cluster.ampX;
-      cluster.y = cluster.baseY + cos(t * 0.42 + cluster.phaseY) * cluster.ampY;
+  function drawEdges() {
+    for (const edge of edges) {
+      const d = dist(edge.a.x, edge.a.y, edge.b.x, edge.b.y);
 
-      for (const node of cluster.nodes) {
-        const tx = cluster.x + node.ox + cos(t * 1.18 + node.phase) * node.wobble;
-        const ty = cluster.y + node.oy + sin(t * 1.05 + node.phase) * node.wobble;
+      let alpha = 0.28;
+      let glow = 0.10;
+      let coreWeight = 1;
+      let glowWeight = 2.2;
 
-        node.vx += (tx - node.x) * 0.03;
-        node.vy += (ty - node.y) * 0.03;
-
-        if (pointerActive) {
-          const dx = mouseX - node.x;
-          const dy = mouseY - node.y;
-          const d = sqrt(dx * dx + dy * dy);
-
-          if (d < CURSOR_RADIUS && d > 0.001) {
-            const falloff = 1 - d / CURSOR_RADIUS;
-            const pull = falloff * CURSOR_PULL;
-
-            node.vx += dx * pull * 0.035;
-            node.vy += dy * pull * 0.035;
-          }
-        }
-
-        node.vx *= 0.89;
-        node.vy *= 0.89;
-
-        node.x += node.vx;
-        node.y += node.vy;
+      if (edge.type === "cluster") {
+        const fade = constrain(1 - d / 120, 0.15, 1);
+        alpha = 0.34 * fade;
+        glow = 0.14 * fade;
       }
-    }
-  }
 
-  function updateStrayNodes() {
-    for (const node of strayNodes) {
-      node.x += node.vx;
-      node.y += node.vy;
+      if (edge.type === "bridge") {
+        alpha = 0.22;
+        glow = 0.08;
+        glowWeight = 1.9;
+      }
 
-      if (node.x < 8 || node.x > width - 8) node.vx *= -1;
-      if (node.y < 8 || node.y > height - 8) node.vy *= -1;
+      drawGlowLine(
+        edge.a.x,
+        edge.a.y,
+        edge.b.x,
+        edge.b.y,
+        edge.color,
+        alpha,
+        glow,
+        coreWeight,
+        glowWeight
+      );
     }
   }
 
   function drawGlowLine(x1, y1, x2, y2, col, alphaCore, alphaGlow, coreWeight, glowWeight) {
     push();
-    drawingContext.shadowBlur = 16;
-    drawingContext.shadowColor = `rgba(${col[0]}, ${col[1]}, ${col[2]}, ${alphaGlow / 255})`;
-    stroke(col[0], col[1], col[2], alphaGlow);
+    drawingContext.shadowBlur = 10;
+    drawingContext.shadowColor = `rgba(${col[0]}, ${col[1]}, ${col[2]}, ${alphaGlow})`;
+    stroke(col[0], col[1], col[2], alphaGlow * 255);
     strokeWeight(glowWeight);
     line(x1, y1, x2, y2);
     pop();
 
-    stroke(col[0], col[1], col[2], alphaCore);
+    stroke(col[0], col[1], col[2], alphaCore * 255);
     strokeWeight(coreWeight);
     line(x1, y1, x2, y2);
   }
 
-  function drawClusterConnections() {
-    for (const cluster of clusters) {
-      for (let i = 0; i < cluster.nodes.length; i++) {
-        const a = cluster.nodes[i];
-        const neighbors = [];
-
-        for (let j = 0; j < cluster.nodes.length; j++) {
-          if (i === j) continue;
-
-          const b = cluster.nodes[j];
-          neighbors.push({
-            node: b,
-            d: dist(a.x, a.y, b.x, b.y)
-          });
-        }
-
-        neighbors.sort((m, n) => m.d - n.d);
-
-        for (const item of neighbors.slice(0, 3)) {
-          const alpha = max(0.1, 1 - item.d / (cluster.spread * 2.4));
-          drawGlowLine(
-            a.x,
-            a.y,
-            item.node.x,
-            item.node.y,
-            [0, 212, 255],
-            80 * alpha,
-            42 * alpha,
-            1,
-            2.6
-          );
-        }
-      }
-    }
-  }
-
-  function drawBridges() {
-    for (const pair of bridgePairs) {
-      const clusterA = clusters[pair[0]];
-      const clusterB = clusters[pair[1]];
-
-      let bestA = null;
-      let bestB = null;
-      let bestD = Infinity;
-
-      for (const a of clusterA.nodes) {
-        for (const b of clusterB.nodes) {
-          const d = dist(a.x, a.y, b.x, b.y);
-          if (d < bestD) {
-            bestD = d;
-            bestA = a;
-            bestB = b;
-          }
-        }
-      }
-
-      if (bestA && bestB) {
-        const alpha = bestD < 220 ? 1 : 0.45;
-        drawGlowLine(
-          bestA.x,
-          bestA.y,
-          bestB.x,
-          bestB.y,
-          [0, 212, 255],
-          70 * alpha,
-          34 * alpha,
-          1,
-          2.2
-        );
-      }
-    }
-  }
-
-  function drawPointerConnections() {
-    if (!pointerActive) return;
-
-    const allNodes = [
-      ...clusters.flatMap(cluster => cluster.nodes),
-      ...strayNodes
-    ];
+  function drawPointerLines() {
+    if (!pointer.active) return;
 
     let nearby = 0;
 
-    for (const node of allNodes) {
-      const d = dist(mouseX, mouseY, node.x, node.y);
+    for (const node of nodes) {
+      const d = dist(pointer.x, pointer.y, node.x, node.y);
 
-      if (d < CURSOR_CONNECTION_RADIUS) {
-        nearby++;
-        const alpha = 1 - d / CURSOR_CONNECTION_RADIUS;
+      if (d < CONFIG.cursorLineRadius) {
+        nearby += 1;
+        const fade = 1 - d / CONFIG.cursorLineRadius;
 
         drawGlowLine(
-          mouseX,
-          mouseY,
+          pointer.x,
+          pointer.y,
           node.x,
           node.y,
           node.color,
-          130 * alpha,
-          65 * alpha,
+          0.40 * fade,
+          0.18 * fade,
           1,
-          2.8
+          2.6
         );
       }
     }
@@ -837,59 +908,33 @@ permalink: /
       noStroke();
 
       push();
-      drawingContext.shadowBlur = 18;
-      drawingContext.shadowColor = "rgba(0,212,255,0.9)";
-      fill(255, 255, 255, 240);
-      circle(mouseX, mouseY, 6.5);
+      drawingContext.shadowBlur = 16;
+      drawingContext.shadowColor = "rgba(0,212,255,0.75)";
+      fill(255, 255, 255, 235);
+      circle(pointer.x, pointer.y, 6);
       pop();
 
-      fill(0, 212, 255, 18);
-      circle(mouseX, mouseY, 28);
+      fill(0, 212, 255, 16);
+      circle(pointer.x, pointer.y, 28);
 
-      fill(0, 212, 255, 8);
-      circle(mouseX, mouseY, 52);
+      fill(0, 212, 255, 7);
+      circle(pointer.x, pointer.y, 52);
     }
   }
 
   function drawNodes() {
-    const allNodes = [
-      ...clusters.flatMap(cluster => cluster.nodes),
-      ...strayNodes
-    ];
-
     noStroke();
 
-    for (const node of allNodes) {
-      fill(node.color[0], node.color[1], node.color[2], 18);
-      circle(node.x, node.y, node.r * 5.8);
+    for (const node of nodes) {
+      fill(node.color[0], node.color[1], node.color[2], 14 * CONFIG.glowStrength);
+      circle(node.x, node.y, node.r * CONFIG.glowNodeScale);
 
       push();
-      drawingContext.shadowBlur = 14;
-      drawingContext.shadowColor = `rgba(${node.color[0]}, ${node.color[1]}, ${node.color[2]}, 0.9)`;
-      fill(node.color[0], node.color[1], node.color[2], 250);
-      circle(node.x, node.y, node.r * 2.15);
+      drawingContext.shadowBlur = 10;
+      drawingContext.shadowColor = `rgba(${node.color[0]}, ${node.color[1]}, ${node.color[2]}, 0.8)`;
+      fill(node.color[0], node.color[1], node.color[2], 245);
+      circle(node.x, node.y, node.r * 2);
       pop();
     }
-  }
-
-  function mouseMoved() {
-    pointerActive = true;
-  }
-
-  function mouseDragged() {
-    pointerActive = true;
-  }
-
-  function mouseOut() {
-    pointerActive = false;
-  }
-
-  function touchMoved() {
-    pointerActive = true;
-    return true;
-  }
-
-  function touchEnded() {
-    pointerActive = false;
   }
 </script>
