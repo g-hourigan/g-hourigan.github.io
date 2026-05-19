@@ -68,7 +68,8 @@ permalink: /
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    opacity: 0.98;
+    opacity: 1;
+    filter: saturate(1.1) brightness(1.04);
   }
 
   #p5-network-bg canvas {
@@ -412,7 +413,7 @@ permalink: /
     <h1 class="hero-title">Gerrit Hourigan</h1>
 
     <p class="hero-subtitle">
-      Psychology, behavioral data, cognitive science, and quantitative research.
+      Psychology, cognition, behavioral data, and quantitative research.
     </p>
 
     <div class="hero-links">
@@ -528,33 +529,41 @@ permalink: /
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
 <script>
-  let clusters = [];
-  let strayNodes = [];
-  let bridgePairs = [];
-  let pointerActive = false;
+  let nodes = [];
+  let edges = [];
+  let pointerBound = false;
+
+  const pointer = {
+    x: 0,
+    y: 0,
+    tx: 0,
+    ty: 0,
+    active: false
+  };
+
+  const CONFIG = {
+    mobileBreakpoint: 760,
+    pointerLerp: 0.18,
+    nodeLerp: 0.14,
+    cursorRadius: 190,
+    cursorLineRadius: 170,
+    maxPull: 18,
+    clusterNeighborCount: 2
+  };
 
   function setup() {
     const parent = document.getElementById("p5-network-bg");
     const cnv = createCanvas(windowWidth, windowHeight);
     cnv.parent(parent);
+    pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
     noFill();
-  }
+    strokeCap(ROUND);
+    buildScene();
 
-  function draw() {
-    clear();
-    if (!clusters.length) {
-      buildScene();
+    if (!pointerBound) {
+      bindPointerEvents();
+      pointerBound = true;
     }
-
-    const t = millis() * 0.001;
-
-    drawBackgroundGlow();
-    updateClusters(t);
-    updateStrayNodes();
-    drawClusterConnections();
-    drawBridges();
-    drawPointerConnections();
-    drawNodes();
   }
 
   function windowResized() {
@@ -562,270 +571,345 @@ permalink: /
     buildScene();
   }
 
+  function draw() {
+    clear();
+    updatePointer();
+    updateNodePositions();
+    drawBackgroundGlow();
+    drawEdges();
+    drawPointerLines();
+    drawNodes();
+  }
+
+  function bindPointerEvents() {
+    window.addEventListener("pointermove", (e) => {
+      pointer.tx = e.clientX;
+      pointer.ty = e.clientY;
+
+      if (!pointer.active) {
+        pointer.x = e.clientX;
+        pointer.y = e.clientY;
+      }
+
+      pointer.active = true;
+    });
+
+    window.addEventListener("pointerdown", (e) => {
+      pointer.tx = e.clientX;
+      pointer.ty = e.clientY;
+      pointer.x = e.clientX;
+      pointer.y = e.clientY;
+      pointer.active = true;
+    });
+
+    document.addEventListener("pointerleave", () => {
+      pointer.active = false;
+    });
+
+    window.addEventListener("pointercancel", () => {
+      pointer.active = false;
+    });
+
+    window.addEventListener("mouseout", (e) => {
+      if (!e.relatedTarget && !e.toElement) {
+        pointer.active = false;
+      }
+    });
+  }
+
+  function updatePointer() {
+    if (!pointer.active) return;
+    pointer.x = lerp(pointer.x, pointer.tx, CONFIG.pointerLerp);
+    pointer.y = lerp(pointer.y, pointer.ty, CONFIG.pointerLerp);
+  }
+
   function buildScene() {
-    clusters = [];
-    strayNodes = [];
-    bridgePairs = [];
+    nodes = [];
+    edges = [];
 
-    const mobile = windowWidth < 760;
+    const mobile = width < CONFIG.mobileBreakpoint;
 
-    const layout = mobile
+    const clusterDefs = mobile
       ? [
-          { x: width * 0.08, y: height * 0.74, count: 9, spread: 36 },
-          { x: width * 0.92, y: height * 0.20, count: 11, spread: 46 },
-          { x: width * 0.90, y: height * 0.58, count: 8, spread: 34 }
+          { x: width * 0.08, y: height * 0.76, count: 8, spread: 30 },
+          { x: width * 0.92, y: height * 0.22, count: 10, spread: 40 },
+          { x: width * 0.90, y: height * 0.58, count: 6, spread: 30 }
         ]
       : [
-          { x: width * 0.06, y: height * 0.74, count: 10, spread: 36 },
-          { x: width * 0.13, y: height * 0.26, count: 6, spread: 26 },
-          { x: width * 0.94, y: height * 0.18, count: 12, spread: 54 },
-          { x: width * 0.91, y: height * 0.53, count: 9, spread: 40 },
-          { x: width * 0.76, y: height * 0.92, count: 7, spread: 34 }
+          { x: width * 0.07, y: height * 0.76, count: 9, spread: 30 },
+          { x: width * 0.14, y: height * 0.30, count: 4, spread: 22 },
+          { x: width * 0.93, y: height * 0.18, count: 11, spread: 48 },
+          { x: width * 0.90, y: height * 0.54, count: 7, spread: 34 },
+          { x: width * 0.76, y: height * 0.91, count: 5, spread: 28 }
         ];
 
-    for (let i = 0; i < layout.length; i++) {
-      const item = layout[i];
+    const groups = [];
 
-      const cluster = {
-        baseX: item.x,
-        baseY: item.y,
-        x: item.x,
-        y: item.y,
-        spread: item.spread,
-        ampX: random(4, 14),
-        ampY: random(4, 14),
-        phaseX: random(TWO_PI),
-        phaseY: random(TWO_PI),
-        nodes: []
-      };
+    for (const cluster of clusterDefs) {
+      const group = [];
 
-      for (let j = 0; j < item.count; j++) {
+      for (let i = 0; i < cluster.count; i++) {
         const angle = random(TWO_PI);
-        const radius = random(item.spread * 0.18, item.spread);
+        const radius = random(cluster.spread * 0.2, cluster.spread);
         const accent = random() > 0.72;
         const cyan = random() > 0.5;
 
-        cluster.nodes.push({
-          ox: cos(angle) * radius,
-          oy: sin(angle) * radius,
-          x: cluster.x,
-          y: cluster.y,
-          vx: 0,
-          vy: 0,
-          phase: random(TWO_PI),
-          wobble: random(1.2, 3.2),
-          r: accent ? random(2.0, 2.8) : random(1.25, 1.8),
+        const homeX = cluster.x + cos(angle) * radius;
+        const homeY = cluster.y + sin(angle) * radius;
+
+        const node = {
+          homeX,
+          homeY,
+          x: homeX,
+          y: homeY,
+          phaseX: random(TWO_PI),
+          phaseY: random(TWO_PI),
+          driftX: random(1.4, 3.6),
+          driftY: random(1.4, 3.6),
+          r: accent ? random(2.0, 2.8) : random(1.2, 1.7),
           color: accent
             ? (cyan ? [0, 212, 255] : [255, 78, 205])
             : [214, 225, 240]
-        });
+        };
+
+        const idx = nodes.push(node) - 1;
+        group.push(idx);
       }
 
-      clusters.push(cluster);
+      groups.push(group);
     }
 
-    for (let i = 0; i < clusters.length; i++) {
-      for (let j = i + 1; j < clusters.length; j++) {
-        const a = clusters[i];
-        const b = clusters[j];
-        const d = dist(a.baseX, a.baseY, b.baseX, b.baseY);
+    for (const group of groups) {
+      const groupEdges = buildGroupEdges(group, CONFIG.clusterNeighborCount);
+      edges.push(...groupEdges);
+    }
 
-        if (d < min(width, height) * 0.44) {
-          bridgePairs.push([i, j]);
+    for (let i = 0; i < groups.length; i++) {
+      for (let j = i + 1; j < groups.length; j++) {
+        const centerA = getGroupCenter(groups[i]);
+        const centerB = getGroupCenter(groups[j]);
+        const d = Math.hypot(centerA.x - centerB.x, centerA.y - centerB.y);
+
+        if (d < Math.min(width, height) * 0.42) {
+          const pair = findClosestPair(groups[i], groups[j]);
+          if (pair) {
+            edges.push({
+              a: pair[0],
+              b: pair[1],
+              type: "bridge",
+              color: [0, 212, 255]
+            });
+          }
         }
       }
     }
 
-    const strayCount = mobile ? 3 : 6;
+    const strayCount = mobile ? 2 : 4;
 
     for (let i = 0; i < strayCount; i++) {
-      strayNodes.push({
-        x: i % 2 === 0 ? random(24, width * 0.22) : random(width * 0.78, width - 24),
-        y: random(24, height - 24),
-        vx: random(-0.08, 0.08),
-        vy: random(-0.08, 0.08),
-        r: random(1.7, 2.4),
+      const x = i % 2 === 0
+        ? random(24, width * 0.22)
+        : random(width * 0.78, width - 24);
+
+      const y = random(24, height - 24);
+
+      nodes.push({
+        homeX: x,
+        homeY: y,
+        x,
+        y,
+        phaseX: random(TWO_PI),
+        phaseY: random(TWO_PI),
+        driftX: random(1.0, 2.2),
+        driftY: random(1.0, 2.2),
+        r: random(1.6, 2.2),
         color: random() > 0.5 ? [255, 78, 205] : [0, 212, 255]
       });
     }
   }
 
-  function drawBackgroundGlow() {
-    noStroke();
-    fill(0, 212, 255, 5);
-    circle(width * 0.5, height * 0.5, max(width, height) * 0.78);
+  function buildGroupEdges(group, k) {
+    const found = new Set();
+    const result = [];
 
-    fill(255, 78, 205, 3);
-    circle(width * 0.52, height * 0.48, max(width, height) * 0.58);
+    for (const aIdx of group) {
+      const candidates = [];
 
-    fill(0, 212, 255, 2);
-    circle(width * 0.48, height * 0.52, max(width, height) * 0.95);
-  }
+      for (const bIdx of group) {
+        if (aIdx === bIdx) continue;
 
-  function updateClusters(t) {
-    for (const cluster of clusters) {
-      cluster.x = cluster.baseX + sin(t * 0.48 + cluster.phaseX) * cluster.ampX;
-      cluster.y = cluster.baseY + cos(t * 0.42 + cluster.phaseY) * cluster.ampY;
+        const a = nodes[aIdx];
+        const b = nodes[bIdx];
+        const d = Math.hypot(a.homeX - b.homeX, a.homeY - b.homeY);
 
-      for (const node of cluster.nodes) {
-        const tx = cluster.x + node.ox + cos(t * 1.18 + node.phase) * node.wobble;
-        const ty = cluster.y + node.oy + sin(t * 1.05 + node.phase) * node.wobble;
-
-        node.vx += (tx - node.x) * 0.03;
-        node.vy += (ty - node.y) * 0.03;
-
-        if (pointerActive) {
-          const dx = mouseX - node.x;
-          const dy = mouseY - node.y;
-          const d = sqrt(dx * dx + dy * dy);
-
-          if (d < 185 && d > 0.001) {
-            const pull = (1 - d / 185) * 0.045;
-            node.vx += dx * pull * 0.02;
-            node.vy += dy * pull * 0.02;
-          }
-        }
-
-        node.vx *= 0.885;
-        node.vy *= 0.885;
-        node.x += node.vx;
-        node.y += node.vy;
+        candidates.push({ idx: bIdx, d });
       }
-    }
-  }
 
-  function updateStrayNodes() {
-    for (const node of strayNodes) {
-      node.x += node.vx;
-      node.y += node.vy;
+      candidates.sort((m, n) => m.d - n.d);
 
-      if (node.x < 8 || node.x > width - 8) node.vx *= -1;
-      if (node.y < 8 || node.y > height - 8) node.vy *= -1;
-    }
-  }
+      for (const candidate of candidates.slice(0, k)) {
+        const low = Math.min(aIdx, candidate.idx);
+        const high = Math.max(aIdx, candidate.idx);
+        const key = `${low}-${high}`;
 
-  function drawClusterConnections() {
-    strokeWeight(1);
-
-    for (const cluster of clusters) {
-      for (let i = 0; i < cluster.nodes.length; i++) {
-        const a = cluster.nodes[i];
-        const neighbors = [];
-
-        for (let j = 0; j < cluster.nodes.length; j++) {
-          if (i === j) continue;
-
-          const b = cluster.nodes[j];
-          neighbors.push({
-            node: b,
-            d: dist(a.x, a.y, b.x, b.y)
+        if (!found.has(key)) {
+          found.add(key);
+          result.push({
+            a: low,
+            b: high,
+            type: "cluster",
+            color: [0, 212, 255]
           });
         }
+      }
+    }
 
-        neighbors.sort((m, n) => m.d - n.d);
+    return result;
+  }
 
-        for (const item of neighbors.slice(0, 3)) {
-          const alpha = max(0.1, 1 - item.d / (cluster.spread * 2.4)) * 110;
-          stroke(0, 212, 255, alpha);
-          line(a.x, a.y, item.node.x, item.node.y);
+  function getGroupCenter(group) {
+    let sx = 0;
+    let sy = 0;
+
+    for (const idx of group) {
+      sx += nodes[idx].homeX;
+      sy += nodes[idx].homeY;
+    }
+
+    return {
+      x: sx / group.length,
+      y: sy / group.length
+    };
+  }
+
+  function findClosestPair(groupA, groupB) {
+    let best = null;
+    let bestD = Infinity;
+
+    for (const aIdx of groupA) {
+      for (const bIdx of groupB) {
+        const a = nodes[aIdx];
+        const b = nodes[bIdx];
+        const d = Math.hypot(a.homeX - b.homeX, a.homeY - b.homeY);
+
+        if (d < bestD) {
+          bestD = d;
+          best = [aIdx, bIdx];
         }
+      }
+    }
+
+    return best;
+  }
+
+  function updateNodePositions() {
+    const t = millis() * 0.001;
+
+    for (const node of nodes) {
+      let targetX = node.homeX + Math.cos(t * 0.62 + node.phaseX) * node.driftX;
+      let targetY = node.homeY + Math.sin(t * 0.68 + node.phaseY) * node.driftY;
+
+      if (pointer.active) {
+        const dx = pointer.x - targetX;
+        const dy = pointer.y - targetY;
+        const d = Math.hypot(dx, dy);
+
+        if (d < CONFIG.cursorRadius && d > 0.001) {
+          const influence = 1 - d / CONFIG.cursorRadius;
+          const pull = influence * influence * CONFIG.maxPull;
+          targetX += (dx / d) * pull;
+          targetY += (dy / d) * pull;
+        }
+      }
+
+      node.x = lerp(node.x, targetX, CONFIG.nodeLerp);
+      node.y = lerp(node.y, targetY, CONFIG.nodeLerp);
+    }
+  }
+
+  function drawBackgroundGlow() {
+    noStroke();
+
+    fill(0, 212, 255, 4);
+    circle(width * 0.50, height * 0.50, max(width, height) * 0.84);
+
+    fill(255, 78, 205, 2);
+    circle(width * 0.53, height * 0.47, max(width, height) * 0.62);
+
+    fill(0, 212, 255, 2);
+    circle(width * 0.46, height * 0.55, max(width, height) * 1.02);
+  }
+
+  function drawEdges() {
+    for (const edge of edges) {
+      const a = nodes[edge.a];
+      const b = nodes[edge.b];
+      const d = Math.hypot(a.x - b.x, a.y - b.y);
+
+      if (edge.type === "cluster") {
+        const fade = constrain(1 - d / 120, 0.12, 1);
+        drawSoftLine(a.x, a.y, b.x, b.y, edge.color, 26 * fade, 74 * fade, 2.2, 1);
+      } else {
+        drawSoftLine(a.x, a.y, b.x, b.y, edge.color, 14, 52, 1.8, 1);
       }
     }
   }
 
-  function drawBridges() {
-    for (const pair of bridgePairs) {
-      const clusterA = clusters[pair[0]];
-      const clusterB = clusters[pair[1]];
+  function drawSoftLine(x1, y1, x2, y2, color, outerAlpha, innerAlpha, outerWeight, innerWeight) {
+    stroke(color[0], color[1], color[2], outerAlpha);
+    strokeWeight(outerWeight);
+    line(x1, y1, x2, y2);
 
-      let bestA = null;
-      let bestB = null;
-      let bestD = Infinity;
-
-      for (const a of clusterA.nodes) {
-        for (const b of clusterB.nodes) {
-          const d = dist(a.x, a.y, b.x, b.y);
-          if (d < bestD) {
-            bestD = d;
-            bestA = a;
-            bestB = b;
-          }
-        }
-      }
-
-      if (bestA && bestB) {
-        stroke(0, 212, 255, bestD < 220 ? 48 : 20);
-        line(bestA.x, bestA.y, bestB.x, bestB.y);
-      }
-    }
+    stroke(color[0], color[1], color[2], innerAlpha);
+    strokeWeight(innerWeight);
+    line(x1, y1, x2, y2);
   }
 
-  function drawPointerConnections() {
-    if (!pointerActive) return;
-
-    const allNodes = [
-      ...clusters.flatMap(cluster => cluster.nodes),
-      ...strayNodes
-    ];
+  function drawPointerLines() {
+    if (!pointer.active) return;
 
     let nearby = 0;
 
-    for (const node of allNodes) {
-      const d = dist(mouseX, mouseY, node.x, node.y);
+    for (const node of nodes) {
+      const d = Math.hypot(pointer.x - node.x, pointer.y - node.y);
 
-      if (d < 175) {
-        nearby++;
-        const alpha = (1 - d / 175) * 128;
-        stroke(node.color[0], node.color[1], node.color[2], alpha);
-        line(mouseX, mouseY, node.x, node.y);
+      if (d < CONFIG.cursorLineRadius) {
+        nearby += 1;
+        const fade = 1 - d / CONFIG.cursorLineRadius;
+        drawSoftLine(
+          pointer.x,
+          pointer.y,
+          node.x,
+          node.y,
+          node.color,
+          24 * fade,
+          110 * fade,
+          2.4,
+          1
+        );
       }
     }
 
     if (nearby > 0) {
       noStroke();
-      fill(255, 255, 255, 230);
-      circle(mouseX, mouseY, 6);
 
-      fill(0, 212, 255, 16);
-      circle(mouseX, mouseY, 28);
+      fill(0, 212, 255, 10);
+      circle(pointer.x, pointer.y, 44);
+
+      fill(255, 255, 255, 230);
+      circle(pointer.x, pointer.y, 5.5);
     }
   }
 
   function drawNodes() {
-    const allNodes = [
-      ...clusters.flatMap(cluster => cluster.nodes),
-      ...strayNodes
-    ];
-
     noStroke();
 
-    for (const node of allNodes) {
-      fill(node.color[0], node.color[1], node.color[2], 16);
-      circle(node.x, node.y, node.r * 4.8);
+    for (const node of nodes) {
+      fill(node.color[0], node.color[1], node.color[2], 12);
+      circle(node.x, node.y, node.r * 5.2);
 
-      fill(node.color[0], node.color[1], node.color[2], 250);
+      fill(node.color[0], node.color[1], node.color[2], 245);
       circle(node.x, node.y, node.r * 2);
     }
-  }
-
-  function mouseMoved() {
-    pointerActive = true;
-  }
-
-  function mouseDragged() {
-    pointerActive = true;
-  }
-
-  function mouseOut() {
-    pointerActive = false;
-  }
-
-  function touchMoved() {
-    pointerActive = true;
-    return true;
-  }
-
-  function touchEnded() {
-    pointerActive = false;
   }
 </script>
