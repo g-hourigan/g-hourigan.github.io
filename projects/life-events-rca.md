@@ -302,6 +302,13 @@ permalink: /projects/life-events-rca/
     height: auto;
   }
 
+  .project-figure-placeholder {
+    padding: 4rem 1rem;
+    text-align: center;
+    color: #8c99ad;
+    font-size: 0.95rem;
+  }
+
   .project-figure-caption {
     padding: 0.9rem 1rem 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -404,8 +411,9 @@ permalink: /projects/life-events-rca/
         <p class="project-kicker">Life Events × Climate Action</p>
         <h1>Life Events and Climate Action Readiness</h1>
         <p class="project-subtitle">
-          This project asks whether recent life events help explain later change in readiness
-          to act on climate change. Readiness to Act (RTA) is a broad, trait-like tendency to engage in climate action across                    individual behavior, policy acceptance, and political participation. It is useful because it captures the shared core of               climate action without reducing the construct to only one specific behavior. Importantly, it has also been shown that RTA              is a strong predictor of actual behavior and outperforms several competing environmental constructs in explaining real                 climate-relevant action (Betsch et al., 2025).
+          I asked whether recent life events help explain later change in
+          <strong>Readiness to Act</strong>, a broad climate-action construct spanning
+          individual behavior, policy acceptance, and political participation.
         </p>
 
         <div class="project-meta">
@@ -421,70 +429,37 @@ permalink: /projects/life-events-rca/
       <div class="project-grid">
 
         <section class="project-card">
+          <h2>Why this matters</h2>
+          <p>
+            Readiness to Act is useful because it treats climate action as more than just
+            private lifestyle choices. It is meant to capture the shared core behind
+            individual behavior, policy acceptance, and political participation, and prior
+            work argues that it predicts actual climate-relevant behavior better than several
+            narrower competing constructs. :contentReference[oaicite:1]{index=1}
+          </p>
+        </section>
+
+        <section class="project-card">
           <h2>Overview</h2>
           <p>
             This project examined whether life events measured at T3 were associated with
-            subsequent change in readiness for climate action. The analysis moved from
+            subsequent change in climate-action readiness. The analysis moved from
             theory-guided life-event domains to exploratory structure analysis, then to a
             reduced confirmatory factor model and finally to latent change models. In the
-            final stage, the broad exploratory life-events factor did not provide convincing
-            evidence of predicting later change in readiness. 
+            end, the broad exploratory life-events factor did not provide convincing evidence
+            of predicting later change in readiness. 
           </p>
         </section>
 
         <section class="project-card">
-          <h2>What readiness to act is</h2>
+          <h2>What Readiness to Act is</h2>
           <p>
-            The preprint motivating this page defines readiness to act as a broad, trait-like
-            inclination underlying climate-relevant behavior across three levels:
-            individual behavior, policy acceptance, and political participation. Rather than
-            treating these as unrelated outcomes, the model assumes that they share a common
-            psychological core while still allowing for meaningful differences between them. :contentReference[oaicite:6]{index=6}
+            The preprint motivating this page defines Readiness to Act as a broad,
+            trait-like inclination underlying climate-relevant action across three levels:
+            individual behavior, policy acceptance, and political participation. The point is
+            not just to model one behavior, but to capture what these forms of action have in
+            common while still allowing them to differ in important ways. :contentReference[oaicite:3]{index=3}
           </p>
-          <p>
-            This is useful because climate action should not be reduced to private-sphere
-            behavior alone. Support for climate policy and political engagement are also
-            high-impact forms of action, especially when system-level change is required. :contentReference[oaicite:7]{index=7}
-          </p>
-        </section>
-
-        <section class="project-card">
-          <h2>Why this construct matters</h2>
-          <p>
-            A broader readiness construct matters for both theory and application. The
-            preprint argues that it helps explain what is common across many forms of climate
-            action, makes it easier to separate shared climate-action tendencies from
-            behavior-specific variation, and provides a more scalable target for communication
-            and intervention research. :contentReference[oaicite:8]{index=8}
-          </p>
-          <p>
-            It is also a strong construct empirically: in the preprint, readiness to act was
-            linked to theoretically relevant predictors such as knowledge, trust, perceived
-            health risks, self-efficacy, social norms, and perceived effectiveness of
-            political measures, and it outperformed several competing environmental constructs
-            in predicting actual behavior. :contentReference[oaicite:9]{index=9}
-          </p>
-        </section>
-
-        <section class="project-card">
-          <h2>Conceptual background</h2>
-          <p>
-            The figure below provides the broader conceptual logic behind the outcome studied
-            here. Readiness to Act sits between upstream psychological and contextual
-            predictors and downstream manifestations of climate-related action. In this
-            project, the question is whether life events can help explain change in that
-            broader readiness construct over time.
-          </p>
-        </section>
-
-        <section class="project-figure">
-          <img src="/assets/img/rta-framework.jpg" alt="Conceptual framework of Readiness to Act showing predictors and indicators">
-          <div class="project-figure-caption">
-            <strong>Conceptual framework.</strong> Readiness to Act can be understood as a
-            latent readiness construct positioned between upstream predictors and downstream
-            forms of action-related response. The preprint motivating this framework argues
-            that it is broader and more useful than models focusing on single behaviors alone. :contentReference[oaicite:10]{index=10}
-          </div>
         </section>
 
         <section class="project-card">
@@ -495,86 +470,84 @@ permalink: /projects/life-events-rca/
             <li>Inspected within-domain coherence using phi correlations.</li>
             <li>Explored the overall structure of all life-event items using clustering and exploratory factor analysis.</li>
             <li>Compared a reduced general-factor CFA against a reduced multi-factor CFA on a coherent core of items.</li>
-            <li>Built an exploratory life-event general factor score and tested it in latent change models for readiness for climate action. :contentReference[oaicite:11]{index=11}</li>
+            <li>Built an exploratory life-event general factor score and tested it in latent change models for readiness for climate action.</li>
           </ul>
         </section>
 
         <section class="project-card">
           <h2>Key findings</h2>
           <ul>
-            <li>
-              Some local structure was visible in the theory-guided domains, especially for
-              environmental burden and financial burden, where within-domain associations
-              looked more coherent than in several other parts of the item set. :contentReference[oaicite:12]{index=12}
-            </li>
-            <li>
-              The full life-event pool did not support one simple, clean global structure,
-              which is why the confirmatory step focused on a reduced and more interpretable
-              subset of items rather than the complete item set. :contentReference[oaicite:13]{index=13}
-            </li>
-            <li>
-              For the longitudinal models, an exploratory life-event general factor score
-              was used as a pragmatic summary indicator. :contentReference[oaicite:14]{index=14}
-            </li>
-            <li>
-              Across the latent change models, there was no convincing evidence that this
-              broad life-event summary factor predicted later change in readiness for climate action. :contentReference[oaicite:15]{index=15}
-            </li>
+            <li>Some local structure was visible in the theory-guided domains, especially for environmental and financial burden items.</li>
+            <li>The full life-event pool did not support one simple, clean global structure.</li>
+            <li>A broad exploratory life-events factor did not clearly predict later change in Readiness to Act.</li>
           </ul>
+          <p>
+            In other words, the analysis argues against an overly simple “more life events
+            lead to more climate-action readiness” story. :contentReference[oaicite:4]{index=4}
+          </p>
         </section>
 
         <section class="project-figure">
-          <img src="/assets/img/domain-heatmap.png" alt="Heatmap of within-domain phi correlations for theory-guided life-event domains">
+          <div class="project-figure-placeholder">
+            Conceptual framework image goes here later<br>
+            <code>/assets/img/rta-framework.jpg</code>
+          </div>
           <div class="project-figure-caption">
-            <strong>Figure 1.</strong> Within-domain phi correlations for theory-guided life-event
-            domains. This view is useful for showing that some domains are more internally
-            coherent than others.
+            <strong>Conceptual framework.</strong> Readiness to Act is positioned as a broader
+            climate-action construct linking upstream predictors to downstream forms of action.
           </div>
         </section>
 
         <section class="project-figure">
-          <img src="/assets/img/cluster-structure.png" alt="Exploratory cluster structure of all life-event items">
+          <div class="project-figure-placeholder">
+            Domain heatmap goes here later<br>
+            <code>/assets/img/domain-heatmap.png</code>
+          </div>
+          <div class="project-figure-caption">
+            <strong>Figure 1.</strong> Within-domain associations for theory-guided life-event
+            domains.
+          </div>
+        </section>
+
+        <section class="project-figure">
+          <div class="project-figure-placeholder">
+            Cluster structure figure goes here later<br>
+            <code>/assets/img/cluster-structure.png</code>
+          </div>
           <div class="project-figure-caption">
             <strong>Figure 2.</strong> Exploratory structure across the full life-event item set.
-            This figure is there to communicate that the overall system does not collapse
-            neatly into one simple global factor.
           </div>
         </section>
 
         <section class="project-figure">
-          <img src="/assets/img/cfa-comparison.png" alt="Reduced CFA comparison of general-factor and multi-factor models">
+          <div class="project-figure-placeholder">
+            CFA comparison figure goes here later<br>
+            <code>/assets/img/cfa-comparison.png</code>
+          </div>
           <div class="project-figure-caption">
-            <strong>Figure 3.</strong> Reduced CFA on a coherent core of items. The goal here is
-            not to present every parameter estimate, but to show how the reduced confirmatory
-            step was used to compare a general-factor representation against a more interpretable
-            multi-factor structure.
+            <strong>Figure 3.</strong> Reduced CFA comparing a broad general-factor representation
+            with a more interpretable multi-factor structure.
           </div>
         </section>
 
         <section class="project-figure">
-          <img src="/assets/img/change-models.png" alt="Summary of latent change models predicting readiness for climate action">
+          <div class="project-figure-placeholder">
+            Final change-model figure goes here later<br>
+            <code>/assets/img/change-models.png</code>
+          </div>
           <div class="project-figure-caption">
-            <strong>Figure 4.</strong> Latent change models for readiness for climate action.
-            The substantive takeaway is that the exploratory broad life-events factor did not
-            provide convincing evidence of explaining later change. :contentReference[oaicite:16]{index=16}
+            <strong>Figure 4.</strong> Final latent change models for Readiness to Act.
           </div>
         </section>
 
         <section class="project-card">
           <h2>Interpretation</h2>
           <p>
-            The analysis suggests that life events are not best understood here as a single
-            highly coherent global construct. Some thematic groupings are visible, but once
-            the analysis is pushed into longitudinal change models, the broad exploratory
-            summary factor does not appear to explain meaningful variation in later readiness
-            for climate action. :contentReference[oaicite:17]{index=17}
-          </p>
-          <p>
-            This is still informative. If readiness to act is a broad and behaviorally
-            meaningful climate-action construct, then showing what does not reliably predict
-            change in it is important too. It suggests that future work may need more targeted
-            event classes, clearer mechanisms, or narrower predictors rather than one broad
-            life-events aggregate.
+            This analysis suggests that life events contain some meaningful thematic
+            groupings, but they do not seem to operate as one strong, unified predictor of
+            later change in Readiness to Act. That is still informative: if the outcome is a
+            broad and behaviorally relevant construct, then showing what does not reliably
+            move it is important too. 
           </p>
         </section>
 
