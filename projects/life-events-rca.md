@@ -292,6 +292,19 @@ permalink: /projects/life-events-rca/
     margin-top: 0.45rem;
   }
 
+  .math-box {
+    margin: 0.9rem 0;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(0, 212, 255, 0.18);
+    border-radius: 14px;
+    background: rgba(0, 212, 255, 0.045);
+    color: #dffaff;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+
   .project-figure {
     overflow: hidden;
   }
@@ -309,6 +322,10 @@ permalink: /projects/life-events-rca/
     font-size: 0.95rem;
   }
 
+  .project-figure-placeholder code {
+    color: #dffaff;
+  }
+
   .project-figure-caption {
     padding: 0.9rem 1rem 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -321,6 +338,16 @@ permalink: /projects/life-events-rca/
     color: #00d4ff !important;
     text-decoration: none !important;
     font-weight: 700;
+  }
+
+  .reference-list {
+    font-size: 0.9rem;
+    color: #9fb0c2;
+    line-height: 1.6;
+  }
+
+  .reference-list p + p {
+    margin-top: 0.65rem;
   }
 
   .footer-row {
@@ -411,9 +438,9 @@ permalink: /projects/life-events-rca/
         <p class="project-kicker">Life Events × Climate Action</p>
         <h1>Life Events and Climate Action Readiness</h1>
         <p class="project-subtitle">
-          I asked whether recent life events help explain later change in
-          <strong>Readiness to Act</strong>, a broad climate-action construct spanning
-          individual behavior, policy acceptance, and political participation.
+          I asked a simple question with a fairly technical model: when people go through
+          important life events, does their readiness to support and engage in climate action
+          change over time?
         </p>
 
         <div class="project-meta">
@@ -431,59 +458,120 @@ permalink: /projects/life-events-rca/
         <section class="project-card">
           <h2>Why this matters</h2>
           <p>
-            Readiness to Act is useful because it treats climate action as more than just
-            private lifestyle choices. It is meant to capture the shared core behind
-            individual behavior, policy acceptance, and political participation, and prior
-            work argues that it predicts actual climate-relevant behavior better than several
-            narrower competing constructs. :contentReference[oaicite:1]{index=1}
+            Climate action is not only about whether someone switches off the lights or buys
+            fewer flights. It also includes whether people support climate policy and whether
+            they participate politically. That is why this project focuses on
+            <strong>Readiness to Act</strong>: a broad climate-action construct that tries to
+            capture the shared core behind individual behavior, policy acceptance, and
+            political participation.
           </p>
-        </section>
-
-        <section class="project-card">
-          <h2>Overview</h2>
           <p>
-            This project examined whether life events measured at T3 were associated with
-            subsequent change in climate-action readiness. The analysis moved from
-            theory-guided life-event domains to exploratory structure analysis, then to a
-            reduced confirmatory factor model and finally to latent change models. In the
-            end, the broad exploratory life-events factor did not provide convincing evidence
-            of predicting later change in readiness. 
+            Prior work argues that this construct is not just theoretically useful, but also
+            practically meaningful: Readiness to Act predicts actual climate-relevant behavior
+            better than several narrower competing environmental constructs.
           </p>
         </section>
 
         <section class="project-card">
-          <h2>What Readiness to Act is</h2>
+          <h2>What I wanted to know</h2>
           <p>
-            The preprint motivating this page defines Readiness to Act as a broad,
-            trait-like inclination underlying climate-relevant action across three levels:
-            individual behavior, policy acceptance, and political participation. The point is
-            not just to model one behavior, but to capture what these forms of action have in
-            common while still allowing them to differ in important ways. :contentReference[oaicite:3]{index=3}
+            The question was whether life events help explain change in this broader readiness
+            construct. For example, do experiences such as financial strain, health-related
+            events, work changes, family events, or environmental disruptions move people
+            toward or away from climate-action readiness?
+          </p>
+          <p>
+            I did not only want to know whether life events and readiness were correlated at
+            one point in time. I wanted to test whether life events predicted
+            <strong>longitudinal change</strong>.
           </p>
         </section>
 
         <section class="project-card">
-          <h2>Approach</h2>
+          <h2>How I studied it</h2>
+          <p>
+            I started by organizing binary life-event indicators into theory-guided domains:
+            environmental burden, financial burden, health, work, and family or partnership.
+            I then checked whether those domains actually held together empirically.
+          </p>
+          <p>
+            After that, I explored the broader structure across all life-event items, compared
+            reduced confirmatory factor models on a more coherent core of items, and finally
+            tested whether a broad exploratory life-events factor predicted later change in
+            Readiness to Act.
+          </p>
+        </section>
+
+        <section class="project-card">
+          <h2>What a latent change model does</h2>
+          <p>
+            A latent change model treats change itself as something we estimate directly.
+            Instead of only asking whether life events are related to a later score, the model
+            asks whether they predict how much a person changed over time.
+          </p>
+
+          <div class="math-box">
+            RTA<sub>T3</sub> = RTA<sub>T1</sub> + ΔRTA
+          </div>
+
+          <p>
+            The main question was whether the life-events factor predicted that change:
+          </p>
+
+          <div class="math-box">
+            ΔRTA = α + β · g<sub>life events</sub> + ε
+          </div>
+
+          <p>
+            Here, <code>β</code> is the important parameter. If it were clearly positive or
+            negative, that would suggest that life events explain longitudinal change in
+            Readiness to Act. In my models, this parameter did not show convincing evidence
+            of such an effect.
+          </p>
+        </section>
+
+        <section class="project-card">
+          <h2>What I found</h2>
           <ul>
-            <li>Recoded and prepared binary life-event indicators.</li>
-            <li>Grouped items into theory-guided domains such as environmental burden, financial burden, health, work, and family/partnership.</li>
-            <li>Inspected within-domain coherence using phi correlations.</li>
-            <li>Explored the overall structure of all life-event items using clustering and exploratory factor analysis.</li>
-            <li>Compared a reduced general-factor CFA against a reduced multi-factor CFA on a coherent core of items.</li>
-            <li>Built an exploratory life-event general factor score and tested it in latent change models for readiness for climate action.</li>
+            <li>
+              Some life-event domains showed meaningful local structure, especially
+              environmental burden and financial burden.
+            </li>
+            <li>
+              The full set of life events did not form one clean, simple global structure.
+            </li>
+            <li>
+              A broad exploratory life-events factor did not clearly predict later change in
+              Readiness to Act.
+            </li>
           </ul>
+          <p>
+            In plain language: the analysis argues against a simple story where “more life
+            events” directly translate into more change in climate-action readiness.
+          </p>
         </section>
 
         <section class="project-card">
-          <h2>Key findings</h2>
-          <ul>
-            <li>Some local structure was visible in the theory-guided domains, especially for environmental and financial burden items.</li>
-            <li>The full life-event pool did not support one simple, clean global structure.</li>
-            <li>A broad exploratory life-events factor did not clearly predict later change in Readiness to Act.</li>
-          </ul>
+          <h2>How I interpret the null result</h2>
           <p>
-            In other words, the analysis argues against an overly simple “more life events
-            lead to more climate-action readiness” story. :contentReference[oaicite:4]{index=4}
+            I do not see the null result as a failure. It is actually quite plausible.
+            Readiness to Act is broad and partly trait-like, and broad psychological
+            dispositions usually do not shift dramatically just because someone experienced
+            more life events.
+          </p>
+          <p>
+            This fits a broader pattern from personality psychology. Life events can be
+            related to personality change, but the effects tend to be relatively small,
+            specific, and not always consistent. If even broad personality traits only move
+            modestly in response to life events, it would be surprising if a broad
+            climate-action readiness factor changed strongly in response to one general
+            life-events score.
+          </p>
+          <p>
+            My takeaway is that “life events in general” may be too broad as a predictor.
+            More specific mechanisms — such as financial strain, perceived vulnerability,
+            health threats, or environmentally relevant disruptions — may be more informative
+            than one general life-events factor.
           </p>
         </section>
 
@@ -493,7 +581,7 @@ permalink: /projects/life-events-rca/
             <code>/assets/img/rta-framework.jpg</code>
           </div>
           <div class="project-figure-caption">
-            <strong>Conceptual framework.</strong> Readiness to Act is positioned as a broader
+            <strong>Conceptual framework.</strong> Readiness to Act is positioned as a broad
             climate-action construct linking upstream predictors to downstream forms of action.
           </div>
         </section>
@@ -525,8 +613,8 @@ permalink: /projects/life-events-rca/
             <code>/assets/img/cfa-comparison.png</code>
           </div>
           <div class="project-figure-caption">
-            <strong>Figure 3.</strong> Reduced CFA comparing a broad general-factor representation
-            with a more interpretable multi-factor structure.
+            <strong>Figure 3.</strong> Reduced CFA comparing a broad general-factor
+            representation with a more interpretable multi-factor structure.
           </div>
         </section>
 
@@ -543,11 +631,14 @@ permalink: /projects/life-events-rca/
         <section class="project-card">
           <h2>Interpretation</h2>
           <p>
-            This analysis suggests that life events contain some meaningful thematic
-            groupings, but they do not seem to operate as one strong, unified predictor of
-            later change in Readiness to Act. That is still informative: if the outcome is a
-            broad and behaviorally relevant construct, then showing what does not reliably
-            move it is important too. 
+            The analysis suggests a more nuanced story than “life events change
+            climate-action readiness.” Some event domains show local structure, but a broad
+            exploratory life-events factor did not explain later change in Readiness to Act.
+          </p>
+          <p>
+            That result is useful because it points toward the next step: more targeted event
+            classes, clearer mechanisms, and narrower hypotheses. The broad life-events score
+            may simply be too general for predicting change in a broad psychological outcome.
           </p>
         </section>
 
@@ -557,6 +648,21 @@ permalink: /projects/life-events-rca/
             <a href="/assets/files/life-events-full-analysis.html">Full analysis (HTML)</a><br>
             <a href="https://github.com/g-hourigan" target="_blank" rel="noopener noreferrer">Code / GitHub</a>
           </p>
+        </section>
+
+        <section class="project-card">
+          <h2>References</h2>
+          <div class="reference-list">
+            <p>
+              Betsch, C., Geiger, M., Lehrer, L., Sprengholz, P., Temme, H., Tiede, K.,
+              & Jenny, M. (2025). <em>Psychological foundations of climate action</em>.
+              Center for Open Science. https://doi.org/10.31219/osf.io/enkwy_v2
+            </p>
+            <p>
+              Bühler, J. L., et al. (2024). <em>Life events and personality change:
+              A systematic review and meta-analysis</em>.
+            </p>
+          </div>
         </section>
 
       </div>
