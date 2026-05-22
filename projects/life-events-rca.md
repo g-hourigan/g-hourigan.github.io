@@ -305,6 +305,40 @@ permalink: /projects/life-events-rca/
     overflow-x: auto;
   }
 
+  .result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.9rem;
+    font-size: 0.92rem;
+    color: #aebdca;
+  }
+
+  .result-table th,
+  .result-table td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.65rem 0.5rem;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .result-table th {
+    color: #f2f7fb;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .result-table code {
+    color: #dffaff;
+  }
+
+  .model-note {
+    margin-top: 0.8rem;
+    color: #8c99ad !important;
+    font-size: 0.94rem;
+  }
+
   .project-figure {
     overflow: hidden;
   }
@@ -447,6 +481,7 @@ permalink: /projects/life-events-rca/
           <span>R</span>
           <span>lavaan</span>
           <span>SEM</span>
+          <span>Latent Variables</span>
           <span>Latent Change Models</span>
           <span>Survey Data</span>
           <span>Life Events</span>
@@ -488,6 +523,29 @@ permalink: /projects/life-events-rca/
         </section>
 
         <section class="project-card">
+          <h2>What a latent variable is</h2>
+          <p>
+            A latent variable is a construct that we cannot observe directly. For example,
+            “readiness to act” is not something we can measure with one perfect question.
+            Instead, we infer it from several observed indicators, such as individual climate
+            behavior, policy acceptance, and political participation.
+          </p>
+          <p>
+            The basic idea is:
+          </p>
+
+          <div class="math-box">
+            observed response = latent construct + measurement error
+          </div>
+
+          <p>
+            In this project, that matters because I did not want to treat readiness as just a
+            simple sum score. The goal was to model the underlying construct while accounting
+            for the fact that each observed indicator is imperfect.
+          </p>
+        </section>
+
+        <section class="project-card">
           <h2>How I studied it</h2>
           <p>
             I started by organizing binary life-event indicators into theory-guided domains:
@@ -503,30 +561,77 @@ permalink: /projects/life-events-rca/
         </section>
 
         <section class="project-card">
-          <h2>What a latent change model does</h2>
+          <h2>The final model</h2>
           <p>
-            A latent change model treats change itself as something we estimate directly.
-            Instead of only asking whether life events are related to a later score, the model
-            asks whether they predict how much a person changed over time.
+            The final model was a longitudinal latent change model. In human terms, it asked:
+            after accounting for people’s earlier readiness level, does the life-events factor
+            explain who changed more or less over time?
+          </p>
+          <p>
+            First, readiness was represented as a latent factor at both time points:
           </p>
 
           <div class="math-box">
-            RTA<sub>T3</sub> = RTA<sub>T1</sub> + ΔRTA
+            y<sub>j,t</sub> = τ<sub>j</sub> + λ<sub>j</sub> · RTA<sub>t</sub> + ε<sub>j,t</sub>
           </div>
 
           <p>
-            The main question was whether the life-events factor predicted that change:
+            Here, <code>y</code> is an observed indicator, <code>RTA</code> is the latent
+            readiness factor, <code>λ</code> is the factor loading, and <code>ε</code> is
+            measurement error. The model therefore separates the construct from noise in the
+            observed indicators.
+          </p>
+          <p>
+            Then, change was modeled directly:
           </p>
 
           <div class="math-box">
-            ΔRTA = α + β · g<sub>life events</sub> + ε
+            RTA<sub>T3</sub> = RTA<sub>T0</sub> + ΔRTA
           </div>
 
           <p>
-            Here, <code>β</code> is the important parameter. If it were clearly positive or
-            negative, that would suggest that life events explain longitudinal change in
-            Readiness to Act. In my models, this parameter did not show convincing evidence
-            of such an effect.
+            The key predictive part of the model was:
+          </p>
+
+          <div class="math-box">
+            ΔRTA = α + β · g<sub>life events</sub> + ζ
+          </div>
+
+          <p>
+            The important parameter is <code>β</code>. If <code>β</code> were clearly positive
+            or negative, that would suggest that the broad life-events factor explains
+            longitudinal change in readiness to act.
+          </p>
+        </section>
+
+        <section class="project-card">
+          <h2>Going one level deeper</h2>
+          <p>
+            The model did not only look at one general readiness factor. It also separated the
+            broad readiness component from more specific parts of climate action:
+            individual behavior, policy acceptance, and political participation.
+          </p>
+
+          <div class="math-box">
+            climate-action indicators → general RTA + domain-specific factors
+          </div>
+
+          <p>
+            That distinction is important. Someone might generally be ready to act on climate
+            change, but still differ in whether this readiness shows up mainly as lifestyle
+            behavior, policy support, or political engagement.
+          </p>
+          <p>
+            So the final question became more precise:
+          </p>
+
+          <div class="math-box">
+            g<sub>life events</sub> → ΔRTA, ΔIB, ΔPA, ΔPP
+          </div>
+
+          <p>
+            In words: does the broad life-events factor predict change in general readiness,
+            individual behavior, policy acceptance, or political participation?
           </p>
         </section>
 
@@ -541,37 +646,78 @@ permalink: /projects/life-events-rca/
               The full set of life events did not form one clean, simple global structure.
             </li>
             <li>
-              A broad exploratory life-events factor did not clearly predict later change in
-              Readiness to Act.
+              In the final latent change models, the broad life-events factor did not clearly
+              predict later change in general readiness or in the specific components.
             </li>
           </ul>
-          <p>
-            In plain language: the analysis argues against a simple story where “more life
-            events” directly translate into more change in climate-action readiness.
+
+          <table class="result-table">
+            <thead>
+              <tr>
+                <th>Path</th>
+                <th>Meaning</th>
+                <th>Std. β</th>
+                <th>p</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>ΔRTA ~ g</code></td>
+                <td>Change in general readiness</td>
+                <td>.033</td>
+                <td>.441</td>
+              </tr>
+              <tr>
+                <td><code>ΔPA ~ g</code></td>
+                <td>Change in policy acceptance</td>
+                <td>.018</td>
+                <td>.636</td>
+              </tr>
+              <tr>
+                <td><code>ΔPP ~ g</code></td>
+                <td>Change in political participation</td>
+                <td>−.044</td>
+                <td>.168</td>
+              </tr>
+              <tr>
+                <td><code>ΔIB ~ g</code></td>
+                <td>Change in individual behavior</td>
+                <td>−.015</td>
+                <td>.598</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="model-note">
+            The pattern is consistently close to zero. That is why I interpret the result as
+            a null pattern rather than as evidence for a meaningful life-events effect.
           </p>
         </section>
 
         <section class="project-card">
           <h2>How I interpret the null result</h2>
           <p>
-            I do not see the null result as a failure. It is actually quite plausible.
-            Readiness to Act is broad and partly trait-like, and broad psychological
-            dispositions usually do not shift dramatically just because someone experienced
-            more life events.
+            I do not see the null result as a failure. It is theoretically plausible.
+            Readiness to Act is a broad, partly trait-like construct. Broad psychological
+            dispositions are usually not expected to change strongly just because someone
+            experienced more life events.
           </p>
           <p>
             This fits a broader pattern from personality psychology. Life events can be
-            related to personality change, but the effects tend to be relatively small,
-            specific, and not always consistent. If even broad personality traits only move
-            modestly in response to life events, it would be surprising if a broad
-            climate-action readiness factor changed strongly in response to one general
-            life-events score.
+            related to personality change, but the effects are usually relatively small,
+            specific, and not always consistent. If even broad personality traits tend to show
+            only modest event-related change, it would be surprising if one broad life-events
+            score strongly predicted change in a broad climate-action readiness factor.
           </p>
           <p>
-            My takeaway is that “life events in general” may be too broad as a predictor.
-            More specific mechanisms — such as financial strain, perceived vulnerability,
-            health threats, or environmentally relevant disruptions — may be more informative
-            than one general life-events factor.
+            My takeaway is that “life events in general” may be too blunt as a predictor.
+            More specific mechanisms may matter more: financial strain, health threats,
+            perceived vulnerability, environmentally relevant disruptions, or changes in
+            perceived control.
+          </p>
+          <p>
+            In other words, the result does not mean life events are irrelevant. It suggests
+            that the mechanism is probably not captured well by one broad aggregate factor.
           </p>
         </section>
 
@@ -659,8 +805,10 @@ permalink: /projects/life-events-rca/
               Center for Open Science. https://doi.org/10.31219/osf.io/enkwy_v2
             </p>
             <p>
-              Bühler, J. L., et al. (2024). <em>Life events and personality change:
-              A systematic review and meta-analysis</em>.
+              Bühler, J. L., Orth, U., Bleidorn, W., Weber, E., Kretzschmar, A., Scheling,
+              L., & Hopwood, C. J. (2024). <em>Life events and personality change:
+              A systematic review and meta-analysis</em>. European Journal of Personality,
+              38(3), 544–568. https://doi.org/10.1177/08902070231190219
             </p>
           </div>
         </section>
