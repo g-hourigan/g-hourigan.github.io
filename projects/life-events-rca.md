@@ -7,8 +7,11 @@ permalink: /projects/life-events-rca/
 <style>
   .masthead,
   .masthead__inner-wrap,
+  .site-title,
   .greedy-nav,
   .page__footer,
+  .page__footer-follow,
+  .page__footer-copyright,
   .author__avatar,
   .author__content,
   .page__meta,
@@ -292,6 +295,15 @@ permalink: /projects/life-events-rca/
     margin-top: 0.45rem;
   }
 
+  .bottom-line {
+    border-color: rgba(0, 212, 255, 0.24);
+    background: linear-gradient(
+      180deg,
+      rgba(0, 212, 255, 0.07),
+      rgba(9, 15, 26, 0.92)
+    );
+  }
+
   .math-box {
     margin: 0.9rem 0;
     padding: 0.85rem 1rem;
@@ -452,6 +464,15 @@ permalink: /projects/life-events-rca/
       width: 100%;
       justify-content: center;
     }
+
+    .result-table {
+      font-size: 0.84rem;
+    }
+
+    .result-table th,
+    .result-table td {
+      padding: 0.55rem 0.35rem;
+    }
   }
 </style>
 
@@ -490,6 +511,25 @@ permalink: /projects/life-events-rca/
 
       <div class="project-grid">
 
+        <section class="project-card bottom-line">
+          <h2>Bottom line</h2>
+          <p>
+            I tested whether broad life-event exposure predicts longitudinal change in
+            Readiness to Act. Some life-event domains showed meaningful structure, but the
+            final latent change models did not provide evidence that the broad life-events
+            factor predicted change in general readiness or its domain-specific components.
+          </p>
+        </section>
+
+        <section class="project-card">
+          <h2>My role</h2>
+          <p>
+            I prepared the data, structured the life-event item pool, ran the exploratory
+            structure analyses, compared confirmatory factor models, estimated the latent
+            change models, and interpreted the results in R using <code>lavaan</code>.
+          </p>
+        </section>
+
         <section class="project-card">
           <h2>The outcome, briefly</h2>
           <p>
@@ -503,6 +543,14 @@ permalink: /projects/life-events-rca/
             politically. Prior work suggests that this broader construct predicts actual
             climate-relevant behavior better than several narrower environmental constructs.
           </p>
+        </section>
+
+        <section class="project-figure">
+          <img src="/assets/img/rta-framework.jpg" alt="Conceptual framework of Readiness to Act">
+          <div class="project-figure-caption">
+            <strong>Conceptual framework.</strong> Readiness to Act is positioned as a broad
+            climate-action construct linking upstream predictors to downstream forms of action.
+          </div>
         </section>
 
         <section class="project-card">
@@ -544,6 +592,32 @@ permalink: /projects/life-events-rca/
             events, such as job changes, dismissal, moving, pregnancy, birth, separation,
             bereavement, friendship endings, legal problems, and other major life changes.
           </p>
+        </section>
+
+        <section class="project-card">
+          <h2>How I studied it</h2>
+          <p>
+            I started by organizing binary life-event indicators into theory-guided domains:
+            environmental burden, financial burden, health, work, and family or partnership.
+            I then checked whether those domains actually held together empirically.
+          </p>
+          <p>
+            After that, I explored the broader structure across all life-event items, compared
+            reduced confirmatory factor models on a more coherent core of items, and finally
+            tested whether a broad exploratory life-events factor predicted later change in
+            Readiness to Act.
+          </p>
+        </section>
+
+        <section class="project-figure">
+          <div class="project-figure-placeholder">
+            Domain heatmap goes here later<br>
+            <code>/assets/img/domain-heatmap.png</code>
+          </div>
+          <div class="project-figure-caption">
+            <strong>Figure 1.</strong> Within-domain associations for theory-guided life-event
+            domains.
+          </div>
         </section>
 
         <section class="project-card">
@@ -592,29 +666,19 @@ permalink: /projects/life-events-rca/
         </section>
 
         <section class="project-card">
-          <h2>How I studied it</h2>
-          <p>
-            I started by organizing binary life-event indicators into theory-guided domains:
-            environmental burden, financial burden, health, work, and family or partnership.
-            I then checked whether those domains actually held together empirically.
-          </p>
-          <p>
-            After that, I explored the broader structure across all life-event items, compared
-            reduced confirmatory factor models on a more coherent core of items, and finally
-            tested whether a broad exploratory life-events factor predicted later change in
-            Readiness to Act.
-          </p>
-        </section>
-
-        <section class="project-card">
           <h2>The final model</h2>
           <p>
             The final model was a longitudinal latent change model. It asks: after accounting
             for people’s earlier readiness level, does the life-events factor explain who
             changed more or less over time?
           </p>
+
+          <div class="math-box">
+            g<sub>life events</sub> → latent change in RTA
+          </div>
+
           <p>
-            First, readiness is estimated as a latent variable at both time points:
+            More technically, readiness is estimated as a latent variable at both time points:
           </p>
 
           <div class="math-box">
@@ -642,6 +706,17 @@ permalink: /projects/life-events-rca/
             would suggest that life events explain change in Readiness to Act. In the final
             models, this was not the case.
           </p>
+        </section>
+
+        <section class="project-figure">
+          <div class="project-figure-placeholder">
+            CFA comparison figure goes here later<br>
+            <code>/assets/img/cfa-comparison.png</code>
+          </div>
+          <div class="project-figure-caption">
+            <strong>Figure 2.</strong> Reduced CFA comparing a broad general-factor
+            representation with a more interpretable multi-factor structure.
+          </div>
         </section>
 
         <section class="project-card">
@@ -695,33 +770,33 @@ permalink: /projects/life-events-rca/
           <table class="result-table">
             <thead>
               <tr>
-                <th>Path</th>
-                <th>Meaning</th>
+                <th>Outcome predicted by life-events factor</th>
+                <th>Interpretation</th>
                 <th>Std. β</th>
                 <th>p</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><code>ΔRTA ~ g</code></td>
+                <td><code>ΔRTA</code></td>
                 <td>Change in general readiness</td>
                 <td>.033</td>
                 <td>.441</td>
               </tr>
               <tr>
-                <td><code>ΔPA<sub>specific</sub> ~ g</code></td>
+                <td><code>ΔPA-specific</code></td>
                 <td>Change in policy-acceptance-specific residual factor</td>
                 <td>.018</td>
                 <td>.636</td>
               </tr>
               <tr>
-                <td><code>ΔPP<sub>specific</sub> ~ g</code></td>
+                <td><code>ΔPP-specific</code></td>
                 <td>Change in political-participation-specific residual factor</td>
                 <td>−.044</td>
                 <td>.168</td>
               </tr>
               <tr>
-                <td><code>ΔIB<sub>specific</sub> ~ g</code></td>
+                <td><code>ΔIB-specific</code></td>
                 <td>Change in individual-behavior-specific residual factor</td>
                 <td>−.015</td>
                 <td>.598</td>
@@ -735,6 +810,25 @@ permalink: /projects/life-events-rca/
             simply: this broad life-events factor did not explain longitudinal change in the
             broad readiness construct or in its domain-specific residual components.
           </p>
+        </section>
+
+        <section class="project-figure">
+          <img src="/assets/img/cluster-structure.png" alt="Exploratory structure across the full life-event item set">
+          <div class="project-figure-caption">
+            <strong>Figure 3.</strong> Exploratory structure across the full life-event item set.
+            This figure helps show why a simple global life-events factor is a fairly strong
+            simplification of a heterogeneous event pool.
+          </div>
+        </section>
+
+        <section class="project-figure">
+          <div class="project-figure-placeholder">
+            Final change-model figure goes here later<br>
+            <code>/assets/img/change-models.png</code>
+          </div>
+          <div class="project-figure-caption">
+            <strong>Figure 4.</strong> Final latent change models for Readiness to Act.
+          </div>
         </section>
 
         <section class="project-card">
@@ -761,67 +855,6 @@ permalink: /projects/life-events-rca/
           <p>
             In other words, the result does not mean life events are irrelevant. It suggests
             that the mechanism is probably not captured well by one broad aggregate factor.
-          </p>
-        </section>
-
- <section class="project-figure">
-  <img src="/assets/img/rta-framework.jpg" alt="Conceptual framework of Readiness to Act">
-  <div class="project-figure-caption">
-    <strong>Conceptual framework.</strong> Readiness to Act is positioned as a broad
-    climate-action construct linking upstream predictors to downstream forms of action.
-  </div>
-</section>
-
-        <section class="project-figure">
-          <div class="project-figure-placeholder">
-            Domain heatmap goes here later<br>
-            <code>assets/img/cluster-structure.png</code>
-          </div>
-          <div class="project-figure-caption">
-            <strong>Figure 1.</strong> Within-domain associations for theory-guided life-event
-            domains.
-          </div>
-        </section>
-
-       <section class="project-figure">
-  <img src="/assets/img/cluster-structure.png" alt="Exploratory structure across the full life-event item set">
-  <div class="project-figure-caption">
-    <strong>Figure 2.</strong> Exploratory structure across the full life-event item set.
-  </div>
-</section>
-
-        <section class="project-figure">
-          <div class="project-figure-placeholder">
-            CFA comparison figure goes here later<br>
-            <code>/assets/img/cfa-comparison.png</code>
-          </div>
-          <div class="project-figure-caption">
-            <strong>Figure 3.</strong> Reduced CFA comparing a broad general-factor
-            representation with a more interpretable multi-factor structure.
-          </div>
-        </section>
-
-        <section class="project-figure">
-          <div class="project-figure-placeholder">
-            Final change-model figure goes here later<br>
-            <code>/assets/img/change-models.png</code>
-          </div>
-          <div class="project-figure-caption">
-            <strong>Figure 4.</strong> Final latent change models for Readiness to Act.
-          </div>
-        </section>
-
-        <section class="project-card">
-          <h2>Interpretation</h2>
-          <p>
-            The analysis suggests a more nuanced story than “life events change
-            climate-action readiness.” Some event domains show local structure, but a broad
-            exploratory life-events factor did not explain later change in Readiness to Act.
-          </p>
-          <p>
-            That result is useful because it points toward the next step: more targeted event
-            classes, clearer mechanisms, and narrower hypotheses. The broad life-events score
-            may simply be too general for predicting change in a broad psychological outcome.
           </p>
         </section>
 
