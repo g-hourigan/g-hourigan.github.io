@@ -609,9 +609,9 @@ permalink: /projects/life-events-rca/
         <section class="project-card">
           <h2>The final model</h2>
           <p>
-            The final model was a latent change model. It asks: after accounting for people’s
-            earlier readiness level, does the life-events factor explain who changed more or
-            less over time?
+            The final model was a longitudinal latent change model. It asks: after accounting
+            for people’s earlier readiness level, does the life-events factor explain who
+            changed more or less over time?
           </p>
           <p>
             First, readiness is estimated as a latent variable at both time points:
@@ -647,19 +647,31 @@ permalink: /projects/life-events-rca/
         <section class="project-card">
           <h2>Going one level deeper</h2>
           <p>
-            The model did not only test change in the general readiness factor. It also tested
-            whether life events predicted change in the more specific parts of climate action:
-            individual behavior, policy acceptance, and political participation.
+            The model did not only test change in the general readiness factor. Because the
+            measurement model was a bifactor model, it also separated the general
+            Readiness-to-Act component from domain-specific residual components: individual
+            behavior, policy acceptance, and political participation.
           </p>
 
           <div class="math-box">
-            g<sub>life events</sub> → ΔRTA, ΔIB, ΔPA, ΔPP
+            climate-action indicators → general RTA + domain-specific residual factors
           </div>
 
           <p>
-            This matters because a person might not change in general readiness, but could still
-            change in a specific domain. For example, life events might affect policy acceptance
-            without affecting individual behavior.
+            These specific factors are orthogonal to the general readiness factor. That means
+            they capture what is unique to each domain after removing what all climate-action
+            indicators have in common.
+          </p>
+
+          <div class="math-box">
+            g<sub>life events</sub> → ΔRTA, ΔIB<sub>specific</sub>, ΔPA<sub>specific</sub>, ΔPP<sub>specific</sub>
+          </div>
+
+          <p>
+            This distinction matters. A life event might not change someone’s general
+            climate-action readiness, but it could still shift one specific channel. For
+            example, it might affect the policy-acceptance-specific component, over and above
+            the person’s general readiness to act.
           </p>
         </section>
 
@@ -675,7 +687,8 @@ permalink: /projects/life-events-rca/
             </li>
             <li>
               In the final latent change models, the broad life-events factor did not clearly
-              predict later change in general readiness or in the specific components.
+              predict later change in general readiness or in the domain-specific residual
+              components.
             </li>
           </ul>
 
@@ -696,20 +709,20 @@ permalink: /projects/life-events-rca/
                 <td>.441</td>
               </tr>
               <tr>
-                <td><code>ΔPA ~ g</code></td>
-                <td>Change in policy acceptance</td>
+                <td><code>ΔPA<sub>specific</sub> ~ g</code></td>
+                <td>Change in policy-acceptance-specific residual factor</td>
                 <td>.018</td>
                 <td>.636</td>
               </tr>
               <tr>
-                <td><code>ΔPP ~ g</code></td>
-                <td>Change in political participation</td>
+                <td><code>ΔPP<sub>specific</sub> ~ g</code></td>
+                <td>Change in political-participation-specific residual factor</td>
                 <td>−.044</td>
                 <td>.168</td>
               </tr>
               <tr>
-                <td><code>ΔIB ~ g</code></td>
-                <td>Change in individual behavior</td>
+                <td><code>ΔIB<sub>specific</sub> ~ g</code></td>
+                <td>Change in individual-behavior-specific residual factor</td>
                 <td>−.015</td>
                 <td>.598</td>
               </tr>
@@ -720,7 +733,7 @@ permalink: /projects/life-events-rca/
             All four estimates are close to zero and statistically unclear. So the result is
             not “life events strongly matter, but only somewhere hidden.” The pattern is more
             simply: this broad life-events factor did not explain longitudinal change in the
-            broad readiness construct or in its specific components.
+            broad readiness construct or in its domain-specific residual components.
           </p>
         </section>
 
@@ -754,7 +767,7 @@ permalink: /projects/life-events-rca/
         <section class="project-figure">
           <div class="project-figure-placeholder">
             Conceptual framework image goes here later<br>
-            <code>/assets/img/rta-framework.jpg</code>
+            <code>assets/img/rta-framework.jpg</code>
           </div>
           <div class="project-figure-caption">
             <strong>Conceptual framework.</strong> Readiness to Act is positioned as a broad
@@ -765,7 +778,7 @@ permalink: /projects/life-events-rca/
         <section class="project-figure">
           <div class="project-figure-placeholder">
             Domain heatmap goes here later<br>
-            <code>/assets/img/domain-heatmap.png</code>
+            <code>assets/img/cluster-structure.png</code>
           </div>
           <div class="project-figure-caption">
             <strong>Figure 1.</strong> Within-domain associations for theory-guided life-event
