@@ -482,56 +482,76 @@ permalink: /projects/life-events-rca/
           <span>lavaan</span>
           <span>SEM</span>
           <span>Latent Variables</span>
+          <span>Measurement Invariance</span>
           <span>Latent Change Models</span>
           <span>Survey Data</span>
-          <span>Life Events</span>
         </div>
       </section>
 
       <div class="project-grid">
 
         <section class="project-card">
-          <h2>Why this matters</h2>
+          <h2>The outcome, briefly</h2>
           <p>
-            Climate action is not only about whether someone switches off the lights or buys
-            fewer flights. It also includes whether people support climate policy and whether
-            they participate politically. That is why this project focuses on
-            <strong>Readiness to Act</strong>: a broad climate-action construct that tries to
-            capture the shared core behind individual behavior, policy acceptance, and
-            political participation.
+            The outcome in this project is <strong>Readiness to Act</strong>: a broad
+            climate-action construct that combines individual behavior, policy acceptance,
+            and political participation.
           </p>
           <p>
-            Prior work argues that this construct is not just theoretically useful, but also
-            practically meaningful: Readiness to Act predicts actual climate-relevant behavior
-            better than several narrower competing environmental constructs.
+            I use it because climate action is not just about private lifestyle choices.
+            It also includes whether people support climate policy and whether they engage
+            politically. Prior work suggests that this broader construct predicts actual
+            climate-relevant behavior better than several narrower environmental constructs.
           </p>
         </section>
 
         <section class="project-card">
           <h2>What I wanted to know</h2>
           <p>
-            The question was whether life events help explain change in this broader readiness
-            construct. For example, do experiences such as financial strain, health-related
-            events, work changes, family events, or environmental disruptions move people
-            toward or away from climate-action readiness?
+            The question was whether life events help explain change in climate-action
+            readiness. In plain language: do experiences such as financial strain, health
+            problems, work changes, family events, or environmental disruptions move people
+            toward or away from being ready to act on climate change?
           </p>
           <p>
-            I did not only want to know whether life events and readiness were correlated at
-            one point in time. I wanted to test whether life events predicted
-            <strong>longitudinal change</strong>.
+            The key word is <strong>change</strong>. I was not only interested in whether life
+            events and readiness were related at one point in time. I wanted to know whether
+            life events explain who changes more or less over time.
+          </p>
+        </section>
+
+        <section class="project-card">
+          <h2>The data in plain language</h2>
+          <p>
+            The data came from a longitudinal survey. Participants answered questions about
+            their climate-action readiness at multiple time points, and they also reported
+            whether they had experienced different life events.
+          </p>
+          <p>
+            The readiness outcome was built from three kinds of climate-action indicators:
+            individual climate-related behavior, support for climate policies, and political
+            participation for climate protection.
+          </p>
+          <p>
+            The life-event variables were broad and concrete. They included environmental
+            experiences such as heat, drought, storms, flooding, smoke or air pollution,
+            pollen, and ticks; financial strain such as welfare, late rent, dunning fees,
+            negative account balance, use of food banks, or losing housing; and health-related
+            events such as illness, surgery, caregiving, or psychotherapy.
+          </p>
+          <p>
+            The wider item pool also included work, legal, family, partnership, and transition
+            events, such as job changes, dismissal, moving, pregnancy, birth, separation,
+            bereavement, friendship endings, legal problems, and other major life changes.
           </p>
         </section>
 
         <section class="project-card">
           <h2>What a latent variable is</h2>
           <p>
-            A latent variable is a construct that we cannot observe directly. For example,
-            “readiness to act” is not something we can measure with one perfect question.
-            Instead, we infer it from several observed indicators, such as individual climate
-            behavior, policy acceptance, and political participation.
-          </p>
-          <p>
-            The basic idea is:
+            A latent variable is something we care about but cannot observe directly.
+            Readiness to Act is like that: there is no single perfect question that measures it.
+            Instead, we infer it from several observed indicators.
           </p>
 
           <div class="math-box">
@@ -539,9 +559,35 @@ permalink: /projects/life-events-rca/
           </div>
 
           <p>
-            In this project, that matters because I did not want to treat readiness as just a
-            simple sum score. The goal was to model the underlying construct while accounting
-            for the fact that each observed indicator is imperfect.
+            This matters because a latent model separates the underlying construct from noise
+            in individual survey items. So instead of treating readiness as a simple sum score,
+            the model estimates the common factor behind multiple imperfect indicators.
+          </p>
+        </section>
+
+        <section class="project-card">
+          <h2>Why measurement invariance matters</h2>
+          <p>
+            Before modeling change, we need to make sure that the construct is measured in the
+            same way at both time points. Otherwise, an apparent change could simply mean that
+            the measurement worked differently at T0 and T3.
+          </p>
+          <p>
+            In simple terms: if we want to compare readiness over time, we need to use the same
+            ruler twice.
+          </p>
+
+          <div class="math-box">
+            λ<sub>j,T0</sub> = λ<sub>j,T3</sub><br>
+            τ<sub>j,T0</sub> = τ<sub>j,T3</sub>
+          </div>
+
+          <p>
+            Equal loadings <code>λ</code> mean that each indicator relates to the latent
+            construct in the same way over time. Equal intercepts <code>τ</code> mean that the
+            baseline level of each indicator is comparable across waves. With this in place,
+            change in the latent factor is more interpretable as real change rather than a
+            measurement artifact.
           </p>
         </section>
 
@@ -563,12 +609,12 @@ permalink: /projects/life-events-rca/
         <section class="project-card">
           <h2>The final model</h2>
           <p>
-            The final model was a longitudinal latent change model. In human terms, it asked:
-            after accounting for people’s earlier readiness level, does the life-events factor
-            explain who changed more or less over time?
+            The final model was a latent change model. It asks: after accounting for people’s
+            earlier readiness level, does the life-events factor explain who changed more or
+            less over time?
           </p>
           <p>
-            First, readiness was represented as a latent factor at both time points:
+            First, readiness is estimated as a latent variable at both time points:
           </p>
 
           <div class="math-box">
@@ -576,13 +622,7 @@ permalink: /projects/life-events-rca/
           </div>
 
           <p>
-            Here, <code>y</code> is an observed indicator, <code>RTA</code> is the latent
-            readiness factor, <code>λ</code> is the factor loading, and <code>ε</code> is
-            measurement error. The model therefore separates the construct from noise in the
-            observed indicators.
-          </p>
-          <p>
-            Then, change was modeled directly:
+            Then the model estimates change directly:
           </p>
 
           <div class="math-box">
@@ -590,7 +630,7 @@ permalink: /projects/life-events-rca/
           </div>
 
           <p>
-            The key predictive part of the model was:
+            Finally, the life-events factor is used to predict that change:
           </p>
 
           <div class="math-box">
@@ -598,31 +638,18 @@ permalink: /projects/life-events-rca/
           </div>
 
           <p>
-            The important parameter is <code>β</code>. If <code>β</code> were clearly positive
-            or negative, that would suggest that the broad life-events factor explains
-            longitudinal change in readiness to act.
+            The key parameter is <code>β</code>. If it were clearly positive or negative, that
+            would suggest that life events explain change in Readiness to Act. In the final
+            models, this was not the case.
           </p>
         </section>
 
         <section class="project-card">
           <h2>Going one level deeper</h2>
           <p>
-            The model did not only look at one general readiness factor. It also separated the
-            broad readiness component from more specific parts of climate action:
+            The model did not only test change in the general readiness factor. It also tested
+            whether life events predicted change in the more specific parts of climate action:
             individual behavior, policy acceptance, and political participation.
-          </p>
-
-          <div class="math-box">
-            climate-action indicators → general RTA + domain-specific factors
-          </div>
-
-          <p>
-            That distinction is important. Someone might generally be ready to act on climate
-            change, but still differ in whether this readiness shows up mainly as lifestyle
-            behavior, policy support, or political engagement.
-          </p>
-          <p>
-            So the final question became more precise:
           </p>
 
           <div class="math-box">
@@ -630,8 +657,9 @@ permalink: /projects/life-events-rca/
           </div>
 
           <p>
-            In words: does the broad life-events factor predict change in general readiness,
-            individual behavior, policy acceptance, or political participation?
+            This matters because a person might not change in general readiness, but could still
+            change in a specific domain. For example, life events might affect policy acceptance
+            without affecting individual behavior.
           </p>
         </section>
 
@@ -689,8 +717,10 @@ permalink: /projects/life-events-rca/
           </table>
 
           <p class="model-note">
-            The pattern is consistently close to zero. That is why I interpret the result as
-            a null pattern rather than as evidence for a meaningful life-events effect.
+            All four estimates are close to zero and statistically unclear. So the result is
+            not “life events strongly matter, but only somewhere hidden.” The pattern is more
+            simply: this broad life-events factor did not explain longitudinal change in the
+            broad readiness construct or in its specific components.
           </p>
         </section>
 
