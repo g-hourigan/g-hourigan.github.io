@@ -764,16 +764,13 @@ permalink: /projects/life-events-rca/
           </p>
         </section>
 
-        <section class="project-figure">
-          <div class="project-figure-placeholder">
-            Conceptual framework image goes here later<br>
-            <code>assets/img/rta-framework.jpg</code>
-          </div>
-          <div class="project-figure-caption">
-            <strong>Conceptual framework.</strong> Readiness to Act is positioned as a broad
-            climate-action construct linking upstream predictors to downstream forms of action.
-          </div>
-        </section>
+ <section class="project-figure">
+  <img src="/assets/img/rta-framework.jpg" alt="Conceptual framework of Readiness to Act">
+  <div class="project-figure-caption">
+    <strong>Conceptual framework.</strong> Readiness to Act is positioned as a broad
+    climate-action construct linking upstream predictors to downstream forms of action.
+  </div>
+</section>
 
         <section class="project-figure">
           <div class="project-figure-placeholder">
@@ -786,15 +783,12 @@ permalink: /projects/life-events-rca/
           </div>
         </section>
 
-        <section class="project-figure">
-          <div class="project-figure-placeholder">
-            Cluster structure figure goes here later<br>
-            <code>/assets/img/cluster-structure.png</code>
-          </div>
-          <div class="project-figure-caption">
-            <strong>Figure 2.</strong> Exploratory structure across the full life-event item set.
-          </div>
-        </section>
+       <section class="project-figure">
+  <img src="/assets/img/cluster-structure.png" alt="Exploratory structure across the full life-event item set">
+  <div class="project-figure-caption">
+    <strong>Figure 2.</strong> Exploratory structure across the full life-event item set.
+  </div>
+</section>
 
         <section class="project-figure">
           <div class="project-figure-placeholder">
