@@ -275,41 +275,44 @@ permalink: /
     text-transform: uppercase;
   }
 
-  .project-card {
-    padding: 1.25rem 1.2rem;
+  .project-card-compact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1rem 1.1rem;
+    text-decoration: none !important;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
   }
 
-  .project-card h3 {
-    margin: 0 0 0.55rem;
-    font-size: 1.35rem;
-    line-height: 1.25;
+  .project-card-compact:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0, 212, 255, 0.28);
+    background: linear-gradient(
+      180deg,
+      rgba(16, 25, 42, 0.94),
+      rgba(9, 15, 26, 0.94)
+    );
+  }
+
+  .project-card-compact h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1.05rem;
     color: #f7fbff;
   }
 
-  .project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.48rem;
-    margin: 1rem 0 0.95rem;
+  .project-card-compact p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: #9fb0c2;
   }
 
-  .project-tags span {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.28rem 0.62rem;
-    border-radius: 999px;
-    border: 1px solid rgba(170, 187, 211, 0.16);
-    background: rgba(255, 255, 255, 0.03);
-    color: #a9b6c4;
-    font-size: 0.74rem;
+  .project-arrow {
+    flex-shrink: 0;
+    color: #00d4ff;
+    font-size: 0.9rem;
     font-weight: 700;
-    letter-spacing: 0.03em;
-  }
-
-  .project-link {
-    display: inline-block;
-    font-weight: 700;
-    font-size: 0.95rem;
   }
 
   .contact-row {
@@ -405,6 +408,11 @@ permalink: /
       justify-content: center;
     }
 
+    .project-card-compact {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
     .contact-links {
       gap: 0.55rem;
     }
@@ -480,29 +488,16 @@ permalink: /
 
     <p class="section-label">// SELECTED PROJECT</p>
 
-    <div class="project-card">
-      <h3>Life Events and Climate Action Readiness</h3>
-
-      <p>
-        I tested whether life events measured at T3 predicted latent change in
-        readiness for climate action from T1 to T3. The project involved survey-data
-        preparation, measurement invariance testing, structural equation modeling,
-        and latent change modeling in R.
-      </p>
-
-      <div class="project-tags">
-        <span>R</span>
-        <span>lavaan</span>
-        <span>SEM</span>
-        <span>Longitudinal Modeling</span>
-        <span>Latent Variables</span>
-        <span>Survey Data</span>
+    <a class="project-card project-card-compact" href="/projects/life-events-rca/">
+      <div>
+        <h3>Life Events and Climate Action Readiness</h3>
+        <p>
+          A longitudinal SEM case study testing whether life events predict change in
+          climate-action readiness.
+        </p>
       </div>
-
-      <a class="project-link" href="/projects/life-events-rca/">
-        Read project →
-      </a>
-    </div>
+      <span class="project-arrow">Read project →</span>
+    </a>
 
     <div class="section-divider"></div>
 
