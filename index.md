@@ -37,8 +37,8 @@ permalink: /
     padding: 0 !important;
   }
 
-  html {
-    scroll-behavior: smooth;
+  * {
+    box-sizing: border-box;
   }
 
   body {
@@ -54,12 +54,7 @@ permalink: /
   }
 
   ::selection {
-    background: rgba(255, 78, 205, 0.24);
-    color: #ffffff;
-  }
-
-  ::-moz-selection {
-    background: rgba(255, 78, 205, 0.24);
+    background: rgba(255, 78, 205, 0.22);
     color: #ffffff;
   }
 
@@ -68,8 +63,7 @@ permalink: /
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    opacity: 1;
-    filter: saturate(1.08) brightness(1.02);
+    opacity: 0.8;
   }
 
   #p5-network-bg canvas {
@@ -78,264 +72,207 @@ permalink: /
     height: 100% !important;
   }
 
-  #p5-network-bg::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px);
-    background-size: 100% 3px;
-    mix-blend-mode: overlay;
-    opacity: 0.10;
-  }
-
   .site-shell {
     position: relative;
     z-index: 1;
-    max-width: 1080px;
+    width: min(100% - 2rem, 900px);
     margin: 0 auto;
-    padding: 3rem 1.25rem;
+    padding: clamp(4rem, 10vw, 7rem) 0 3rem;
   }
 
-  .site-panel {
-    position: relative;
-    overflow: hidden;
-    min-height: calc(100vh - 6rem);
-    border: 1px solid rgba(111, 142, 182, 0.18);
-    border-radius: 28px;
-    background: linear-gradient(
-      180deg,
-      rgba(8, 13, 24, 0.86) 0%,
-      rgba(6, 10, 18, 0.93) 100%
-    );
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.02) inset,
-      0 30px 80px rgba(0, 0, 0, 0.35),
-      0 0 80px rgba(0, 212, 255, 0.05);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: clamp(2rem, 5vw, 4.5rem);
+  .topbar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-bottom: 1.15rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
   }
 
-  .site-panel::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(90deg, rgba(0, 212, 255, 0.04), transparent 20%, transparent 80%, rgba(255, 78, 205, 0.035)),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 25%);
-    pointer-events: none;
-  }
-
-  .content {
-    position: relative;
-    z-index: 1;
-    max-width: 820px;
-  }
-
-  .hero-title {
+  .name {
     margin: 0;
-    font-size: clamp(3rem, 8vw, 6rem);
-    line-height: 0.95;
-    letter-spacing: -0.065em;
-    font-weight: 800;
-    color: #f4f8fb;
+    font-size: clamp(2.15rem, 5vw, 3.4rem);
+    line-height: 1;
+    letter-spacing: -0.045em;
+    font-weight: 720;
+    color: #f4f7fa;
   }
 
-  .hero-subtitle {
-    max-width: 760px;
-    margin: 1.35rem 0 0;
-    font-size: clamp(1.05rem, 2vw, 1.3rem);
-    line-height: 1.65;
-    color: #9fb0c2;
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.1rem;
+    font-size: 0.93rem;
+  }
+
+  .nav a,
+  .update-title a {
+    color: #aebdca !important;
+    text-decoration: none !important;
+    transition: color 0.18s ease;
+  }
+
+  .nav a:hover,
+  .update-title a:hover {
+    color: #ffffff !important;
   }
 
   .intro {
-    max-width: 760px;
-    margin-top: 4.5rem;
+    max-width: 660px;
+    padding: clamp(2.3rem, 6vw, 4.5rem) 0;
   }
 
   .intro p {
     margin: 0;
-    font-size: 1.08rem;
-    line-height: 1.9;
-    color: #b5c2cf;
+    font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+    line-height: 1.65;
+    letter-spacing: -0.015em;
+    color: #aebdca;
   }
 
-  .section {
+  .intro strong {
+    color: #edf3f7;
+    font-weight: 600;
+  }
+
+  .updates {
     max-width: 760px;
-    margin-top: 4.5rem;
+    padding-top: 1.15rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.10);
   }
 
-  .section-title {
-    margin: 0 0 1.35rem;
-    font-size: 0.82rem;
-    font-weight: 800;
-    letter-spacing: 0.18em;
+  .section-heading {
+    margin: 0 0 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #7f8da1;
+    color: #738196;
+  }
+
+  .empty-state {
+    margin: 0;
+    padding: 1rem 0 1.5rem;
+    color: #8998aa;
+    line-height: 1.65;
   }
 
   .update-list {
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
   .update-item {
     display: grid;
-    grid-template-columns: 8rem 1fr;
+    grid-template-columns: 7rem 1fr;
     gap: 1.5rem;
-    padding: 1.35rem 0;
+    padding: 1.2rem 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .update-date {
-    color: #7f8da1;
-    font-size: 0.95rem;
+    color: #738196;
+    font-size: 0.9rem;
   }
 
   .update-title {
     margin: 0;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #edf4f8;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e6edf2;
   }
 
   .update-text {
-    margin: 0.35rem 0 0;
-    line-height: 1.65;
-    color: #9fb0c2;
+    margin: 0.3rem 0 0;
+    color: #91a0b1;
+    line-height: 1.6;
   }
 
   .footer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 1.25rem;
-    max-width: 760px;
-    margin-top: 4.5rem;
-    padding-top: 1.4rem;
+    margin-top: 5rem;
+    padding-top: 1.1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    color: #718096;
-    font-size: 0.95rem;
+    color: #647286;
+    font-size: 0.88rem;
   }
 
-  .footer-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .footer a {
-    color: #aebdca !important;
-    text-decoration: none !important;
-    transition: color 0.2s ease;
-  }
-
-  .footer a:hover {
-    color: #f4f8fb !important;
-  }
-
-  @media (max-width: 720px) {
+  @media (max-width: 620px) {
     .site-shell {
-      padding: 1rem 0.7rem;
+      width: min(100% - 1.4rem, 900px);
+      padding-top: 2.8rem;
     }
 
-    .site-panel {
-      min-height: calc(100vh - 2rem);
-      border-radius: 22px;
-      padding: 2rem 1.25rem;
+    .topbar {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 1.1rem;
     }
 
-    .intro,
-    .section,
-    .footer {
-      margin-top: 3.5rem;
+    .intro {
+      padding: 2.6rem 0 3.5rem;
     }
 
     .update-item {
       grid-template-columns: 1fr;
-      gap: 0.45rem;
+      gap: 0.35rem;
     }
   }
 </style>
 
 <div id="p5-network-bg" aria-hidden="true"></div>
 
-<section class="site-shell">
-  <main class="site-panel">
-    <div class="content">
-      <header>
-        <h1 class="hero-title">Gerrit Hourigan</h1>
-        <p class="hero-subtitle">
-          Psychology, cognition, behavioral data, and quantitative research.
-        </p>
-      </header>
+<main class="site-shell">
+  <header class="topbar">
+    <h1 class="name">Gerrit Hourigan</h1>
 
-      <section class="intro" aria-label="About">
-        <p>
-          I study how people think, learn, and differ—and how these questions can be
-          addressed through careful measurement and statistical modeling. This site is
-          a small home for papers, research notes, and other work I find worth sharing.
-        </p>
-      </section>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="/cv/">CV</a>
+      <a href="mailto:gerrithourigan@gmail.com">Email</a>
+      <a href="https://github.com/g-hourigan" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </nav>
+  </header>
 
-      <section class="section" aria-labelledby="updates-title">
-        <h2 class="section-title" id="updates-title">Updates</h2>
+  <section class="intro" aria-label="About">
+    <p>
+      I am a psychology researcher interested in <strong>cognition, individual differences,
+      and quantitative methods</strong>. I use this site to share papers and occasional updates.
+    </p>
+  </section>
 
-        <div class="update-list">
-          <article class="update-item">
-            <time class="update-date" datetime="2026-07">July 2026</time>
-            <div>
-              <h3 class="update-title">Website online</h3>
-              <p class="update-text">
-                A simple space for publications, research notes, and occasional updates.
-              </p>
-            </div>
-          </article>
+  <!-- Add this section when you have something to post.
+  <section class="updates" aria-labelledby="updates-heading">
+    <h2 class="section-heading" id="updates-heading">Recent</h2>
 
-          <!-- Duplicate the block below whenever you want to add a new update.
-          <article class="update-item">
-            <time class="update-date" datetime="2026-08">August 2026</time>
-            <div>
-              <h3 class="update-title">
-                <a href="YOUR-LINK-HERE">Title of paper or update</a>
-              </h3>
-              <p class="update-text">One brief sentence about it.</p>
-            </div>
-          </article>
-          -->
+    <ol class="update-list">
+      <li class="update-item">
+        <time class="update-date" datetime="2026-08">August 2026</time>
+        <div>
+          <h3 class="update-title">
+            <a href="YOUR-LINK-HERE">Title of paper or update</a>
+          </h3>
+          <p class="update-text">One brief sentence about it.</p>
         </div>
-      </section>
+      </li>
+    </ol>
+  </section>
+  -->
 
-      <footer class="footer">
-        <span>© 2026 Gerrit Hourigan</span>
-
-        <nav class="footer-links" aria-label="Contact links">
-          <a href="/cv/">CV</a>
-          <a href="mailto:gerrithourigan@gmail.com">Email</a>
-          <a href="https://github.com/g-hourigan" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </nav>
-      </footer>
-    </div>
-  </main>
-</section>
+  <footer class="footer">© 2026 Gerrit Hourigan</footer>
+</main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
 <script>
   let particles = [];
-  let pointer = {
-    x: 0,
-    y: 0,
-    active: false
-  };
+  let pointer = { x: 0, y: 0, active: false };
 
   const SETTINGS = {
-    particleCountDesktop: 64,
-    particleCountMobile: 42,
-    maxNeighbors: 4,
-    maxDistance: 155,
-    mouseRadius: 220,
-    mousePull: 0.06,
+    particleCountDesktop: 52,
+    particleCountMobile: 32,
+    maxNeighbors: 3,
+    maxDistance: 150,
+    mouseRadius: 210,
+    mousePull: 0.05,
     flowScale: 0.002,
     flowSpeed: 0.002,
     flowTurns: 2.0
@@ -352,16 +289,14 @@ permalink: /
 
   function draw() {
     clear();
-    background(7, 16, 36, 0);
 
-    for (let i = 0; i < particles.length; i++) {
-      particles[i].update();
+    for (const particle of particles) {
+      particle.update();
     }
 
     blendMode(ADD);
     drawConnections();
     drawParticles();
-    drawPointerGlow();
     blendMode(BLEND);
   }
 
@@ -371,52 +306,39 @@ permalink: /
   }
 
   function bindPointerEvents() {
-    window.addEventListener("pointermove", (e) => {
-      pointer.x = e.clientX;
-      pointer.y = e.clientY;
-      pointer.active = true;
-    });
-
-    window.addEventListener("pointerdown", (e) => {
-      pointer.x = e.clientX;
-      pointer.y = e.clientY;
+    window.addEventListener("pointermove", (event) => {
+      pointer.x = event.clientX;
+      pointer.y = event.clientY;
       pointer.active = true;
     });
 
     window.addEventListener("pointerleave", () => {
       pointer.active = false;
     });
-
-    window.addEventListener("pointercancel", () => {
-      pointer.active = false;
-    });
-
-    window.addEventListener("mouseout", (e) => {
-      if (!e.relatedTarget && !e.toElement) {
-        pointer.active = false;
-      }
-    });
   }
 
   function buildParticles() {
     particles = [];
-    const isMobile = windowWidth < 760;
-    const count = isMobile ? SETTINGS.particleCountMobile : SETTINGS.particleCountDesktop;
+    const count = windowWidth < 760
+      ? SETTINGS.particleCountMobile
+      : SETTINGS.particleCountDesktop;
 
-    for (let i = 0; i < count; i++) {
+    for (let index = 0; index < count; index++) {
       particles.push(new Particle());
     }
   }
 
   function drawConnections() {
     for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
+      const particle = particles[i];
       const distances = [];
 
       for (let j = i + 1; j < particles.length; j++) {
-        const q = particles[j];
-        const d = dist(p.x, p.y, q.x, q.y);
-        distances.push({ index: j, distance: d });
+        const other = particles[j];
+        distances.push({
+          index: j,
+          distance: dist(particle.x, particle.y, other.x, other.y)
+        });
       }
 
       distances.sort((a, b) => a.distance - b.distance);
@@ -425,13 +347,13 @@ permalink: /
         const entry = distances[k];
 
         if (entry.distance < SETTINGS.maxDistance) {
-          const q = particles[entry.index];
-          const alpha = map(entry.distance, 0, SETTINGS.maxDistance, 150, 0);
-          const weight = map(entry.distance, 0, SETTINGS.maxDistance, 1.55, 0.2);
+          const other = particles[entry.index];
+          const alpha = map(entry.distance, 0, SETTINGS.maxDistance, 100, 0);
+          const weight = map(entry.distance, 0, SETTINGS.maxDistance, 1.2, 0.2);
 
-          stroke(0, 240, 255, alpha * 0.9);
+          stroke(0, 240, 255, alpha);
           strokeWeight(weight);
-          line(p.x, p.y, q.x, q.y);
+          line(particle.x, particle.y, other.x, other.y);
         }
       }
     }
@@ -440,70 +362,56 @@ permalink: /
   function drawParticles() {
     noStroke();
 
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
+    for (const particle of particles) {
+      fill(255, 61, 171, 22);
+      circle(particle.x, particle.y, particle.size * 3);
 
-      fill(255, 61, 171, 28);
-      circle(p.x, p.y, p.size * 3.2);
-
-      fill(255, 61, 171, 205);
-      circle(p.x, p.y, p.size * 1.55);
+      fill(255, 61, 171, 175);
+      circle(particle.x, particle.y, particle.size * 1.45);
     }
-  }
-
-  function drawPointerGlow() {
-    if (!pointer.active) return;
-
-    noStroke();
-    fill(0, 240, 255, 10);
-    circle(pointer.x, pointer.y, 42);
-    fill(255, 255, 255, 190);
-    circle(pointer.x, pointer.y, 4.5);
   }
 
   class Particle {
     constructor() {
-      this.reset();
-    }
-
-    reset() {
       this.x = random(width);
       this.y = random(height);
       this.vx = random(-0.4, 0.4);
       this.vy = random(-0.4, 0.4);
       this.seed = random(10000);
-      this.size = random(1.6, 3.4);
+      this.size = random(1.5, 3.1);
     }
 
     update() {
-      const t = (frameCount + this.seed) * SETTINGS.flowSpeed;
+      const time = (frameCount + this.seed) * SETTINGS.flowSpeed;
       const angle = noise(
         this.x * SETTINGS.flowScale,
         this.y * SETTINGS.flowScale,
-        t
+        time
       ) * TWO_PI * SETTINGS.flowTurns;
 
-      this.vx += cos(angle) * 0.06;
-      this.vy += sin(angle) * 0.06;
-
-      this.vx *= 0.92;
-      this.vy *= 0.92;
-
+      this.vx = (this.vx + cos(angle) * 0.06) * 0.92;
+      this.vy = (this.vy + sin(angle) * 0.06) * 0.92;
       this.x += this.vx;
       this.y += this.vy;
 
       if (pointer.active) {
-        const dMouse = dist(this.x, this.y, pointer.x, pointer.y);
+        const distanceToPointer = dist(this.x, this.y, pointer.x, pointer.y);
 
-        if (dMouse < SETTINGS.mouseRadius) {
-          const force = map(dMouse, 0, SETTINGS.mouseRadius, SETTINGS.mousePull, 0);
+        if (distanceToPointer < SETTINGS.mouseRadius) {
+          const force = map(
+            distanceToPointer,
+            0,
+            SETTINGS.mouseRadius,
+            SETTINGS.mousePull,
+            0
+          );
+
           this.x = lerp(this.x, pointer.x + cos(this.seed) * 8, force);
           this.y = lerp(this.y, pointer.y + sin(this.seed) * 8, force);
         }
       }
 
       const margin = 8;
-
       if (this.x < -margin) this.x = width + margin;
       if (this.x > width + margin) this.x = -margin;
       if (this.y < -margin) this.y = height + margin;
