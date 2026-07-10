@@ -92,14 +92,15 @@ permalink: /
   .site-shell {
     position: relative;
     z-index: 1;
-    max-width: 1120px;
+    max-width: 1080px;
     margin: 0 auto;
-    padding: 2.4rem 1.2rem 3rem;
+    padding: 3rem 1.25rem;
   }
 
   .site-panel {
     position: relative;
     overflow: hidden;
+    min-height: calc(100vh - 6rem);
     border: 1px solid rgba(111, 142, 182, 0.18);
     border-radius: 28px;
     background: linear-gradient(
@@ -113,7 +114,7 @@ permalink: /
       0 0 80px rgba(0, 212, 255, 0.05);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    padding: 2rem 2rem 1.6rem;
+    padding: clamp(2rem, 5vw, 4.5rem);
   }
 
   .site-panel::before {
@@ -121,304 +122,139 @@ permalink: /
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(90deg, rgba(0, 212, 255, 0.05), transparent 18%, transparent 82%, rgba(255, 78, 205, 0.04)),
+      linear-gradient(90deg, rgba(0, 212, 255, 0.04), transparent 20%, transparent 80%, rgba(255, 78, 205, 0.035)),
       linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 25%);
     pointer-events: none;
   }
 
-  .section-label {
+  .content {
     position: relative;
     z-index: 1;
-    margin: 0 0 0.9rem;
-    font-size: 0.92rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    color: #8c99ad;
-    text-transform: uppercase;
-  }
-
-  .section-divider {
-    position: relative;
-    z-index: 1;
-    height: 1px;
-    margin: 1.9rem 0 1.45rem;
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.08),
-      rgba(255, 255, 255, 0.02)
-    );
+    max-width: 820px;
   }
 
   .hero-title {
-    position: relative;
-    z-index: 1;
     margin: 0;
-    max-width: 950px;
-    font-size: clamp(2.5rem, 5vw, 4.3rem);
-    line-height: 1.02;
-    letter-spacing: -0.055em;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: -0.065em;
     font-weight: 800;
     color: #f4f8fb;
   }
 
   .hero-subtitle {
-    position: relative;
-    z-index: 1;
     max-width: 760px;
-    margin: 0.95rem 0 0;
-    font-size: 1.02rem;
-    line-height: 1.75;
+    margin: 1.35rem 0 0;
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    line-height: 1.65;
     color: #9fb0c2;
   }
 
-  .hero-links {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1.2rem;
+  .intro {
+    max-width: 760px;
+    margin-top: 4.5rem;
   }
 
-  .hero-links a,
-  .link-inline,
-  .project-link,
-  .contact-links a {
-    color: #00d4ff !important;
-    text-decoration: none !important;
-    transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-  }
-
-  .hero-links a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.62rem 0.95rem;
-    border: 1px solid rgba(0, 212, 255, 0.18);
-    border-radius: 999px;
-    background: rgba(9, 16, 28, 0.82);
-    font-size: 0.92rem;
-    font-weight: 700;
-    color: #dffaff !important;
-  }
-
-  .hero-links a:hover,
-  .contact-links a:hover,
-  .link-inline:hover,
-  .project-link:hover {
-    color: #ff71d6 !important;
-    border-color: rgba(255, 113, 214, 0.32);
-    transform: translateY(-1px);
-  }
-
-  .welcome-card,
-  .info-card,
-  .project-card {
-    position: relative;
-    z-index: 1;
-    border: 1px solid rgba(114, 134, 170, 0.18);
-    border-radius: 18px;
-    background: linear-gradient(
-      180deg,
-      rgba(14, 21, 35, 0.92),
-      rgba(9, 15, 26, 0.92)
-    );
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
-  }
-
-  .welcome-card {
-    margin-top: 1.45rem;
-    padding: 1.3rem 1.35rem;
-  }
-
-  .welcome-card p,
-  .info-card p,
-  .project-card p {
+  .intro p {
     margin: 0;
-    color: #aebdca;
-    line-height: 1.72;
+    font-size: 1.08rem;
+    line-height: 1.9;
+    color: #b5c2cf;
   }
 
-  .welcome-card p + p {
-    margin-top: 0.7rem;
+  .section {
+    max-width: 760px;
+    margin-top: 4.5rem;
   }
 
-  .welcome-nav {
-    margin-top: 0.9rem;
-    color: #dbe7ef;
-    font-size: 0.98rem;
-  }
-
-  .welcome-nav span {
-    color: #8c99ad;
-    margin-right: 0.45rem;
-  }
-
-  .cards-grid {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
-  }
-
-  .info-card {
-    padding: 1.1rem 1.15rem;
-  }
-
-  .card-title {
-    margin: 0 0 0.55rem;
-    font-size: 0.98rem;
+  .section-title {
+    margin: 0 0 1.35rem;
+    font-size: 0.82rem;
     font-weight: 800;
-    letter-spacing: 0.08em;
-    color: #f2f7fb;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
+    color: #7f8da1;
   }
 
-  .project-card-compact {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1.2rem;
-    padding: 1rem 1.1rem;
-    text-decoration: none !important;
-    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  .update-list {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .project-card-compact:hover {
-    transform: translateY(-2px);
-    border-color: rgba(0, 212, 255, 0.28);
-    background: linear-gradient(
-      180deg,
-      rgba(16, 25, 42, 0.94),
-      rgba(9, 15, 26, 0.94)
-    );
+  .update-item {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1.5rem;
+    padding: 1.35rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .project-card-compact h3 {
-    margin: 0 0 0.25rem;
-    font-size: 1.05rem;
-    color: #f7fbff;
+  .update-date {
+    color: #7f8da1;
+    font-size: 0.95rem;
   }
 
-  .project-card-compact p {
+  .update-title {
     margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.45;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #edf4f8;
+  }
+
+  .update-text {
+    margin: 0.35rem 0 0;
+    line-height: 1.65;
     color: #9fb0c2;
   }
 
-  .project-arrow {
-    flex-shrink: 0;
-    color: #00d4ff;
-    font-size: 0.9rem;
-    font-weight: 700;
-  }
-
-  .contact-row {
-    position: relative;
-    z-index: 1;
+  .footer {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 0.9rem;
-    color: #dbe7ef;
-    font-size: 1rem;
+    justify-content: space-between;
+    gap: 1.25rem;
+    max-width: 760px;
+    margin-top: 4.5rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    color: #718096;
+    font-size: 0.95rem;
   }
 
-  .contact-links {
+  .footer-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.9rem;
-    align-items: center;
-  }
-
-  .contact-links .sep {
-    color: #4f5d74;
-  }
-
-  .footer-row {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: 1fr auto;
     gap: 1rem;
-    align-items: start;
-    margin-top: 0.2rem;
-    color: #93a1b0;
   }
 
-  .copyright {
-    font-size: 0.95rem;
-    line-height: 1.7;
+  .footer a {
+    color: #aebdca !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease;
   }
 
-  .system-meta {
-    text-align: right;
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: #98a6b6;
+  .footer a:hover {
+    color: #f4f8fb !important;
   }
 
-  .status-live {
-    color: #4cff9e;
-    font-weight: 800;
-  }
-
-  .meta-note {
-    margin-top: 1rem;
-    font-size: 0.95rem;
-    line-height: 1.7;
-    color: #6f7e92;
-    font-style: italic;
-  }
-
-  @media (max-width: 900px) {
+  @media (max-width: 720px) {
     .site-shell {
-      padding: 1.2rem 0.8rem 2rem;
+      padding: 1rem 0.7rem;
     }
 
     .site-panel {
+      min-height: calc(100vh - 2rem);
       border-radius: 22px;
-      padding: 1.35rem 1.1rem 1.2rem;
+      padding: 2rem 1.25rem;
     }
 
-    .cards-grid,
-    .footer-row {
+    .intro,
+    .section,
+    .footer {
+      margin-top: 3.5rem;
+    }
+
+    .update-item {
       grid-template-columns: 1fr;
-    }
-
-    .footer-row,
-    .system-meta {
-      text-align: left;
-    }
-
-    .hero-subtitle {
-      font-size: 1rem;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .hero-links {
-      gap: 0.6rem;
-    }
-
-    .hero-links a {
-      width: 100%;
-      justify-content: center;
-    }
-
-    .project-card-compact {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .contact-links {
-      gap: 0.55rem;
-    }
-
-    .contact-links .sep {
-      display: none;
+      gap: 0.45rem;
     }
   }
 </style>
@@ -426,111 +262,62 @@ permalink: /
 <div id="p5-network-bg" aria-hidden="true"></div>
 
 <section class="site-shell">
-  <div class="site-panel">
-    <p class="section-label">// HOME</p>
-
-    <h1 class="hero-title">Gerrit Hourigan</h1>
-
-    <p class="hero-subtitle">
-      Psychology, cognition, behavioral data, and quantitative research.
-    </p>
-
-    <div class="hero-links">
-      <a href="/cv/">CV</a>
-      <a href="mailto:gerrithourigan@gmail.com">Email</a>
-      <a href="https://github.com/g-hourigan" target="_blank" rel="noopener noreferrer">GitHub</a>
-    </div>
-
-    <div class="welcome-card">
-      <p>
-        Hi, I’m Gerrit. I’m interested in psychology, cognition, and the analysis of
-        behavioral data. Most of my work sits around quantitative research, individual
-        differences, and questions that can be studied with careful modeling.
-      </p>
-
-      <p>
-        I completed my B.Sc. in Psychology at Leuphana University Lüneburg and am
-        continuing into the M.Sc. while working on research and data analysis projects.
-        Outside academia, I’m also a competitive chess player.
-      </p>
-
-      <div class="welcome-nav">
-        <span>Navigate:</span>
-        <a class="link-inline" href="/cv/">[ cv ]</a>
-        &nbsp;|&nbsp;
-        <a class="link-inline" href="/projects/life-events-rca/">[ project ]</a>
-      </div>
-    </div>
-
-    <div class="section-divider"></div>
-
-    <p class="section-label">// CURRENT FOCUS</p>
-
-    <div class="cards-grid">
-      <div class="info-card">
-        <p class="card-title">Research</p>
-        <p>
-          Latent variables, longitudinal data, measurement, individual differences,
-          and behavioral outcomes that matter outside highly artificial settings.
+  <main class="site-panel">
+    <div class="content">
+      <header>
+        <h1 class="hero-title">Gerrit Hourigan</h1>
+        <p class="hero-subtitle">
+          Psychology, cognition, behavioral data, and quantitative research.
         </p>
-      </div>
+      </header>
 
-      <div class="info-card">
-        <p class="card-title">Tools</p>
+      <section class="intro" aria-label="About">
         <p>
-          R, SEM, survey-data workflows, reproducible analysis, and increasingly
-          machine-learning methods for behavioral and cognitive data.
+          I study how people think, learn, and differ—and how these questions can be
+          addressed through careful measurement and statistical modeling. This site is
+          a small home for papers, research notes, and other work I find worth sharing.
         </p>
-      </div>
+      </section>
+
+      <section class="section" aria-labelledby="updates-title">
+        <h2 class="section-title" id="updates-title">Updates</h2>
+
+        <div class="update-list">
+          <article class="update-item">
+            <time class="update-date" datetime="2026-07">July 2026</time>
+            <div>
+              <h3 class="update-title">Website online</h3>
+              <p class="update-text">
+                A simple space for publications, research notes, and occasional updates.
+              </p>
+            </div>
+          </article>
+
+          <!-- Duplicate the block below whenever you want to add a new update.
+          <article class="update-item">
+            <time class="update-date" datetime="2026-08">August 2026</time>
+            <div>
+              <h3 class="update-title">
+                <a href="YOUR-LINK-HERE">Title of paper or update</a>
+              </h3>
+              <p class="update-text">One brief sentence about it.</p>
+            </div>
+          </article>
+          -->
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>© 2026 Gerrit Hourigan</span>
+
+        <nav class="footer-links" aria-label="Contact links">
+          <a href="/cv/">CV</a>
+          <a href="mailto:gerrithourigan@gmail.com">Email</a>
+          <a href="https://github.com/g-hourigan" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </footer>
     </div>
-
-    <div class="section-divider"></div>
-
-    <p class="section-label">// SELECTED PROJECT</p>
-
-    <a class="project-card project-card-compact" href="/projects/life-events-rca/">
-      <div>
-        <h3>Life Events and Climate Action Readiness</h3>
-        <p>
-          A longitudinal SEM case study testing whether life events predict change in
-          climate-action readiness.
-        </p>
-      </div>
-      <span class="project-arrow">Read project →</span>
-    </a>
-
-    <div class="section-divider"></div>
-
-    <p class="section-label">// CONTACT</p>
-
-    <div class="contact-row">
-      <div class="contact-links">
-        <a href="/cv/">CV</a>
-        <span class="sep">|</span>
-        <a href="mailto:gerrithourigan@gmail.com">Email</a>
-        <span class="sep">|</span>
-        <a href="https://github.com/g-hourigan" target="_blank" rel="noopener noreferrer">GitHub</a>
-      </div>
-    </div>
-
-    <div class="section-divider"></div>
-
-    <div class="footer-row">
-      <div class="copyright">
-        © 2026 Gerrit Hourigan<br>
-        All Rights Reserved.
-      </div>
-
-      <div class="system-meta">
-        STATUS: <span class="status-live">ACTIVE</span><br>
-        BUILD: PSYCHOLOGY × DATA
-      </div>
-    </div>
-
-    <p class="meta-note">
-      Interface: GitHub Pages / Jekyll / p5.js particle background.
-    </p>
-  </div>
+  </main>
 </section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
