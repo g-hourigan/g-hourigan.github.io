@@ -5,6 +5,7 @@ permalink: /
 ---
 
 <style>
+  /* Hide theme elements */
   .masthead,
   .masthead__inner-wrap,
   .greedy-nav,
@@ -31,8 +32,8 @@ permalink: /
 
   .page__inner-wrap,
   .page__content {
-    max-width: none !important;
     width: 100% !important;
+    max-width: none !important;
     margin: 0 !important;
     padding: 0 !important;
   }
@@ -41,16 +42,46 @@ permalink: /
     box-sizing: border-box;
   }
 
+  html,
+  body {
+    min-height: 100%;
+  }
+
   body {
     margin: 0;
-    background:
-      radial-gradient(circle at 18% 20%, rgba(0, 212, 255, 0.06), transparent 28%),
-      radial-gradient(circle at 82% 18%, rgba(255, 78, 205, 0.05), transparent 22%),
-      radial-gradient(circle at 50% 82%, rgba(0, 212, 255, 0.04), transparent 28%),
-      #050914;
-    color: #dbe7ef;
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     overflow-x: hidden;
+
+    background:
+      radial-gradient(
+        circle at 18% 20%,
+        rgba(0, 212, 255, 0.055),
+        transparent 28%
+      ),
+      radial-gradient(
+        circle at 82% 18%,
+        rgba(255, 78, 205, 0.045),
+        transparent 24%
+      ),
+      radial-gradient(
+        circle at 50% 82%,
+        rgba(0, 212, 255, 0.035),
+        transparent 30%
+      ),
+      #050914;
+
+    color: #dbe7ef;
+
+    font-family:
+      Inter,
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   ::selection {
@@ -58,12 +89,14 @@ permalink: /
     color: #ffffff;
   }
 
+  /* Animated background */
+
   #p5-network-bg {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    opacity: 0.8;
+    opacity: 0.78;
   }
 
   #p5-network-bg canvas {
@@ -72,62 +105,55 @@ permalink: /
     height: 100% !important;
   }
 
+  /* Main layout */
+
   .site-shell {
     position: relative;
     z-index: 1;
+
     width: min(100% - 2rem, 900px);
+    min-height: 100vh;
+
     margin: 0 auto;
-    padding: clamp(4rem, 10vw, 7rem) 0 3rem;
+    padding: clamp(4rem, 10vw, 7rem) 0 2.5rem;
+
+    display: flex;
+    flex-direction: column;
   }
 
+  /* Header */
+
   .topbar {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 2rem;
-    padding-bottom: 1.15rem;
+    padding-bottom: 1.2rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.10);
   }
 
   .name {
     margin: 0;
-    font-size: clamp(2.15rem, 5vw, 3.4rem);
+
+    color: #f4f7fa;
+
+    font-size: clamp(2.25rem, 5vw, 3.45rem);
+    font-weight: 700;
     line-height: 1;
     letter-spacing: -0.045em;
-    font-weight: 720;
-    color: #f4f7fa;
   }
 
-  .nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.1rem;
-    font-size: 0.93rem;
-  }
-
-  .nav a,
-  .update-title a {
-    color: #aebdca !important;
-    text-decoration: none !important;
-    transition: color 0.18s ease;
-  }
-
-  .nav a:hover,
-  .update-title a:hover {
-    color: #ffffff !important;
-  }
+  /* Intro */
 
   .intro {
-    max-width: 660px;
-    padding: clamp(2.3rem, 6vw, 4.5rem) 0;
+    max-width: 720px;
+    padding: clamp(2.6rem, 7vw, 5rem) 0;
   }
 
   .intro p {
     margin: 0;
+
+    color: #aebdca;
+
     font-size: clamp(1.15rem, 2.4vw, 1.45rem);
     line-height: 1.65;
     letter-spacing: -0.015em;
-    color: #aebdca;
   }
 
   .intro strong {
@@ -135,87 +161,141 @@ permalink: /
     font-weight: 600;
   }
 
-  .updates {
+  /* Optional work section */
+
+  .work {
     max-width: 760px;
-    padding-top: 1.15rem;
+
+    padding-top: 1.2rem;
+
     border-top: 1px solid rgba(255, 255, 255, 0.10);
   }
 
   .section-heading {
-    margin: 0 0 0.65rem;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    margin: 0 0 0.7rem;
+
     color: #738196;
+
+    font-size: 0.78rem;
+    font-weight: 700;
+
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
   }
 
-  .empty-state {
-    margin: 0;
-    padding: 1rem 0 1.5rem;
-    color: #8998aa;
-    line-height: 1.65;
-  }
-
-  .update-list {
+  .work-list {
     margin: 0;
     padding: 0;
+
     list-style: none;
   }
 
-  .update-item {
+  .work-item {
     display: grid;
-    grid-template-columns: 7rem 1fr;
+    grid-template-columns: 6rem 1fr;
     gap: 1.5rem;
-    padding: 1.2rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    padding: 1.25rem 0;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.075);
   }
 
-  .update-date {
+  .work-date {
     color: #738196;
     font-size: 0.9rem;
   }
 
-  .update-title {
+  .work-title {
     margin: 0;
+
+    color: #e6edf2;
+
     font-size: 1rem;
     font-weight: 600;
-    color: #e6edf2;
   }
 
-  .update-text {
+  .work-title a {
+    color: inherit !important;
+    text-decoration: none !important;
+
+    transition: color 0.18s ease;
+  }
+
+  .work-title a:hover {
+    color: #ffffff !important;
+  }
+
+  .work-text {
     margin: 0.3rem 0 0;
+
     color: #91a0b1;
+
     line-height: 1.6;
   }
 
+  /* Footer */
+
   .footer {
-    margin-top: 5rem;
-    padding-top: 1.1rem;
+    margin-top: auto;
+    padding-top: 1.15rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
     border-top: 1px solid rgba(255, 255, 255, 0.08);
+
     color: #647286;
-    font-size: 0.88rem;
+
+    font-size: 0.86rem;
   }
+
+  .footer-links {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .footer a {
+    color: #8998aa !important;
+    text-decoration: none !important;
+
+    transition: color 0.18s ease;
+  }
+
+  .footer a:hover {
+    color: #ffffff !important;
+  }
+
+  /* Mobile */
 
   @media (max-width: 620px) {
     .site-shell {
-      width: min(100% - 1.4rem, 900px);
-      padding-top: 2.8rem;
-    }
-
-    .topbar {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 1.1rem;
+      width: min(100% - 1.5rem, 900px);
+      padding-top: 3rem;
+      padding-bottom: 2rem;
     }
 
     .intro {
-      padding: 2.6rem 0 3.5rem;
+      padding: 2.75rem 0 4rem;
     }
 
-    .update-item {
+    .work-item {
       grid-template-columns: 1fr;
       gap: 0.35rem;
+    }
+
+    .footer {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #p5-network-bg {
+      opacity: 0.55;
     }
   }
 </style>
@@ -223,56 +303,101 @@ permalink: /
 <div id="p5-network-bg" aria-hidden="true"></div>
 
 <main class="site-shell">
+
   <header class="topbar">
     <h1 class="name">Gerrit Hourigan</h1>
-
-    <nav class="nav" aria-label="Primary navigation">
-      <a href="/cv/">CV</a>
-      <a href="mailto:gerrithourigan@gmail.com">Email</a>
-      <a href="https://github.com/g-hourigan" target="_blank" rel="noopener noreferrer">GitHub</a>
-    </nav>
   </header>
 
   <section class="intro" aria-label="About">
     <p>
-      I am a psychology researcher interested in <strong>cognition, individual differences,
-      and quantitative methods</strong>. I use this site to share papers and occasional updates.
+      I am a psychology student interested in
+      <strong>statistical and computational approaches to studying human behavior.</strong>
     </p>
   </section>
 
-  <!-- Add this section when you have something to post.
-  <section class="updates" aria-labelledby="updates-heading">
-    <h2 class="section-heading" id="updates-heading">Recent</h2>
+  <!--
+  Add papers or projects here when you have something you want to feature.
 
-    <ol class="update-list">
-      <li class="update-item">
-        <time class="update-date" datetime="2026-08">August 2026</time>
+  Example:
+
+  <section class="work" aria-labelledby="work-heading">
+
+    <h2 class="section-heading" id="work-heading">
+      Selected work
+    </h2>
+
+    <ol class="work-list">
+
+      <li class="work-item">
+
+        <time class="work-date" datetime="2026">
+          2026
+        </time>
+
         <div>
-          <h3 class="update-title">
-            <a href="YOUR-LINK-HERE">Title of paper or update</a>
+          <h3 class="work-title">
+            <a href="YOUR-LINK-HERE">
+              Project or paper title
+            </a>
           </h3>
-          <p class="update-text">One brief sentence about it.</p>
+
+          <p class="work-text">
+            A short description of the project or paper.
+          </p>
         </div>
+
       </li>
+
     </ol>
+
   </section>
   -->
 
-  <footer class="footer">© 2026 Gerrit Hourigan</footer>
+  <footer class="footer">
+
+    <div class="footer-links">
+      <a href="mailto:gerrithourigan@gmail.com">
+        Email
+      </a>
+
+      <span aria-hidden="true">·</span>
+
+      <a
+        href="https://github.com/g-hourigan"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        GitHub
+      </a>
+    </div>
+
+    <div>© 2026 Gerrit Hourigan</div>
+
+  </footer>
+
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+
 <script>
   let particles = [];
-  let pointer = { x: 0, y: 0, active: false };
+
+  let pointer = {
+    x: 0,
+    y: 0,
+    active: false
+  };
 
   const SETTINGS = {
     particleCountDesktop: 52,
-    particleCountMobile: 32,
+    particleCountMobile: 30,
+
     maxNeighbors: 3,
     maxDistance: 150,
+
     mouseRadius: 210,
     mousePull: 0.05,
+
     flowScale: 0.002,
     flowSpeed: 0.002,
     flowTurns: 2.0
@@ -281,10 +406,22 @@ permalink: /
   function setup() {
     const parent = document.getElementById("p5-network-bg");
     const canvas = createCanvas(windowWidth, windowHeight);
+
     canvas.parent(parent);
-    pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
+
+    pixelDensity(
+      Math.min(window.devicePixelRatio || 1, 2)
+    );
+
     buildParticles();
     bindPointerEvents();
+
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      frameRate(20);
+    }
   }
 
   function draw() {
@@ -295,8 +432,10 @@ permalink: /
     }
 
     blendMode(ADD);
+
     drawConnections();
     drawParticles();
+
     blendMode(BLEND);
   }
 
@@ -319,11 +458,13 @@ permalink: /
 
   function buildParticles() {
     particles = [];
-    const count = windowWidth < 760
-      ? SETTINGS.particleCountMobile
-      : SETTINGS.particleCountDesktop;
 
-    for (let index = 0; index < count; index++) {
+    const count =
+      windowWidth < 760
+        ? SETTINGS.particleCountMobile
+        : SETTINGS.particleCountDesktop;
+
+    for (let i = 0; i < count; i++) {
       particles.push(new Particle());
     }
   }
@@ -335,25 +476,58 @@ permalink: /
 
       for (let j = i + 1; j < particles.length; j++) {
         const other = particles[j];
+
         distances.push({
           index: j,
-          distance: dist(particle.x, particle.y, other.x, other.y)
+          distance: dist(
+            particle.x,
+            particle.y,
+            other.x,
+            other.y
+          )
         });
       }
 
-      distances.sort((a, b) => a.distance - b.distance);
+      distances.sort(
+        (a, b) => a.distance - b.distance
+      );
 
-      for (let k = 0; k < Math.min(SETTINGS.maxNeighbors, distances.length); k++) {
+      const neighborCount = Math.min(
+        SETTINGS.maxNeighbors,
+        distances.length
+      );
+
+      for (let k = 0; k < neighborCount; k++) {
         const entry = distances[k];
 
         if (entry.distance < SETTINGS.maxDistance) {
           const other = particles[entry.index];
-          const alpha = map(entry.distance, 0, SETTINGS.maxDistance, 100, 0);
-          const weight = map(entry.distance, 0, SETTINGS.maxDistance, 1.2, 0.2);
+
+          const alpha = map(
+            entry.distance,
+            0,
+            SETTINGS.maxDistance,
+            100,
+            0
+          );
+
+          const weight = map(
+            entry.distance,
+            0,
+            SETTINGS.maxDistance,
+            1.2,
+            0.2
+          );
 
           stroke(0, 240, 255, alpha);
           strokeWeight(weight);
-          line(particle.x, particle.y, other.x, other.y);
+
+          line(
+            particle.x,
+            particle.y,
+            other.x,
+            other.y
+          );
         }
       }
     }
@@ -364,10 +538,20 @@ permalink: /
 
     for (const particle of particles) {
       fill(255, 61, 171, 22);
-      circle(particle.x, particle.y, particle.size * 3);
+
+      circle(
+        particle.x,
+        particle.y,
+        particle.size * 3
+      );
 
       fill(255, 61, 171, 175);
-      circle(particle.x, particle.y, particle.size * 1.45);
+
+      circle(
+        particle.x,
+        particle.y,
+        particle.size * 1.45
+      );
     }
   }
 
@@ -375,29 +559,51 @@ permalink: /
     constructor() {
       this.x = random(width);
       this.y = random(height);
+
       this.vx = random(-0.4, 0.4);
       this.vy = random(-0.4, 0.4);
+
       this.seed = random(10000);
       this.size = random(1.5, 3.1);
     }
 
     update() {
-      const time = (frameCount + this.seed) * SETTINGS.flowSpeed;
-      const angle = noise(
-        this.x * SETTINGS.flowScale,
-        this.y * SETTINGS.flowScale,
-        time
-      ) * TWO_PI * SETTINGS.flowTurns;
+      const time =
+        (frameCount + this.seed) *
+        SETTINGS.flowSpeed;
 
-      this.vx = (this.vx + cos(angle) * 0.06) * 0.92;
-      this.vy = (this.vy + sin(angle) * 0.06) * 0.92;
+      const angle =
+        noise(
+          this.x * SETTINGS.flowScale,
+          this.y * SETTINGS.flowScale,
+          time
+        ) *
+        TWO_PI *
+        SETTINGS.flowTurns;
+
+      this.vx =
+        (this.vx + cos(angle) * 0.06) *
+        0.92;
+
+      this.vy =
+        (this.vy + sin(angle) * 0.06) *
+        0.92;
+
       this.x += this.vx;
       this.y += this.vy;
 
       if (pointer.active) {
-        const distanceToPointer = dist(this.x, this.y, pointer.x, pointer.y);
+        const distanceToPointer = dist(
+          this.x,
+          this.y,
+          pointer.x,
+          pointer.y
+        );
 
-        if (distanceToPointer < SETTINGS.mouseRadius) {
+        if (
+          distanceToPointer <
+          SETTINGS.mouseRadius
+        ) {
           const force = map(
             distanceToPointer,
             0,
@@ -406,16 +612,37 @@ permalink: /
             0
           );
 
-          this.x = lerp(this.x, pointer.x + cos(this.seed) * 8, force);
-          this.y = lerp(this.y, pointer.y + sin(this.seed) * 8, force);
+          this.x = lerp(
+            this.x,
+            pointer.x + cos(this.seed) * 8,
+            force
+          );
+
+          this.y = lerp(
+            this.y,
+            pointer.y + sin(this.seed) * 8,
+            force
+          );
         }
       }
 
       const margin = 8;
-      if (this.x < -margin) this.x = width + margin;
-      if (this.x > width + margin) this.x = -margin;
-      if (this.y < -margin) this.y = height + margin;
-      if (this.y > height + margin) this.y = -margin;
+
+      if (this.x < -margin) {
+        this.x = width + margin;
+      }
+
+      if (this.x > width + margin) {
+        this.x = -margin;
+      }
+
+      if (this.y < -margin) {
+        this.y = height + margin;
+      }
+
+      if (this.y > height + margin) {
+        this.y = -margin;
+      }
     }
   }
 </script>
