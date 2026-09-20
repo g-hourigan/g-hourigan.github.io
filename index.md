@@ -5,7 +5,10 @@ permalink: /
 ---
 
 <style>
-  /* Hide theme elements */
+  /* --------------------------------------------------
+     Remove theme chrome
+  -------------------------------------------------- */
+
   .masthead,
   .masthead__inner-wrap,
   .greedy-nav,
@@ -53,23 +56,18 @@ permalink: /
 
     background:
       radial-gradient(
-        circle at 18% 20%,
-        rgba(0, 212, 255, 0.055),
+        circle at 16% 18%,
+        rgba(0, 220, 255, 0.05),
         transparent 28%
       ),
       radial-gradient(
-        circle at 82% 18%,
-        rgba(255, 78, 205, 0.045),
+        circle at 84% 16%,
+        rgba(255, 65, 170, 0.045),
         transparent 24%
       ),
-      radial-gradient(
-        circle at 50% 82%,
-        rgba(0, 212, 255, 0.035),
-        transparent 30%
-      ),
-      #050914;
+      #030711;
 
-    color: #dbe7ef;
+    color: #d9e3eb;
 
     font-family:
       Inter,
@@ -85,18 +83,20 @@ permalink: /
   }
 
   ::selection {
-    background: rgba(255, 78, 205, 0.22);
+    background: rgba(255, 65, 170, 0.22);
     color: #ffffff;
   }
 
-  /* Animated background */
+  /* --------------------------------------------------
+     Animated background
+  -------------------------------------------------- */
 
   #p5-network-bg {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    opacity: 0.78;
+    opacity: 0.82;
   }
 
   #p5-network-bg canvas {
@@ -105,83 +105,157 @@ permalink: /
     height: 100% !important;
   }
 
-  /* Main layout */
+  /* --------------------------------------------------
+     Main panel
+  -------------------------------------------------- */
 
-  .site-shell {
+  .site-panel {
     position: relative;
     z-index: 1;
 
-    width: min(100% - 2rem, 900px);
+    width: min(100% - 2rem, 860px);
     min-height: 100vh;
 
     margin: 0 auto;
-    padding: clamp(4rem, 10vw, 7rem) 0 2.5rem;
+    padding: clamp(3.5rem, 7vw, 5.5rem) clamp(2rem, 5vw, 4rem) 2.5rem;
 
     display: flex;
     flex-direction: column;
+
+    background: rgba(3, 7, 17, 0.88);
+
+    border-left: 1px solid rgba(255, 255, 255, 0.035);
+    border-right: 1px solid rgba(255, 255, 255, 0.035);
+
+    box-shadow:
+      0 0 60px rgba(0, 0, 0, 0.22);
+
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
   }
 
-  /* Header */
+  /* --------------------------------------------------
+     Hero
+  -------------------------------------------------- */
 
-  .topbar {
-    padding-bottom: 1.2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  .hero {
+    position: relative;
+
+    padding-left: 1.4rem;
+    margin-bottom: clamp(3.5rem, 8vw, 5rem);
+  }
+
+  .hero::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: 0.1rem;
+    bottom: 0.1rem;
+
+    width: 3px;
+
+    background: #ff3da9;
+    border-radius: 999px;
+
+    box-shadow:
+      0 0 16px rgba(255, 61, 169, 0.18);
   }
 
   .name {
     margin: 0;
 
-    color: #f4f7fa;
+    color: #f3f7fa;
 
-    font-size: clamp(2.25rem, 5vw, 3.45rem);
+    font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.045em;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
   }
 
-  /* Intro */
+  .role {
+    margin: 0.55rem 0 0;
 
-  .intro {
-    max-width: 720px;
-    padding: clamp(2.6rem, 7vw, 5rem) 0;
+    color: #99a8b9;
+
+    font-size: clamp(1rem, 2.2vw, 1.15rem);
+    font-weight: 450;
+    line-height: 1.5;
   }
 
-  .intro p {
-    margin: 0;
+  .interest {
+    margin: 1.35rem 0 0;
 
-    color: #aebdca;
+    max-width: 660px;
 
-    font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+    color: #b7c4cf;
+
+    font-size: clamp(1.05rem, 2.3vw, 1.25rem);
     line-height: 1.65;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.012em;
   }
 
-  .intro strong {
+  .interest strong {
     color: #edf3f7;
     font-weight: 600;
   }
 
-  /* Optional work section */
+  /* --------------------------------------------------
+     Sections
+  -------------------------------------------------- */
 
-  .work {
-    max-width: 760px;
+  .section {
+    margin-top: 2.8rem;
+  }
 
-    padding-top: 1.2rem;
-
-    border-top: 1px solid rgba(255, 255, 255, 0.10);
+  .section:first-of-type {
+    margin-top: 0;
   }
 
   .section-heading {
-    margin: 0 0 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
 
-    color: #738196;
+    margin: 0 0 1rem;
+
+    color: #8391a3;
 
     font-size: 0.78rem;
     font-weight: 700;
 
-    letter-spacing: 0.13em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
   }
+
+  .section-heading::after {
+    content: "";
+
+    flex: 1;
+
+    height: 1px;
+
+    background: rgba(255, 255, 255, 0.075);
+  }
+
+  .slashes {
+    color: #00dff3;
+  }
+
+  .about-text {
+    max-width: 670px;
+
+    margin: 0;
+
+    color: #9eacbb;
+
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  /* --------------------------------------------------
+     Optional work section
+  -------------------------------------------------- */
 
   .work-list {
     margin: 0;
@@ -192,23 +266,29 @@ permalink: /
 
   .work-item {
     display: grid;
-    grid-template-columns: 6rem 1fr;
-    gap: 1.5rem;
+    grid-template-columns: 5rem 1fr;
+    gap: 1.4rem;
 
-    padding: 1.25rem 0;
+    padding: 1.15rem 0;
 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+  }
+
+  .work-item:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.065);
   }
 
   .work-date {
-    color: #738196;
-    font-size: 0.9rem;
+    color: #647286;
+
+    font-size: 0.86rem;
+    line-height: 1.5;
   }
 
   .work-title {
     margin: 0;
 
-    color: #e6edf2;
+    color: #e5edf3;
 
     font-size: 1rem;
     font-weight: 600;
@@ -222,107 +302,150 @@ permalink: /
   }
 
   .work-title a:hover {
-    color: #ffffff !important;
+    color: #00e4f5 !important;
   }
 
   .work-text {
     margin: 0.3rem 0 0;
 
-    color: #91a0b1;
+    color: #8e9dad;
 
-    line-height: 1.6;
+    line-height: 1.65;
   }
 
-  /* Footer */
+  /* --------------------------------------------------
+     Contact
+  -------------------------------------------------- */
+
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    gap: 0.7rem;
+
+    font-size: 0.97rem;
+  }
+
+  .contact-links a {
+    color: #a7b5c3 !important;
+    text-decoration: none !important;
+
+    transition:
+      color 0.18s ease,
+      transform 0.18s ease;
+  }
+
+  .contact-links a:hover {
+    color: #00e4f5 !important;
+  }
+
+  .contact-separator {
+    color: #4f5d6d;
+  }
+
+  /* --------------------------------------------------
+     Footer
+  -------------------------------------------------- */
 
   .footer {
     margin-top: auto;
-    padding-top: 1.15rem;
+    padding-top: 4rem;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    color: #526172;
 
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-
-    color: #647286;
-
-    font-size: 0.86rem;
+    font-size: 0.8rem;
   }
 
-  .footer-links {
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
-  }
-
-  .footer a {
-    color: #8998aa !important;
-    text-decoration: none !important;
-
-    transition: color 0.18s ease;
-  }
-
-  .footer a:hover {
-    color: #ffffff !important;
-  }
-
-  /* Mobile */
+  /* --------------------------------------------------
+     Responsive
+  -------------------------------------------------- */
 
   @media (max-width: 620px) {
-    .site-shell {
-      width: min(100% - 1.5rem, 900px);
-      padding-top: 3rem;
-      padding-bottom: 2rem;
+    .site-panel {
+      width: 100%;
+      padding:
+        3rem
+        1.4rem
+        2rem;
+
+      border-left: none;
+      border-right: none;
+
+      background: rgba(3, 7, 17, 0.86);
     }
 
-    .intro {
-      padding: 2.75rem 0 4rem;
+    .hero {
+      padding-left: 1rem;
+      margin-bottom: 3.8rem;
+    }
+
+    .hero::before {
+      width: 2px;
     }
 
     .work-item {
       grid-template-columns: 1fr;
-      gap: 0.35rem;
-    }
-
-    .footer {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 0.55rem;
+      gap: 0.25rem;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     #p5-network-bg {
-      opacity: 0.55;
+      opacity: 0.58;
     }
   }
 </style>
 
+
 <div id="p5-network-bg" aria-hidden="true"></div>
 
-<main class="site-shell">
 
-  <header class="topbar">
-    <h1 class="name">Gerrit Hourigan</h1>
+<main class="site-panel">
+
+  <header class="hero">
+
+    <h1 class="name">
+      Gerrit Hourigan
+    </h1>
+
+    <p class="role">
+      Psychology student
+    </p>
+
+    <p class="interest">
+      Interested in
+      <strong>
+        statistical and computational approaches to studying human behavior.
+      </strong>
+    </p>
+
   </header>
 
-  <section class="intro" aria-label="About">
-    <p>
-      I am a psychology student interested in
-      <strong>statistical and computational approaches to studying human behavior.</strong>
+
+  <section class="section" aria-labelledby="about-heading">
+
+    <h2 class="section-heading" id="about-heading">
+      <span class="slashes">//</span>
+      About
+    </h2>
+
+    <p class="about-text">
+      I am a psychology student with a particular interest in statistics,
+      data science, and computational methods.
     </p>
+
   </section>
 
+
   <!--
-  Add papers or projects here when you have something you want to feature.
 
-  Example:
+  Uncomment this section once you have a paper or project you want to feature.
 
-  <section class="work" aria-labelledby="work-heading">
+  <section class="section" aria-labelledby="work-heading">
 
     <h2 class="section-heading" id="work-heading">
+      <span class="slashes">//</span>
       Selected work
     </h2>
 
@@ -335,6 +458,7 @@ permalink: /
         </time>
 
         <div>
+
           <h3 class="work-title">
             <a href="YOUR-LINK-HERE">
               Project or paper title
@@ -344,6 +468,7 @@ permalink: /
           <p class="work-text">
             A short description of the project or paper.
           </p>
+
         </div>
 
       </li>
@@ -351,16 +476,24 @@ permalink: /
     </ol>
 
   </section>
+
   -->
 
-  <footer class="footer">
 
-    <div class="footer-links">
+  <section class="section" aria-labelledby="contact-heading">
+
+    <h2 class="section-heading" id="contact-heading">
+      <span class="slashes">//</span>
+      Contact
+    </h2>
+
+    <div class="contact-links">
+
       <a href="mailto:gerrithourigan@gmail.com">
         Email
       </a>
 
-      <span aria-hidden="true">·</span>
+      <span class="contact-separator">·</span>
 
       <a
         href="https://github.com/g-hourigan"
@@ -369,13 +502,18 @@ permalink: /
       >
         GitHub
       </a>
+
     </div>
 
-    <div>© 2026 Gerrit Hourigan</div>
+  </section>
 
+
+  <footer class="footer">
+    © 2026 Gerrit Hourigan
   </footer>
 
 </main>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
 
@@ -403,14 +541,21 @@ permalink: /
     flowTurns: 2.0
   };
 
+
   function setup() {
-    const parent = document.getElementById("p5-network-bg");
-    const canvas = createCanvas(windowWidth, windowHeight);
+    const parent =
+      document.getElementById("p5-network-bg");
+
+    const canvas =
+      createCanvas(windowWidth, windowHeight);
 
     canvas.parent(parent);
 
     pixelDensity(
-      Math.min(window.devicePixelRatio || 1, 2)
+      Math.min(
+        window.devicePixelRatio || 1,
+        2
+      )
     );
 
     buildParticles();
@@ -418,11 +563,14 @@ permalink: /
 
     if (
       window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches
     ) {
       frameRate(20);
     }
   }
+
 
   function draw() {
     clear();
@@ -439,22 +587,35 @@ permalink: /
     blendMode(BLEND);
   }
 
+
   function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
+    resizeCanvas(
+      windowWidth,
+      windowHeight
+    );
+
     buildParticles();
   }
 
-  function bindPointerEvents() {
-    window.addEventListener("pointermove", (event) => {
-      pointer.x = event.clientX;
-      pointer.y = event.clientY;
-      pointer.active = true;
-    });
 
-    window.addEventListener("pointerleave", () => {
-      pointer.active = false;
-    });
+  function bindPointerEvents() {
+    window.addEventListener(
+      "pointermove",
+      (event) => {
+        pointer.x = event.clientX;
+        pointer.y = event.clientY;
+        pointer.active = true;
+      }
+    );
+
+    window.addEventListener(
+      "pointerleave",
+      () => {
+        pointer.active = false;
+      }
+    );
   }
+
 
   function buildParticles() {
     particles = [];
@@ -465,20 +626,35 @@ permalink: /
         : SETTINGS.particleCountDesktop;
 
     for (let i = 0; i < count; i++) {
-      particles.push(new Particle());
+      particles.push(
+        new Particle()
+      );
     }
   }
 
+
   function drawConnections() {
-    for (let i = 0; i < particles.length; i++) {
-      const particle = particles[i];
+    for (
+      let i = 0;
+      i < particles.length;
+      i++
+    ) {
+      const particle =
+        particles[i];
+
       const distances = [];
 
-      for (let j = i + 1; j < particles.length; j++) {
-        const other = particles[j];
+      for (
+        let j = i + 1;
+        j < particles.length;
+        j++
+      ) {
+        const other =
+          particles[j];
 
         distances.push({
           index: j,
+
           distance: dist(
             particle.x,
             particle.y,
@@ -489,37 +665,56 @@ permalink: /
       }
 
       distances.sort(
-        (a, b) => a.distance - b.distance
+        (a, b) =>
+          a.distance - b.distance
       );
 
-      const neighborCount = Math.min(
-        SETTINGS.maxNeighbors,
-        distances.length
-      );
+      const neighborCount =
+        Math.min(
+          SETTINGS.maxNeighbors,
+          distances.length
+        );
 
-      for (let k = 0; k < neighborCount; k++) {
-        const entry = distances[k];
+      for (
+        let k = 0;
+        k < neighborCount;
+        k++
+      ) {
+        const entry =
+          distances[k];
 
-        if (entry.distance < SETTINGS.maxDistance) {
-          const other = particles[entry.index];
+        if (
+          entry.distance <
+          SETTINGS.maxDistance
+        ) {
+          const other =
+            particles[entry.index];
 
-          const alpha = map(
-            entry.distance,
+          const alpha =
+            map(
+              entry.distance,
+              0,
+              SETTINGS.maxDistance,
+              95,
+              0
+            );
+
+          const weight =
+            map(
+              entry.distance,
+              0,
+              SETTINGS.maxDistance,
+              1.1,
+              0.2
+            );
+
+          stroke(
             0,
-            SETTINGS.maxDistance,
-            100,
-            0
+            230,
+            245,
+            alpha
           );
 
-          const weight = map(
-            entry.distance,
-            0,
-            SETTINGS.maxDistance,
-            1.2,
-            0.2
-          );
-
-          stroke(0, 240, 255, alpha);
           strokeWeight(weight);
 
           line(
@@ -533,11 +728,19 @@ permalink: /
     }
   }
 
+
   function drawParticles() {
     noStroke();
 
-    for (const particle of particles) {
-      fill(255, 61, 171, 22);
+    for (
+      const particle of particles
+    ) {
+      fill(
+        255,
+        61,
+        169,
+        20
+      );
 
       circle(
         particle.x,
@@ -545,7 +748,12 @@ permalink: /
         particle.size * 3
       );
 
-      fill(255, 61, 171, 175);
+      fill(
+        255,
+        61,
+        169,
+        175
+      );
 
       circle(
         particle.x,
@@ -555,17 +763,28 @@ permalink: /
     }
   }
 
+
   class Particle {
     constructor() {
-      this.x = random(width);
-      this.y = random(height);
+      this.x =
+        random(width);
 
-      this.vx = random(-0.4, 0.4);
-      this.vy = random(-0.4, 0.4);
+      this.y =
+        random(height);
 
-      this.seed = random(10000);
-      this.size = random(1.5, 3.1);
+      this.vx =
+        random(-0.4, 0.4);
+
+      this.vy =
+        random(-0.4, 0.4);
+
+      this.seed =
+        random(10000);
+
+      this.size =
+        random(1.5, 3.1);
     }
+
 
     update() {
       const time =
@@ -574,74 +793,106 @@ permalink: /
 
       const angle =
         noise(
-          this.x * SETTINGS.flowScale,
-          this.y * SETTINGS.flowScale,
+          this.x *
+            SETTINGS.flowScale,
+
+          this.y *
+            SETTINGS.flowScale,
+
           time
         ) *
         TWO_PI *
         SETTINGS.flowTurns;
 
       this.vx =
-        (this.vx + cos(angle) * 0.06) *
+        (
+          this.vx +
+          cos(angle) * 0.06
+        ) *
         0.92;
 
       this.vy =
-        (this.vy + sin(angle) * 0.06) *
+        (
+          this.vy +
+          sin(angle) * 0.06
+        ) *
         0.92;
 
       this.x += this.vx;
       this.y += this.vy;
 
+
       if (pointer.active) {
-        const distanceToPointer = dist(
-          this.x,
-          this.y,
-          pointer.x,
-          pointer.y
-        );
+        const distanceToPointer =
+          dist(
+            this.x,
+            this.y,
+            pointer.x,
+            pointer.y
+          );
 
         if (
           distanceToPointer <
           SETTINGS.mouseRadius
         ) {
-          const force = map(
-            distanceToPointer,
-            0,
-            SETTINGS.mouseRadius,
-            SETTINGS.mousePull,
-            0
-          );
+          const force =
+            map(
+              distanceToPointer,
+              0,
+              SETTINGS.mouseRadius,
+              SETTINGS.mousePull,
+              0
+            );
 
-          this.x = lerp(
-            this.x,
-            pointer.x + cos(this.seed) * 8,
-            force
-          );
+          this.x =
+            lerp(
+              this.x,
+              pointer.x +
+                cos(this.seed) * 8,
+              force
+            );
 
-          this.y = lerp(
-            this.y,
-            pointer.y + sin(this.seed) * 8,
-            force
-          );
+          this.y =
+            lerp(
+              this.y,
+              pointer.y +
+                sin(this.seed) * 8,
+              force
+            );
         }
       }
 
+
       const margin = 8;
 
-      if (this.x < -margin) {
-        this.x = width + margin;
+      if (
+        this.x < -margin
+      ) {
+        this.x =
+          width + margin;
       }
 
-      if (this.x > width + margin) {
-        this.x = -margin;
+      if (
+        this.x >
+        width + margin
+      ) {
+        this.x =
+          -margin;
       }
 
-      if (this.y < -margin) {
-        this.y = height + margin;
+      if (
+        this.y < -margin
+      ) {
+        this.y =
+          height + margin;
       }
 
-      if (this.y > height + margin) {
-        this.y = -margin;
+      if (
+        this.y >
+        height + margin
+      ) {
+        this.y =
+          -margin;
       }
     }
   }
